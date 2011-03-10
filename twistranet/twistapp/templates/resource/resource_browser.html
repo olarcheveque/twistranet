@@ -34,7 +34,7 @@
    <input type="hidden"
           class="publisherId"
           name="publisherId"
-          value="{{publisher_id}}"/>
+          value="{{scope.id}}"/>
     {% with scope.title as scope_title %}
         <div class="mediaresource-help mediaresource-scopetitle"{% if not scope.icons %} style="display:none"{% endif %}>{% blocktrans %}Select a picture from account <strong>{{scope_title}}</strong>:{% endblocktrans %}</div>                           
         <div class="mediaresource-help mediaresource-noresults"{% if scope.icons %} style="display:none"{% endif %}>{% blocktrans %}No picture available in account <strong>{{scope_title}}</strong>{% endblocktrans %}</div>
