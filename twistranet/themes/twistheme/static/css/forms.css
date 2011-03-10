@@ -401,7 +401,7 @@ select.permissions-widget {
     right: -170px;
     top: 30px;
     width: 200px;
-    z-index: 100;
+    z-index: 10000;
 }
 
 .hint .hint-pointer {

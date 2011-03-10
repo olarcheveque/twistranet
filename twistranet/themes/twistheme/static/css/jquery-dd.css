@@ -7,7 +7,7 @@
 .dd .ddTitle {
   border:1px solid #555;
   padding:0 3px 0 22px;
-  text-indent:0;
+  text-indent:0;                                   
   cursor:default;
   overflow:hidden;
   height:17px;
@@ -43,7 +43,7 @@
   border-top:none;
   display:none;
   margin:0;
-  /*width:auto;*/
+  width:auto !important;
   overflow:auto;
   overflow-x:hidden !important;
   background-color:#ffffff;
