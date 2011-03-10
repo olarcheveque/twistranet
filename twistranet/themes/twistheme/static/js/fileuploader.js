@@ -23,6 +23,8 @@ qq.FileUploader = function(o){
         action: '/server/upload',
         // additional data to send, name-value pairs
         params: {},
+        // additional xhrheaders to send, name-value pairs
+        xhrheaders: {},
         // ex. ['jpg', 'jpeg', 'png', 'gif'] or []
         allowedExtensions: [],        
         // size limit in bytes, 0 - no limit
@@ -380,7 +382,7 @@ qq.FileUploader.prototype = {
             var item = this._getItemByFileId(uid);          
             var spinner = this._getElement(item, 'spinner');
             qq.css(spinner, {'display':'inline-block'});
-            this._handler.upload(id, params);
+            this._handler.upload(id, params, this._options.xhrheaders);
         }
         else {
             var self = this;
@@ -630,7 +632,7 @@ qq.UploadHandlerForm.prototype = {
      * Sends the file identified by id and additional query params to the server
      * @param {Object} params name-value string pairs
      */
-    upload: function(id, params){                        
+    upload: function(id, params, xhrheaders){                        
         if (typeof id=='number') {
             var id = 'qq-upload-handler-iframe' + id;
         } 
@@ -755,7 +757,6 @@ qq.UploadHandlerForm.prototype = {
         // Because in this case file won't be attached to request
         var form = qq.toElement('<form method="post" enctype="multipart/form-data"></form>');
 
-        //var queryString = '?' + qq.obj2url(params);
         var formfields = qq.obj2form(params);
         form.innerHTML = formfields;
         form.setAttribute('action', this._options.action);
@@ -808,7 +809,7 @@ qq.UploadHandlerXhr.prototype = {
      * Sends the file identified by id and additional query params to the server
      * @param {Object} params name-value string pairs
      */    
-    upload: function(id, params){
+    upload: function(id, params, xhrheaders){
         var file = this._files[id],
             name = this.getName(id),
             size = this.getSize(id);
@@ -863,6 +864,11 @@ qq.UploadHandlerXhr.prototype = {
         xhr.open("POST", this._options.action + queryString, true);
         xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         xhr.setRequestHeader("X-File-Name", encodeURIComponent(name));
+        if ((xhrheaders !== undefined) && (xhrheaders !== null) && (typeof xhrheaders === "object")){
+            for (var i in xhrheaders){
+                xhr.setRequestHeader(i, xhrheaders[i] );
+            }
+        }
         // important : without content-type zope HTTPRequest don't accept the file
         // so, for webkit which don't send content-type header
         // but also with Mozilla sometimes
