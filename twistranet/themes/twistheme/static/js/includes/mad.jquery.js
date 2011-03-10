@@ -15,9 +15,8 @@ jq(document).ready(function(){
     // Forms tab switching
     jq("fieldset.fieldset-inline-form legend a").click(function(event){
         event.preventDefault();
-        event.stopPropagation();
         jq(this).parents("fieldset").hide();
-        jq(jq(this).attr('href')).show();
+        jq(''+ jq(this).attr('href')).show();
         return false;
     });
     
