@@ -340,10 +340,16 @@ select.permissions-widget {
 /*                  Our tags widget                 */
 /*                                                  */
 
-ul.holder {
-    width: 350px;
+.tags-widget {
+  position: relative;
+  z-index: 1000;
+  float: left;
+  width: 328px;
 }
+.noleftcol .tags-widget {
+  width: 438px;
 
+}
 /*                                                  */
 /*                   Form Tooltips                  */
 /*                                                  */
