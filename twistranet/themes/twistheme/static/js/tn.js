@@ -444,6 +444,7 @@ var twistranet = {
         jq('.comments-container').each(function(){
             ID = jq(this).attr('id').replace('view_comments','');
             commentOnSubmit(this, ID);
+            commentOnFocus(this);
         })
     },
     initconfirmdialogs: function(e){
