@@ -263,8 +263,9 @@ class Twistable(_AbstractTwistable):
     _p_can_leave = models.IntegerField(default = 16, db_index = True)
     _p_can_create = models.IntegerField(default = 16, db_index = True)
     
-    # Other configuration stuff
+    # Other configuration stuff (class-wise)
     _ALLOW_NO_PUBLISHER = False         # Prohibit creation of an object of this class with publisher = None.
+    _FORCE_SLUG_CREATION = True         # Force creation of a slug if it doesn't exist
     
     @property
     def kind(self):
@@ -272,6 +273,7 @@ class Twistable(_AbstractTwistable):
         Return the kind of object it is (as a lower-cased string).
         """
         from twistranet.twistapp.models import Content, Account, Community, Resource
+        from twistranet.tagging.models import Tag
         mc = self.model_class
         if issubclass(mc, Content):
             return 'content'
@@ -281,6 +283,8 @@ class Twistable(_AbstractTwistable):
             return 'account'
         elif issubclass(mc, Resource):
             return 'resource'
+        elif issubclass(mc, Tag):
+            return 'tag'
         raise NotImplementedError("Can't get twistable category for object %s" % self)
 
     @models.permalink
@@ -409,7 +413,8 @@ class Twistable(_AbstractTwistable):
             if not self.__class__._ALLOW_NO_PUBLISHER:
                 raise ValueError("Only the Global Community can have no publisher, not %s" % self)
     
-        # Set permissions; we will apply them last to ensure we have an id
+        # Set permissions; we will apply them last to ensure we have an id.
+        # We also ensure that the right permissions are set on the right object
         if not self.permissions:
             perm_template = self.model_class.permission_templates
             if not perm_template:
@@ -421,18 +426,21 @@ class Twistable(_AbstractTwistable):
             tpl = [ t for t in self.permission_templates.permissions() if t["id"] == self.model_class.permission_templates.get_default() ]
             log.warning("Restoring default permissions. Problem here.")
             log.warning("Unable to find %s permission template %s in %s" % (self, self.permissions, self.permission_templates.perm_dict))
+        if tpl[0].get("disabled_for_community") and issubclass(self.publisher.model_class, community.Community):
+            raise ValueError("Invalid permission setting %s for this object (%s/%s)" % (tpl, self, self.title_or_description))
+        elif tpl[0].get("disabled_for_useraccount") and issubclass(self.publisher.model_class, account.UserAccount):
+            raise ValueError("Invalid permission setting %s for this object (%s/%s)" % (tpl, self, self.title_or_description))
         for perm, role in tpl[0].items():
             if perm.startswith("can_"):
+                if callable(role):
+                    role = role(self)
                 setattr(self, "_p_%s" % perm, role)
 
         # Check if we're creating or not
-        if self.id:
-            created = False
-        else:
-            created = True
+        created = not self.id
                 
         # Generate slug (or not !)
-        if not self.slug:
+        if not self.slug and self.__class__._FORCE_SLUG_CREATION:
             if self.title:
                 self.slug = slugify(self.title)
             elif self.description:
@@ -440,7 +448,7 @@ class Twistable(_AbstractTwistable):
             else:
                 self.slug = slugify(self.model_name)
             self.slug = self.slug[:40]
-        if created:
+        if created and self.__class__._FORCE_SLUG_CREATION:
             while Twistable.objects.__booster__.filter(slug = self.slug).exists():
                 match = re.search("_(?P<num>[0-9]+)$", self.slug)
                 if match:
