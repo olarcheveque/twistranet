@@ -329,7 +329,7 @@ select.permissions-widget {
 }
 
 .comment-form ul.inline-form textarea {
-  margin-bottom: 0;
+  margin-bottom: 5px;
 }
 
 .comment-form input[type="submit"] {
