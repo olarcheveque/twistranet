@@ -339,8 +339,7 @@ var twistranet = {
         this.initCommentForms();
         this.initconfirmdialogs();
         this.initformserrors();
-        this.formsautofocus();
-        this.setEmptyCols(); 
+        this.formsautofocus(); 
         this.enableLiveSearch();
         this.prettyCombosLists(); 
         this.tnGridActions();
@@ -411,14 +410,6 @@ var twistranet = {
         jq('.tnGrid').each(function(){
             gridStyle(this);
         });
-    },
-    setEmptyCols : function(e) {
-        if (! $('#globalbar .tn-box-container:first').children().size() &
-            ! $('#contextbar .tn-box-container:first').children().size() ) {
-            $('body').addClass('nocol');
-        } else if (! $('#contextbar .tn-box-container:first').children().size() ) {
-            $('body').addClass('noleftcol');
-        }
     },
     showContentActions: function(e){
         /* show content actions on post mouseover */

@@ -39,7 +39,7 @@
     {% if form %}{{ form.media }}{% endif %}
     {% block local_headers %}{% endblock %}
 </head>
-<body>
+<body{% if body_class %} class="{{ body_class }}"{% endif %}>
     <div id="page">
         <div id="wrapper">
             <div id="header">
