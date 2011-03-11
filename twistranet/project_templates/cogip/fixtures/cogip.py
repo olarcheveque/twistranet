@@ -210,6 +210,15 @@ def load_cogip():
                 article.tags.add(tag)
         elif content['type'].lower() == "comment":
             comment = Comment.objects.create(in_reply_to = status, description = content['text'], )
+        elif content['type'].lower() == "resource":
+            source_fn = os.path.join(HERE_COGIP, content['filename'])
+            r = Resource.objects.create(
+                publisher = Account.objects.get(slug = content['publisher']),
+                resource_file = DjangoFile(open(source_fn, "rb"), content['filename']),
+                slug = slugify(content['filename']),
+            )
+            for tag in generate_tags(content['tags']):
+                r.tags.add(tag)
         else:
             raise ValueError("Invalid content type: %s" % content['type'])
         __account__ = SystemAccount.get()
