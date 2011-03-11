@@ -177,13 +177,14 @@ ul.inline-form li label {
 }
 
 ul.inline-form textarea {
-    width: 530px;
-    padding: 5px;
     margin-bottom: 10px;
+    font-style: italic;
+    color: #AAA;
 }
 
-.noleftcol ul.inline-form textarea {
-    width: 712px;
+ul.inline-form textarea:focus {
+    color: #686868;
+    font-style: normal;
 }
 
 ul.inline-form select {
@@ -194,12 +195,6 @@ ul.inline-form select {
 
 #form-File ul.inline-form textarea {
   display: none;
-  width: 418px !important;
-  height: 88px;
-}
-
-.noleftcol #form-File ul.inline-form textarea {
-  width: 600px !important;
 }
 
 
@@ -266,7 +261,6 @@ ul.inline-form select {
 
 /* rows are added in js, depending on grid class */
 .tnGridRow {
-    /* possible js fix needed for IE<=7 in future */
     display: table-row;
 }
 
@@ -330,9 +324,12 @@ select.permissions-widget {
   padding: 0 5px 0 0;
 }
 
-.comment-form ul.inline-form textarea {
-    width: 461px;
-    padding: 5px;
+.comment-form input[type="submit"] {
+  display: none;
+}
+
+#commentmessage {
+  display: none;
 }
 
 
@@ -340,8 +337,54 @@ select.permissions-widget {
 /*                  Our tags widget                 */
 /*                                                  */
 
-ul.holder {
-    width: 350px;
+.tags-widget {
+  position: relative;
+  z-index: 1000;
+  float: left;
+  width: 328px;
+}
+.noleftcol .tags-widget {
+  width: 438px;
+}
+
+/*                                                  */
+/*                   Inline textareas               */
+/*                                                  */
+
+.su-description-field {
+  width: 534px;
+  height: 50px;
+  padding: 3px;
+}
+
+.noleftcol.su-description-field {
+    width: 716px;
+}
+
+.file-description-field {
+  padding: 3px;
+  width: 422px;
+  height: 91px;
+}
+
+.noleftcol .file-description-field {
+  width: 604px !important;
+}
+
+.comment-description-field {
+  width: 465px;
+  padding: 3px;
+  height: 15px;
+}
+
+.comment-active {
+  height: 30px !important;
+  color: #686868 !important;
+  font-style: normal !important;
+}
+
+.noleftcol .comment-description-field {
+  width: 647px;
 }
 
 /*                                                  */

@@ -45,8 +45,8 @@ class TagsWidget(forms.SelectMultiple):
         This renders the basic input field, it's a no-brainer now.
         """
         from models import Tag
-        
-        rendered = super(TagsWidget, self).render(name, value, attrs)
+        rendered='<div class="tags-widget">\n'
+        rendered += super(TagsWidget, self).render(name, value, attrs)
         final_attrs = self.build_attrs(attrs, name = name)
         final_attrs['json_url'] = reverse('tags_live_search')
         rendered += """
@@ -60,6 +60,7 @@ class TagsWidget(forms.SelectMultiple):
                 });
             });
         </script>""" % final_attrs
+        rendered += '</div>'
         return mark_safe(rendered)
                 
     def value_from_datadict(self, data, files, name):

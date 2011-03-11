@@ -112,7 +112,7 @@ class Account(twistable.Twistable):
             obj = self
         if callable(role):
             role = role(obj)
-                
+
         # System Account is allowed to do anything.
         if isinstance(auth, SystemAccount):
             return True

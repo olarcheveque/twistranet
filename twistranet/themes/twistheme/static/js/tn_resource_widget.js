@@ -222,14 +222,12 @@ getActivePublisher = function() {
     // if resource panes, we always upload on default publisher anyway
     publisher_pane = jq('.activePane input.publisherId')
     if (publisher_pane.length)   return publisher_pane.val();
-    // upload alone
+    else if (default_publisher_id) return default_publisher_id;
+    // upload alone without browser
     return jq('input[name="publisher_id"]' ,jq('.resource-widget').parents('form')).val();
 }
 
 
-
-
-// TODO in V1: beurk jquery style like, make it more pythonic
 jq(
     function(){
         reswidget = jq('.resource-widget');
@@ -268,6 +266,7 @@ jq(
             jq('.resource-back-button').click(function(e){
                 jq('.resourcePane').hide();
                 jq('#resourcepane-main').fadeIn(500);
+                jq('.resourcePane').removeClass('activePane');
             })
             // redefine the gridOnChange method (used everywhere on twistranet)
             // because we want to unselect all elements from all panels

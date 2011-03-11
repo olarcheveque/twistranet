@@ -369,6 +369,7 @@ ul.children li {
     max-width: 100px;
     overflow: hidden;
     word-wrap: break-word;
+    line-height: 12px;
 }
 
 /* different named sizes */

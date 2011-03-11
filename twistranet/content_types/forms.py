@@ -17,7 +17,7 @@ class StatusUpdateForm(BaseInlineForm):
         model = StatusUpdate
         fields = ('description', ) + BaseInlineForm.Meta.fields
         widgets = {
-            'description':             widgets.Textarea(attrs = {'rows': 3, 'cols': 60}),
+            'description':             widgets.Textarea(attrs = {'class': 'su-description-field'}),
             'permissions':             PermissionsWidget(),
         }
 
@@ -30,7 +30,7 @@ class InlineFileForm(BaseInlineForm):
         model = File
         fields = ('file', 'description', ) + BaseInlineForm.Meta.fields
         widgets = {
-            'description':             widgets.Textarea(attrs = {'rows': 3, 'cols': 30}),
+            'description':             widgets.Textarea(attrs = {'class': 'file-description-field'}),
         }
 
 class QuickDocumentForm(BaseRegularForm):
@@ -64,7 +64,7 @@ class CommentForm(BaseEmptyForm):
         model = Comment
         fields = ('description', )
         widgets = {
-            'description':  widgets.Textarea(attrs = {'rows': 3, 'cols': 60}),
+            'description':  widgets.Textarea(attrs = {'class': 'comment-description-field'}),
         }
 
 class DocumentForm(BaseRegularForm):

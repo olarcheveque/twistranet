@@ -290,10 +290,12 @@ UPLOAD_JS = """
     var fillTitles = %(ul_fill_titles)s;
     var auto = %(ul_auto_upload)s;
     var uploadparams = {};
+    var xhrheaders = {};
     if (typeof getActivePublisher!='undefined') {
         uploadparams['publisher_id'] = getActivePublisher();
     }
     uploadparams['csrfmiddlewaretoken'] = '%(ul_csrf_token)s';
+    xhrheaders['X-CSRFToken'] = '%(ul_csrf_token)s';
     addUploadFields_%(ul_id)s = function(file, id) {
         var uploader = xhr_%(ul_id)s;
         TwistranetQuickUpload.addUploadFields(uploader, uploader._element, file, id, fillTitles);
@@ -315,6 +317,7 @@ UPLOAD_JS = """
             element: jQuery('#%(ul_id)s')[0],
             action: '%(home_url)sresource_quickupload_file/',
             params: uploadparams,
+            xhrheaders: xhrheaders,
             autoUpload: auto,
             onAfterSelect: addUploadFields_%(ul_id)s,
             onComplete: onUploadComplete_%(ul_id)s,

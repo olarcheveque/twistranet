@@ -1,3 +1,5 @@
+var base_comment_message = '';
+
 commentOnSubmit = function(comments_container, ID) {
   var cform = jq('form', comments_container);
   var cUrl = cform.attr('action');
@@ -26,6 +28,7 @@ commentOnSubmit = function(comments_container, ID) {
 loadLastComment = function(ID, html) {
     comments_container = jq("#view_comments"+ID);
     jq('form:first', comments_container).before(html);
+    window.setTimeout(function() {jq('.comment-description-field', comments_container).trigger('focusout')}, 3);
     twistranet.showCommentsActions();
     jq('a.confirmbefore', comments_container).click(function(e){
        e.preventDefault();
@@ -40,12 +43,34 @@ loadComments = function(ID, html) {
     jq("#view"+ID).remove();
     twistranet.showCommentsActions();
     commentOnSubmit(comments_container, ID);
+    commentOnFocus(comments_container);
+    jq('.comment-description-field', comments_container).focus();
     jq('a.confirmbefore', comments_container).click(function(e){
        e.preventDefault();
        initConfirmBox(this);
     } );
 }
 
+commentOnFocus = function(comments_container) {
+    jq('.comment-description-field', comments_container).val(base_comment_message);
+    jq('.comment-description-field', comments_container).focusin(function(){
+        comment = jq(this).val();
+        if (comment==base_comment_message) jq(this).val('');
+        jq(this).addClass('comment-active');
+        // add a small timeout to fix a bug under chrome
+        window.setTimeout(function() {jq('input[type=submit]', comments_container).show()}, 3);
+        
+    });
+    jq('.comment-description-field', comments_container).focusout(function(){
+        comment = jq(this).val();
+        if (!comment) {
+            jq(this).removeClass('comment-active');
+            jq(this).val(base_comment_message);
+            jq('input[type=submit]', comments_container).hide();
+        }
+    });
+    
+}
 
 jq(function() 
 {
@@ -63,6 +88,7 @@ jq(function()
       }
     });
     return false;
-  });
+  })
+  base_comment_message = jq('#commentmessage').text();
 });
 
