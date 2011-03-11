@@ -21,7 +21,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpRespons
 from django.core.urlresolvers import reverse
 from django.template.loader import get_template
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, SuspiciousOperation
 from django.utils.http import http_date                 
 from django.conf import settings
 from django.views.static import was_modified_since
@@ -341,7 +341,8 @@ UPLOAD_JS = """
                 typeError: "%(ul_error_bad_ext)s {file}. %(ul_error_onlyallowed)s {extensions}.",
                 sizeError: "%(ul_error_file_large)s {file}, %(ul_error_maxsize_is)s {sizeLimit}.",
                 emptyError: "%(ul_error_empty_file)s {file}, %(ul_error_try_again_wo)s",
-                unexpectedError: "%(ul_error_unexpected)s"
+                unexpectedError: "%(ul_error_unexpected)s",
+                pemissiondeniedError: "%(ul_error_permission_denied)s"
             }            
         });           
     }
@@ -392,30 +393,31 @@ def resource_quickupload(request):
     media_type = str(request.GET.get('media_type',u'file'))
     content_types_infos = _content_types_infos(media_type)
     qu_settings = dict(
-        typeupload             = 'File',
-        home_url               =  reverse("twistranet_home"),
-        ul_id                  = 'tnuploader', # improve it to get multiple uploader in a same page, change it also in 'resource_quickupload.html'
-        ul_extensions_list     = str(content_types_infos[1]), #could be "['jpg,'png','gif']"
-        ul_fill_titles         = settings.QUICKUPLOAD_FILL_TITLES and 'true' or 'false',
-        ul_auto_upload         = settings.QUICKUPLOAD_AUTO_UPLOAD and 'true' or 'false',
-        ul_xhr_size_limit      = settings.QUICKUPLOAD_SIZE_LIMIT and str(settings.QUICKUPLOAD_SIZE_LIMIT*1024) or '0',
-        ul_sim_upload_limit    = str(settings.QUICKUPLOAD_SIM_UPLOAD_LIMIT),
-        ul_button_text         = _(u'Browse'),
-        ul_draganddrop_text    = _(u'Drag and drop files to upload'),
-        ul_msg_all_sucess      = _( u'All files uploaded with success.'),
-        ul_msg_some_sucess     = _( u' files uploaded with success, '),
-        ul_msg_some_errors     = _( u" uploads return an error."),
-        ul_msg_failed          = _( u"Failed"),
-        ul_csrf_token          = csrf(request)['csrf_token'],
-        ul_error_try_again_wo  = _( u"please select files again without it."),
-        ul_error_try_again     = _( u"please try again."),
-        ul_error_empty_file    = _( u"This file is empty:"),
-        ul_error_file_large    = _( u"This file is too large:"),
-        ul_error_maxsize_is    = _( u"maximum file size is:"),
-        ul_error_bad_ext       = _( u"This file has invalid extension:"),
-        ul_error_onlyallowed   = _( u"Only allowed:"),
-        ul_error_server        = _( u"Server error, please contact support and/or try again."),
-        ul_error_unexpected    = _( u"Unexpected error, please use the 'Browse' button."),
+        typeupload                 = 'File',
+        home_url                   =  reverse("twistranet_home"),
+        ul_id                      = 'tnuploader', # improve it to get multiple uploader in a same page, change it also in 'resource_quickupload.html'
+        ul_extensions_list         = str(content_types_infos[1]), #could be "['jpg,'png','gif']"
+        ul_fill_titles             = settings.QUICKUPLOAD_FILL_TITLES and 'true' or 'false',
+        ul_auto_upload             = settings.QUICKUPLOAD_AUTO_UPLOAD and 'true' or 'false',
+        ul_xhr_size_limit          = settings.QUICKUPLOAD_SIZE_LIMIT and str(settings.QUICKUPLOAD_SIZE_LIMIT*1024) or '0',
+        ul_sim_upload_limit        = str(settings.QUICKUPLOAD_SIM_UPLOAD_LIMIT),
+        ul_button_text             = _(u'Browse'),
+        ul_draganddrop_text        = _(u'Drag and drop files to upload'),
+        ul_msg_all_sucess          = _( u'All files uploaded with success.'),
+        ul_msg_some_sucess         = _( u' files uploaded with success, '),
+        ul_msg_some_errors         = _( u" uploads return an error."),
+        ul_msg_failed              = _( u"Failed"),
+        ul_csrf_token              = csrf(request)['csrf_token'],
+        ul_error_try_again_wo      = _( u"please select files again without it."),
+        ul_error_try_again         = _( u"please try again."),
+        ul_error_empty_file        = _( u"This file is empty:"),
+        ul_error_file_large        = _( u"This file is too large:"),
+        ul_error_maxsize_is        = _( u"maximum file size is:"),
+        ul_error_bad_ext           = _( u"This file has invalid extension:"),
+        ul_error_onlyallowed       = _( u"Only allowed:"),
+        ul_error_server            = _( u"Server error, please contact support and/or try again."),
+        ul_error_unexpected        = _( u"Unexpected error, please use the 'Browse' button."),
+        ul_error_permission_denied = _( u"Permission denied, you are not allowed to upload a file."),
     )
     qu_script = UPLOAD_JS % qu_settings
     c = Context({ 'qu_script': qu_script, }) 
@@ -486,8 +488,10 @@ def resource_quickupload_file(request):
                 'scope':         publisher_id,
                 'type':          type
             }
+        except PermissionDenied, e:
+            log.exception(e)
+            msg = {u'error': u'pemissiondeniedError'}
         except:
-            # TODO : improve error messages with Unauthorized error
             log.exception("Unexpected error while trying to upload a file.")
             msg = {u'error': u'unexpectedError'}
     else:
