@@ -160,13 +160,8 @@ ul.inline-form {
 ul.inline-form li {
   list-style: none;
   padding: 0;
-  margin: 0 0 10px;
-}
-
-ul.inline-form li {
-  display: inline;
-  padding: 0 10px 0 0;
   margin: 0;
+  display: inline;
 }
 
 ul.inline-form li label {
