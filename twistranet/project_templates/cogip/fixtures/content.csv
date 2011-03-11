@@ -20,7 +20,8 @@ document;vernon;ressources_humaines;public;Modèle de demande de congés;modele_
 document;vernon;ressources_humaines;public;Modèle de remboursement de frais;modele_remboursement_frais.html;Frais,Déplacements
 status;vernon;ressources_humaines;public;Nous recherchons une assistante RH. Si vous êtes intéressés ou si vous connaissez quelqu'un qui pourrait l'être, contactez-moi directement. Merci !
 comment;bellamie;;;Je fais passer à mon réseau. Merci Henri !
-document;julienne;julienne;public;Comparatif des principaux modèles d'agrafeuse de la concurrence;comparatif_agrafeuses.html;Agrafeuse,Appareillage,Outils
+resource;julienne;julienne;public;Photo Rapid E10;images/RapidE10.jpg;Rapid E10,Agrafeuse,Concurrence
+document;julienne;julienne;public;Comparatif des principaux modèles d'agrafeuse de la concurrence;comparatif_agrafeuses.html;Agrafeuse,Appareillage,Outils,Concurrence
 document;alberti;alberti;public;Comment étalonner une agrafeuse ?;etalonner_agrafeusee.html;Agrafeuse,G-824
 document;alberti;alberti;public;Notice d'utilisation de la G-824;notice_g824.html;Agrafeuse,Notice,G-824
 document;otin;projet_astral;members;Création d'une clouteuse;creation_clouteuse.html;Agrafeuse,Clou,R&D

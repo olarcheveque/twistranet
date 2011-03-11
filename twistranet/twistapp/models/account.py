@@ -110,7 +110,6 @@ class Account(twistable.Twistable):
         auth = self
         if obj is None:
             obj = self
-
         if callable(role):
             role = role(obj)
 
