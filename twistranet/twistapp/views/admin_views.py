@@ -3,7 +3,7 @@ from twistranet.core.views import BaseView
 from twistranet.twistapp.forms.admin_forms import MenuBuilderForm, MenuForm, MenuItemForm
 from twistranet.twistapp.models import Menu, MenuItem 
 
-# used for json calls
+# used for menu_builder json calls
 def get_menu_tree(menu=None):
     tree = []
     if menu is None:
@@ -18,7 +18,7 @@ def get_menu_tree(menu=None):
         tree.append(m)
     return tree
 
-# used for first html call
+# used for menu_builder first html call
 def get_html_menu_tree(menu, level=0):
     html = ''
     level += 1
@@ -41,7 +41,6 @@ class MenuBuilder(BaseView):
     title = _("Menu Builder")
     
     def prepare_view(self, *args, **kw):
-        super(MenuBuilder, self).prepare_view(*args, **kw)
         self.account = self.auth
         self.actions = None
         self.topmenus = topmenus = Menu.objects.all()
@@ -61,7 +60,6 @@ class MenuEdit(BaseView):
     
     
     def prepare_view(self, *args, **kw):
-        super(MenuEdit, self).prepare_view(*args, **kw)
         self.account = self.auth
         self.actions = None
         self.form = MenuForm()
@@ -86,7 +84,6 @@ class MenuItemEdit(BaseView):
     
     
     def prepare_view(self, *args, **kw):
-        super(MenuItemEdit, self).prepare_view(*args, **kw)
         self.account = self.auth
         self.actions = None
         self.form = MenuItemForm()
