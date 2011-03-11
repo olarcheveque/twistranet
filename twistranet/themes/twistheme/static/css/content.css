@@ -50,6 +50,7 @@
 }
   .entry div.postmetadata {
     margin-top: 7px;
+    margin-bottom: 5px;
     clear: left;
   }
   .entry .postmetadata ul {

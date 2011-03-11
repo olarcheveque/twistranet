@@ -6,19 +6,34 @@
               method="post"
               class="edit-form enableAutoFocus enableUnloadProtect">
         <fieldset>
-        <ul>
-        {% for menu in menus %}
-          <li>{{ menu.title }}</li>
-        {% endfor %}
-        </ul>
+        <div id="menus_edit_tabs">
+          <ul>
+          {% for menu in topmenus %}
+            <li><a href="{% url menu_edit menu.id %}">{{ menu.label }}</a></li>
+            <li><a href="{% url menu_create %}">+</a></li>
+          {% endfor %}
+          </ul>
+        </div>
+        <div class="menu_edit_main">
+        {% autoescape off %}
+          {{ mainmenu }}
+        {% endautoescape %}
+        </div>
+
+
+
+
+        {% comment %}
+        I don't know if there will be fields in this form in future ...
+        {% endcomment %}
         {% for field in form %}
             {% if not field.is_hidden %}
                 <div class="fieldWrapper">
                     {{ field.errors }}
-                    {{ field.label_tag }} {{ field }}  
+                    {{ field.label_tag }} {{ field }}
                     <div class="clear"><!-- --></div>
                 </div>
-            {% else %}                                                          
+            {% else %}
                 {{ field }}
             {% endif %}
         {% endfor %}
