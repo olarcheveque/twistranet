@@ -324,6 +324,14 @@ select.permissions-widget {
   padding: 0 5px 0 0;
 }
 
+.comment-form ul.inline-form {
+  top: 0;
+}
+
+.comment-form ul.inline-form textarea {
+  margin-bottom: 0;
+}
+
 .comment-form input[type="submit"] {
   display: none;
 }
