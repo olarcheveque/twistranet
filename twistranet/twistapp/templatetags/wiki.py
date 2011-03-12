@@ -95,7 +95,6 @@ def escape_wiki(text, lookup = False, autoescape=None):
     - the slow one which may wake every single object mentionned in the text.
     Use whichever suits you the most.
     """
-    
     # Determine autoescape behaviour
     if autoescape:
         text = conditional_escape(text)
