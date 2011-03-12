@@ -104,6 +104,7 @@ class BaseView(object):
         "community/communities.box.html",
     ]
     view_template = None
+    body_class = ''
     comment_form = None
     available_actions = []      # List of either Action objects or BaseView classes (that will be instanciated and called with view.as_action() method)
     name = None                 # The name that this will be mapped to in url.py. But you can of course override this in url.py.
@@ -115,6 +116,7 @@ class BaseView(object):
         "path",
         "context_boxes",
         "global_boxes",
+        "body_class",
         "breadcrumb",
         "comment_form",
     ]
@@ -324,7 +326,15 @@ class BaseView(object):
         params["current_account"] = self.auth
         params["site_name"] = utils.get_site_name()
         params["baseline"] = utils.get_baseline()
-        
+        bodyclass = ''
+        if not params.get('context_boxes', []):
+            bodyclass = 'noleftcol'
+        if not params.get('global_boxes', []):
+            if not bodyclass:
+                bodyclass = 'norightcol'
+            else:
+                bodyclass = 'nocol'
+        params["body_class"] = bodyclass
         # Render template
         t = get_template(self.template)
         c = RequestContext(self.request, params)

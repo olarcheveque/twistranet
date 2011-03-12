@@ -200,8 +200,11 @@ class PermissionsWidget(forms.Select):
         if options:
             output.append(options)
         output.append(u'</select>')
-        for d in descriptions:
-            output.append('<span class="hint">%s</span>' %d)
+        output.append(u'<div class="relativizer">')
+        for i,d in enumerate(descriptions):
+            top = 15 + 20*(i+1)
+            output.append(u'<span class="hint" style="right:0; top:%ipx">%s<span class="hint-pointer">&nbsp;</span></span>' %(top,d))
+        output.append(u'</div>')
         return mark_safe(u'\n'.join(output))
 
     def render_option(self, selected_choices, option_value, option_label):

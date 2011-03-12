@@ -92,7 +92,7 @@
 }
 
 .tnQuickUpload {
-    height: 65px;
+    height: 49px;
     overflow: visible;
 }
 
@@ -101,7 +101,7 @@
     display: block;
     margin: 0 0 10px !important;
     min-width: 50px;
-    min-height: 67px;
+    min-height: 49px;
 }
 
 .inline-form .resource-widget .renderer-preview {

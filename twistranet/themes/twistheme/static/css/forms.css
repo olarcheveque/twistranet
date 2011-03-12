@@ -160,13 +160,8 @@ ul.inline-form {
 ul.inline-form li {
   list-style: none;
   padding: 0;
-  margin: 0 0 10px;
-}
-
-ul.inline-form li {
-  display: inline;
-  padding: 0 10px 0 0;
   margin: 0;
+  display: inline;
 }
 
 ul.inline-form li label {
@@ -324,6 +319,14 @@ select.permissions-widget {
   padding: 0 5px 0 0;
 }
 
+.comment-form ul.inline-form {
+  top: 0;
+}
+
+.comment-form ul.inline-form textarea {
+  margin-bottom: 5px;
+}
+
 .comment-form input[type="submit"] {
   display: none;
 }
@@ -401,7 +404,7 @@ select.permissions-widget {
     right: -170px;
     top: 30px;
     width: 200px;
-    z-index: 100;
+    z-index: 10000;
 }
 
 .hint .hint-pointer {

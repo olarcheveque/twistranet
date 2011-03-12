@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+        <form action="{{ path }}" 
+              method="post"
+              class="edit-form enableAutoFocus enableUnloadProtect">
+        <fieldset>
+        <div id="menus_edit_tabs">
+          <ul>
+          {% for menu in topmenus %}
+            <li><a href="{% url menu_edit menu.id %}">{{ menu.label }}</a></li>
+            <li><a href="{% url menu_create %}">+</a></li>
+          {% endfor %}
+          </ul>
+        </div>
+        <div class="menu_edit_main">
+        {% autoescape off %}
+          {{ mainmenu }}
+        {% endautoescape %}
+        </div>
+
+
+
+
+        {% comment %}
+        I don't know if there will be fields in this form in future ...
+        {% endcomment %}
+        {% for field in form %}
+            {% if not field.is_hidden %}
+                <div class="fieldWrapper">
+                    {{ field.errors }}
+                    {{ field.label_tag }} {{ field }}
+                    <div class="clear"><!-- --></div>
+                </div>
+            {% else %}
+                {{ field }}
+            {% endif %}
+        {% endfor %}
+        {% csrf_token %}
+        <div class="form-controls">
+          <input type="submit" value="{% trans 'Save' %}" /> 
+          <button type="button" class="reset">{% trans 'Undo' %}</button>
+          <input type="hidden" id="referer_url" value="{{referer_url}}" name="referer_url" />
+        </div>
+        </fieldset>
+    </form>    
+{% endblock %}

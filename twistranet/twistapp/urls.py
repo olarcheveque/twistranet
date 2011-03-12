@@ -82,6 +82,11 @@ urlpatterns = patterns('',
     
     # Administration pages.
     url(r'^configuration/$',                    AsView(ConfigurationEdit), name = ConfigurationEdit.name),
+    url(r'^menu_builder/$',                     AsView(MenuBuilder), name = MenuBuilder.name),
+    url(r'^menu/(\d+)/edit$',                   AsView(MenuEdit), name = MenuEdit.name),
+    url(r'^menu/new$',                          AsView(MenuCreate), name = MenuCreate.name),
+    url(r'^menuitem/(\d+)/edit$',               AsView(MenuItemEdit), name = MenuItemEdit.name),
+    url(r'^menuitem/new$',                      AsView(MenuItemCreate), name = MenuItemCreate.name),
 
     # Search engine
     (r'^search/',                               include('twistranet.search.urls')),
