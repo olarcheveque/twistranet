@@ -220,9 +220,10 @@ var tnMenuBuilder;
 
     initToggles : function() {
       // init postboxes
-      postboxes.add_postbox_toggles('nav-menus');
+      // postboxes.add_postbox_toggles('nav-menus');
 
       // adjust columns functions for menus UI
+      /*
       columns.useCheckboxesForHidden();
       columns.checked = function(field) {
         $('.field-' + field).removeClass('hidden-field');
@@ -230,6 +231,7 @@ var tnMenuBuilder;
       columns.unchecked = function(field) {
         $('.field-' + field).addClass('hidden-field');
       }
+      */
       // hide fields
       api.menuList.hideAdvancedMenuItemFields();
     },

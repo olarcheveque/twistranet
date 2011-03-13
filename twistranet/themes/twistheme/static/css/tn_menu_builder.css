@@ -271,6 +271,7 @@
 
 #menu-to-edit {
   padding: 1em 0;
+  list-style: none outside none;
 }
 
 .menu ul {
@@ -289,13 +290,16 @@
   margin-top: 13px;
 }
 .menu-item-handle {
+  background: #E00023; /* old browsers */
+  background: -moz-linear-gradient(left, #E00023 0%, #964350 51%, #513D40 100%);
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,#E00023), color-stop(51%,#964350), color-stop(100%,#513D40));
+  color: white;
   border: 1px solid #E6E6E6;
   position: relative;
   padding-left: 10px;
   height: auto;
   width: 400px;
   line-height: 35px;
-  text-shadow: 0 1px 0 #FFFFFF;
   font-weight:bold;
   overflow: hidden;
   border-radius: 6px;
@@ -313,16 +317,13 @@
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-.no-js .menu-item-edit-active .item-edit {
-  display: none;
-}
+
 .menu-item-handle {
   cursor: move;
 }
 .menu .deleting .menu-item-handle {
   background-color: #f66;
   background-image: none;
-  text-shadow: 0 0 0 #ccc;
 }
 
 .menu-item-handle .item-title {

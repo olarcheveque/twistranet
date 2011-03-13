@@ -24,7 +24,13 @@ def get_html_menu_tree(menu, level=-1):
     level += 1
     for menuitem in menu.children:
         html += '''
-<li id="menu-item-%s" class="menu-item menu-item-edit-inactive menu-item-depth-%i">%s</li>
+<li id="menu-item-%s" class="menu-item menu-item-edit-inactive menu-item-depth-%i">
+  <dl class="menu-item-bar">
+    <dt class="menu-item-handle">
+      <span class="item-title">%s</span>
+    </dt>
+  </dl>
+</li>
                 ''' %(menuitem.id, level, menuitem.label)
         html += get_html_menu_tree(menuitem, level)
     return html
