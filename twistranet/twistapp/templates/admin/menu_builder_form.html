@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% load i18n %}
-
+{% block local_css %}
+<link rel="stylesheet" href="{% url twistranet_home %}static/css/tn_menu_builder.css" type="text/css" media="screen" />
+{% endblock %}
+{% block local_js %}
+<script type="text/javascript" src="{% url twistranet_home %}static/js/tn.js" charset="utf-8"></script>
+{% endblock %}
 {% block content %}
         <form action="{{ path }}" 
               method="post"

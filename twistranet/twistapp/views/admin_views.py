@@ -18,12 +18,14 @@ def get_menu_tree(menu=None):
         tree.append(m)
     return tree
 
-# used for menu_builder first html call
-def get_html_menu_tree(menu, level=0):
+# used for menu_builder html calls
+def get_html_menu_tree(menu, level=-1):
     html = ''
     level += 1
     for menuitem in menu.children:
-        html += '<div id="menu-item-%s" class="menu-item-level_%i">%s</div>' %(menuitem.id, level, menuitem.label)
+        html += '''
+<li id="menu-item-%s" class="menu-item menu-item-edit-inactive menu-item-depth-%i">%s</li>
+                ''' %(menuitem.id, level, menuitem.label)
         html += get_html_menu_tree(menuitem, level)
     return html
 
@@ -44,7 +46,11 @@ class MenuBuilder(BaseView):
         self.account = self.auth
         self.actions = None
         self.topmenus = topmenus = Menu.objects.all()
-        self.mainmenu = get_html_menu_tree(topmenus[0])
+        # start the menu builder for the first menu if exists
+        if topmenus:
+            self.mainmenu = '<ul id="menu-to-edit" class="menu ui-sortable">\n%s\n</ul>' %get_html_menu_tree(topmenus[0])
+        else:
+            self.mainmenu = ''
         self.form = MenuBuilderForm()
 
 class MenuEdit(BaseView):
