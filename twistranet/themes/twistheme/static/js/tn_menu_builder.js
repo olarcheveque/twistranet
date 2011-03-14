@@ -374,30 +374,6 @@ var tnmb = tnMenuBuilder = {
       }
     },
 
-    updateQuickSearchResults : function(input) {
-      var panel, params,
-      minSearchLength = 2,
-      q = input.val();
-
-      if( q.length < minSearchLength ) return;
-
-      panel = input.parents('.tabs-panel');
-      params = {
-        'action': 'menu-quick-search',
-        'response-format': 'markup',
-        'menu': jq('#menu').val(),
-        'menu-settings-column-nonce': jq('#menu-settings-column-nonce').val(),
-        'q': q,
-        'type': input.attr('name')
-      };
-
-      jq('img.waiting', panel).show();
-
-      jq.post( ajaxurl, params, function(menuMarkup) {
-        tnmb.processQuickSearchQueryResponse(menuMarkup, params, panel);
-      });
-    },
-
     addCustomLink : function( processMethod ) {
       var url = jq('#custom-menu-item-url').val(),
         label = jq('#custom-menu-item-name').val();
@@ -537,53 +513,6 @@ var tnmb = tnMenuBuilder = {
       tnmb.removeMenuItem( jq('#menu-item-' + itemID) );
       tnmb.registerChange();
       return false;
-    },
-
-    /**
-     * Process the quick search response into a search result
-     *
-     * @param string resp The server response to the query.
-     * @param object req The request arguments.
-     * @param jQuery panel The tabs panel we're searching in.
-     */
-    processQuickSearchQueryResponse : function(resp, req, panel) {
-      var matched, newID,
-      takenIDs = {},
-      form = document.getElementById('nav-menu-meta'),
-      pattern = new RegExp('menu-item\\[(\[^\\]\]*)', 'g'),
-      jqitems = jq('<div>').html(resp).find('li'),
-      jqitem;
-
-      if( ! jqitems.length ) {
-        jq('.categorychecklist', panel).html( '<li><p>' + navMenuL10n.noResultsFound + '</p></li>' );
-        jq('img.waiting', panel).hide();
-        return;
-      }
-
-      jqitems.each(function(){
-        jqitem = jq(this);
-
-        // make a unique DB ID number
-        matched = pattern.exec(jqitem.html());
-
-        if ( matched && matched[1] ) {
-          newID = matched[1];
-          while( form.elements['menu-item[' + newID + '][menu-item-type]'] || takenIDs[ newID ] ) {
-            newID--;
-          }
-
-          takenIDs[newID] = true;
-          if ( newID != matched[1] ) {
-            jqitem.html( jqitem.html().replace(new RegExp(
-              'menu-item\\[' + matched[1] + '\\]', 'g'),
-              'menu-item[' + newID + ']'
-            ) );
-          }
-        }
-      });
-
-      jq('.categorychecklist', panel).html( jqitems );
-      jq('img.waiting', panel).hide();
     },
 
     removeMenuItem : function(el) {
