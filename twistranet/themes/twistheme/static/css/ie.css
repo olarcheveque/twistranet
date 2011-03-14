@@ -23,7 +23,3 @@ IE7 > IE9 fixes
     width: 420px;
 }
 
-#menu-builder .menu-item-handle {
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E00023', endColorstr='#513D40',GradientType=1 );
-  background: transparent !important;
-}
