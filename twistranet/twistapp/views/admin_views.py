@@ -30,6 +30,7 @@ def get_html_menu_tree(menu, level=-1):
       <span class="item-title">%s</span>
     </dt>
   </dl>
+  <ul class="menu-item-transport"></ul>
 </li>
                 ''' %(menuitem.id, level, menuitem.label)
         html += get_html_menu_tree(menuitem, level)
