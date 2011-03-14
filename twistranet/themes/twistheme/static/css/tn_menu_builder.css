@@ -102,6 +102,28 @@
   margin-right:13em;
 }
 
+.sortable-placeholder {
+  background-color: #F5F5F5;
+  border-color: #BBBBBB;
+  border-style: dashed;
+  border-width: 1px;
+  margin-bottom: 0;
+}
+
+
+li.menu-item.ui-sortable-helper dl {
+  margin-top: 0;
+}
+li.menu-item.ui-sortable-helper .menu-item-transport dl {
+  margin-top: 13px;
+}
+.menu .sortable-placeholder {
+  height: 35px;
+  width: 410px;
+  margin-top: 13px;
+}
+
+
 
 /* WARNING: The factor of 30px is hardcoded into the nav-menus javascript. */
 .menu-item-depth-0 { margin-left: 0px; }
