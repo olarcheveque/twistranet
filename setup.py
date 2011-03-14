@@ -5,7 +5,7 @@ from twistranet import VERSION, __version__
 setup(name = 'numericube-twistranet',
       version = __version__,
       description = "twistranet - An Enterprise Social Network",
-      long_description = open((os.path.join("docs", "README.txt")).read(),
+      long_description = open(os.path.join("docs", "README.txt"), "r").read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers = [
         "Environment :: Web Environment",
