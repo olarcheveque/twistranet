@@ -95,7 +95,6 @@ def escape_wiki(text, lookup = False, autoescape=None):
     - the slow one which may wake every single object mentionned in the text.
     Use whichever suits you the most.
     """
-    
     # Determine autoescape behaviour
     if autoescape:
         text = conditional_escape(text)
@@ -108,9 +107,14 @@ def escape_wiki(text, lookup = False, autoescape=None):
     for regex, fast_reverse, func, model_class, lookup_field in matches:
         subf = Subf(lookup, fast_reverse, func, model_class, lookup_field )
         text = regex.sub(subf, text)
+        
+    # If the original text doesn't contain neither <p> nor <br>,
+    # then we can safely replace '\n's by '<br />'s
+    if not re.search("(<br)|(p)", text):
+        text = text.replace("\n", "<br />")
     
     # Return text
-    return mark_safe(text.replace('\n', '<br />'))
+    return mark_safe(text)
     
 
 

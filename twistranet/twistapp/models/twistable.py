@@ -320,7 +320,7 @@ class Twistable(_AbstractTwistable):
         """
         import resource
         if issubclass(self.model_class, resource.Resource):
-            return self
+            return self.object
         try:
             picture = self.picture
             if picture is None:
