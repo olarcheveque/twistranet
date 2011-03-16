@@ -24,6 +24,8 @@ var tnmb = tnMenuBuilder = {
       tnmb.targetList = tnmb.menuList;
 
       this.jQueryExtensions();
+      
+      this.attachMenuEditListeners();
 
       if( tnmb.menuList.length )
         this.initSortables();
@@ -448,9 +450,29 @@ var tnmb = tnMenuBuilder = {
       tnmb.menusChanged = true;
     },
 
+    attachMenuEditListeners : function() {
+      var that = this;
+      $('#menu-edit-form').bind('click', function(e) {
+        if ( e.target && e.target.className ) {
+          if ( -1 != e.target.className.indexOf('item-edit') ) {
+            return that.eventOnClickEditLink(e.target);
+          } else if ( -1 != e.target.className.indexOf('menu-save') ) {
+            return that.eventOnClickMenuSave(e.target);
+          } else if ( -1 != e.target.className.indexOf('menu-delete') ) {
+            return that.eventOnClickMenuDelete(e.target);
+          } else if ( -1 != e.target.className.indexOf('item-delete') ) {
+            return that.eventOnClickMenuItemDelete(e.target);
+          } else if ( -1 != e.target.className.indexOf('item-cancel') ) {
+            return that.eventOnClickCancelLink(e.target);
+          }
+        }
+      });
+    },
+
     eventOnClickEditLink : function(clickedEl) {
       var settings, item,
       matchedSection = /#(.*)jq/.exec(clickedEl.href);
+      return false;
       if ( matchedSection && matchedSection[1] ) {
         settings = jq('#'+matchedSection[1]);
         item = settings.parent();
@@ -491,7 +513,7 @@ var tnmb = tnMenuBuilder = {
       jq('#nav-menu-theme-locations select').each(function() {
         locs += '<input type="hidden" name="' + this.name + '" value="' + jq(this).val() + '" />';
       });
-      jq('#update-nav-menu').append( locs );
+      jq('#menu-edit-form').append( locs );
       // Update menu item position data
       tnmb.menuList.find('.menu-item-data-position').val( function(index) { return index + 1; } );
       window.onbeforeunload = null;

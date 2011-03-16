@@ -26,31 +26,43 @@
       {% endcomment%}
       <div id="menu_edit_left">
         <div id="add-custom-links" class="postbox ">
-          <h3>{% trans 'Add custom links' %}</h3>
+          <h3>{% trans 'Add custom link in menu' %}</h3>
           <div class="inside">
-            <form>
-              <p>
-                <label>{% trans 'Label' %}</label>
-                <input type="text" name="label" />
-              </p>
-              <p>
-                <label>{% trans 'URL' %}</label>
-                <input type="text" name="URL" />
-              </p>
-              <p>
-                <label>{% trans 'Description' %}</label>
-                <textarea name="Description"></textarea>
-              </p>
-              <p class="postboxcontrol">
+            <form action="{{ path }}" 
+                  method="post">
+              {% for field in links_form %}
+                  {% if not field.is_hidden %}
+                      <div class="fieldWrapper">
+                          {{ field.errors }}
+                          {{ field.label_tag }} {{ field }}
+                          {% if field.help_text %}
+                              <span class="hint">{{ field.help_text }}
+                                  <span class="hint-pointer">&nbsp;</span>
+                              </span>
+                          {% endif %}
+                          <div class="clear"><!-- --></div>
+                      </div>
+                  {% else %}
+                      {{ field }}
+                  {% endif %}
+              {% endfor %}
+              <div class="postboxcontrol">
                 <input type="submit" name="submit" value="{% trans 'Add to menu' %}" />
-              </p>
+              </div>
             </form>
+          </div>
+        </div>
+        <div id="add-community" class="postbox ">
+          <h3>{% trans 'Add community' %}</h3>
+          <div class="inside">
+            
           </div>
         </div>
       </div>
       <div id="menu_edit_main">
         <form action="{{ path }}" 
               method="post"
+              id="menu-edit-form"
               class="edit-form enableAutoFocus enableUnloadProtect">
             <fieldset>
             {% autoescape off %}
