@@ -57,14 +57,14 @@
 .menu ul.sub-menu {
 }
 .menu li {
-  margin-bottom: 0;
+  margin-bottom: 7px;
   position:relative;
 }
 .menu-item-bar {
   clear:both;
   line-height:1.5em;
   position:relative;
-  margin: 0 0 7px;
+  margin: 0;
 }
 .menu-item-handle {
   background: #EEE; /* old browsers */
@@ -202,7 +202,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 .menu-item-settings {
   background: #F9F9F9;
   display:block;
-  width: 400px;
+  width: 350px;
   padding: 10px 0 10px 10px;
   border: solid #E6E6E6;
   border-width: 0 1px 1px 1px;

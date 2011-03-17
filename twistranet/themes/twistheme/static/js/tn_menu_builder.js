@@ -470,27 +470,23 @@ var tnmb = tnMenuBuilder = {
     },
 
     eventOnClickEditLink : function(clickedEl) {
-      var settings, item,
-      matchedSection = /#(.*)jq/.exec(clickedEl.href);
-      return false;
-      if ( matchedSection && matchedSection[1] ) {
-        settings = jq('#'+matchedSection[1]);
-        item = settings.parent();
-        if( 0 != item.length ) {
-          if( item.hasClass('menu-item-edit-inactive') ) {
-            if( ! settings.data('menu-item-data') ) {
-              settings.data( 'menu-item-data', settings.getItemData() );
-            }
-            settings.slideDown('fast');
-            item.removeClass('menu-item-edit-inactive')
-              .addClass('menu-item-edit-active');
-          } else {
-            settings.slideUp('fast');
-            item.removeClass('menu-item-edit-active')
-              .addClass('menu-item-edit-inactive');
+      var settings, item, matchedSection = clickedEl.id;
+      settings = jq('#menu-item-settings-'+ matchedSection.replace('edit-', ''));
+      item = settings.parent();
+      if( 0 != item.length ) {
+        if( item.hasClass('menu-item-edit-inactive') ) {
+          if( ! settings.data('menu-item-data') ) {
+            settings.data( 'menu-item-data', settings.getItemData() );
           }
-          return false;
+          settings.slideDown('fast');
+          item.removeClass('menu-item-edit-inactive')
+            .addClass('menu-item-edit-active');
+        } else {
+          settings.hide();
+          item.removeClass('menu-item-edit-active')
+            .addClass('menu-item-edit-inactive');
         }
+        return false;
       }
     },
 
