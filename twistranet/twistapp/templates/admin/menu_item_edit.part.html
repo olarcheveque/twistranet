@@ -1,3 +1,4 @@
+{% load i18n %}
 {% comment %}
  Template used to generate tree by menu_builder view
 {% endcomment %}
@@ -17,6 +18,25 @@
   </dl>
   <div id="menu-item-settings-{{ iid }}"
        class="menu-item-settings">
+    {% for field in edit_form %}
+        {% if not field.is_hidden %}
+            <div class="fieldWrapper">
+                {{ field.errors }}
+                {{ field.label_tag }} {{ field }}
+                {% if field.help_text %}
+                    <span class="hint">{{ field.help_text }}
+                        <span class="hint-pointer">&nbsp;</span>
+                    </span>
+                {% endif %}
+                <div class="clear"><!-- --></div>
+            </div>
+        {% else %}
+            {{ field }}
+        {% endif %}
+    {% endfor %}
+    <div class="postboxcontrol">
+      <input type="submit" name="submit" value="{{ label_save }}" />
+    </div>
   </div>
   <ul class="menu-item-transport"></ul>
 </li>

@@ -4,6 +4,9 @@ from twistranet.core.views import BaseView
 from twistranet.twistapp.forms.admin_forms import *
 from twistranet.twistapp.models import Menu, MenuItem
 
+label_save = _('Save')
+label_edit_menuitem = _('Edit menu entry')
+
 # used for menu_builder json calls
 def get_menu_tree(menu=None):
     tree = []
@@ -27,7 +30,9 @@ def get_html_menu_tree(t, menu, level=-1):
         c = Context ({'iid': menuitem.id, 
                      'level': level,
                      'ilabel': menuitem.label, 
-                     'label_edit': _('Edit menu entry'),
+                     'label_edit': label_edit_menuitem,
+                     'label_save': label_save,
+                     'edit_form' : MenuItemLinkForm(instance=menuitem)
                     })
         html += t.render(c)
         html += get_html_menu_tree(t, menuitem, level)
