@@ -1,7 +1,8 @@
 from django.utils.translation import ugettext as _
+from django.template import loader, Context
 from twistranet.core.views import BaseView
 from twistranet.twistapp.forms.admin_forms import *
-from twistranet.twistapp.models import Menu, MenuItem 
+from twistranet.twistapp.models import Menu, MenuItem
 
 # used for menu_builder json calls
 def get_menu_tree(menu=None):
@@ -19,35 +20,17 @@ def get_menu_tree(menu=None):
     return tree
 
 # used for menu_builder html calls
-def get_html_menu_tree(menu, level=-1):
+def get_html_menu_tree(t, menu, level=-1):
     html = ''
     level += 1
     for menuitem in menu.children:
-        html += '''
-<li id="menu-item-%(iid)s" 
-    class="menu-item menu-item-edit-inactive menu-item-depth-%(level)i">
-  <dl class="menu-item-bar">
-    <dt class="menu-item-handle">
-      <span class="item-title">%(ilabel)s</span>
-      <span class="item-controls">
-        <span class="item-type"></span>
-        <a href="#"
-           id="edit-%(iid)s"
-           title="%(label_edit)s"
-           class="item-edit">&nbsp;</a>
-      </span>
-    </dt>
-  </dl>
-  <div id="menu-item-settings-%(iid)s"
-       class="menu-item-settings">
-  </div>
-  <ul class="menu-item-transport"></ul>
-</li>''' %{'iid': menuitem.id, 
-           'level': level,
-           'ilabel': menuitem.label, 
-           'label_edit': _('Edit menu entry'),
-           }
-        html += get_html_menu_tree(menuitem, level)
+        c = Context ({'iid': menuitem.id, 
+                     'level': level,
+                     'ilabel': menuitem.label, 
+                     'label_edit': _('Edit menu entry'),
+                    })
+        html += t.render(c)
+        html += get_html_menu_tree(t, menuitem, level)
     return html
 
 class MenuBuilder(BaseView):
@@ -71,7 +54,8 @@ class MenuBuilder(BaseView):
         self.topmenus = topmenus = Menu.objects.all()
         # start the menu builder for the first menu if exists
         if topmenus:
-            self.mainmenu = '<ul id="menu-to-edit" class="menu ui-sortable">\n%s\n</ul>' %get_html_menu_tree(topmenus[0])
+            t = loader.get_template('admin/menu_item_edit.part.html')
+            self.mainmenu = '<ul id="menu-to-edit" class="menu ui-sortable">\n%s\n</ul>' %get_html_menu_tree(t, topmenus[0])
         else:
             self.mainmenu = ''
         self.form = MenuBuilderForm()

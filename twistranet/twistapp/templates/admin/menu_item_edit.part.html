@@ -1,0 +1,22 @@
+{% comment %}
+ Template used to generate tree by menu_builder view
+{% endcomment %}
+<li id="menu-item-{{ iid }}" 
+    class="menu-item menu-item-edit-inactive menu-item-depth-{{ level }}">
+  <dl class="menu-item-bar">
+    <dt class="menu-item-handle">
+      <span class="item-title">{{ ilabel }}</span>
+      <span class="item-controls">
+        <span class="item-type"></span>
+        <a href="#"
+           id="edit-{{ iid }}"
+           title="{{ label_edit }}"
+           class="item-edit">&nbsp;</a>
+      </span>
+    </dt>
+  </dl>
+  <div id="menu-item-settings-{{ iid }}"
+       class="menu-item-settings">
+  </div>
+  <ul class="menu-item-transport"></ul>
+</li>
