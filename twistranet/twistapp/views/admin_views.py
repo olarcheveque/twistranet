@@ -26,13 +26,14 @@ def get_menu_tree(menu=None):
 def get_html_menu_tree(t, menu, level=-1):
     html = ''
     level += 1
+    initial = {'parent_id' : menu.id}
     for menuitem in menu.children:
         c = Context ({'iid': menuitem.id, 
                      'level': level,
                      'ilabel': menuitem.label, 
                      'label_edit': label_edit_menuitem,
                      'label_save': label_save,
-                     'edit_form' : MenuItemLinkForm(instance=menuitem)
+                     'edit_form' : MenuItemLinkForm(instance=menuitem, initial = initial)
                     })
         html += t.render(c)
         html += get_html_menu_tree(t, menuitem, level)
@@ -61,10 +62,12 @@ class MenuBuilder(BaseView):
         if topmenus:
             t = loader.get_template('admin/menu_item_edit.part.html')
             self.mainmenu = '<ul id="menu-to-edit" class="menu ui-sortable">\n%s\n</ul>' %get_html_menu_tree(t, topmenus[0])
+            links_form_initial = {'parent_id': topmenus[0].id}
         else:
             self.mainmenu = ''
+            links_form_initial = {}
         self.form = MenuBuilderForm()
-        self.links_form = MenuItemLinkForm()
+        self.links_form = MenuItemLinkForm(initial = links_form_initial)
 
 class MenuEdit(BaseView):
     """

@@ -232,6 +232,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
   -moz-border-radius: 6px;
   -webkit-border-radius: 6px;
   margin-bottom: 10px;
+  padding-bottom: 1px;
 }
 
 .postbox h3 {
