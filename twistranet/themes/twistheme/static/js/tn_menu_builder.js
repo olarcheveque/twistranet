@@ -3,6 +3,7 @@
  * wpadmin navmenu.js
  */
 
+
 var tnMenuBuilder;
 
 var tnmb = tnMenuBuilder = {
@@ -22,6 +23,7 @@ var tnmb = tnMenuBuilder = {
     // Functions that run on init.
     __init__ : function() {
       tnmb.menuList = jq('#menu-to-edit');
+      tnmb.deleteList = jq("#menu-to-delete");
       tnmb.targetList = tnmb.menuList;
       tnmb.menuID = jq('#menu-id').val();
 
@@ -68,20 +70,34 @@ var tnmb = tnMenuBuilder = {
           });
           return result;
         },
-        updateParentMenuItemId : function() {
+        // update parent_id and position in parent
+        updateParentData : function() {
           return this.each(function(){
-            var item = jq(this),
-              input = item.find('.menu-item-data-parentid'),
+            var that = this,
+              item = jq(this),
+              position = 1,
+              parentinput = item.find('.menu-item-data-parent_id'),
+              positioninput = item.find('.menu-item-data-position'),
               depth = item.menuItemDepth(),
               parent = item.prev();
 
-            if( depth == 0 ) { // Item is on the top level, has menuid as parent
-              input.val(tnmb.menuID);
+            if( depth == 0 ) { 
+              // Item is on the top level, has menuid as parent
+              parentinput.val(tnmb.menuID);
+              jq('li.menu-item-depth-0', item.parent()).each(function(i){
+                if (this==that) {
+                  position = i+1;
+                  return;
+                }
+              } );
             } else { // Find the parent item, and retrieve its object id.
-              while( ! parent[0] || ! parent[0].className || -1 == parent[0].className.indexOf('menu-item') || ( parent.menuItemDepth() != depth - 1 ) )
-                parent = parent.prev();
-              input.val( parent.find('.menu-item-data-id').val() );
+                while( ! parent[0] || ! parent[0].className || -1 == parent[0].className.indexOf('menu-item') || ( parent.menuItemDepth() != depth - 1 ) ) {
+                    parent = parent.prev();
+                    position += 1;
+                }
+                parentinput.val( parent.find('.menu-item-data-id').val() );
             }
+            positioninput.val(position);
           });
         },
         hideAdvancedMenuItemFields : function() {
@@ -95,7 +111,7 @@ var tnmb = tnMenuBuilder = {
         /**
          * Adds selected menu items to the menu.
          *
-         * @param jQuery metabox The metabox jQuery object.
+         * TODO : refactor
          */
         addSelectedToMenu : function(processMethod) {
           if ( 0 == jq('#menu-to-edit').length ) {
@@ -134,48 +150,20 @@ var tnmb = tnMenuBuilder = {
             });
           });
         },
+        // used by reset on each form
         getItemData : function( itemType, id ) {
           itemType = itemType || 'menu-item';
 
-          var itemData = {}, i,
-          fields = [
-            'menu-item-db-id',
-            'menu-item-object-id',
-            'menu-item-object',
-            'menu-item-parent-id',
-            'menu-item-position',
-            'menu-item-type',
-            'menu-item-title',
-            'menu-item-url',
-            'menu-item-description',
-            'menu-item-attr-title',
-            'menu-item-target',
-            'menu-item-classes',
-            'menu-item-xfn'
-          ];
+          var itemData = {};
 
           if( !id && itemType == 'menu-item' ) {
-            id = this.find('.menu-item-data-db-id').val();
+            id = this.find('.menu-item-data-id').val();
           }
 
           if( !id ) return itemData;
 
-          this.find('input').each(function() {
-            var field;
-            i = fields.length;
-            while ( i-- ) {
-              if( itemType == 'menu-item' )
-                field = fields[i] + '[' + id + ']';
-              else if( itemType == 'add-menu-item' )
-                field = 'menu-item[' + id + '][' + fields[i] + ']';
-
-              if (
-                this.name &&
-                field == this.name
-              ) {
-                itemData[fields[i]] = this.value;
-              }
-            }
+          jq('input[type="text"], textarea', this).each(function() {
+            itemData[jq(this).attr('name')]=jq(this).val();
           });
 
           return itemData;
@@ -184,24 +172,15 @@ var tnmb = tnMenuBuilder = {
           itemType = itemType || 'menu-item';
 
           if( !id && itemType == 'menu-item' ) {
-            id = jq('.menu-item-data-db-id', this).val();
+            id = jq('.menu-item-data-id', this).val();
           }
 
           if( !id ) return this;
 
-          this.find('input').each(function() {
-            var t = jq(this), field;
-            jq.each( itemData, function( attr, val ) {
-              if( itemType == 'menu-item' )
-                field = attr + '[' + id + ']';
-              else if( itemType == 'add-menu-item' )
-                field = 'menu-item[' + id + '][' + attr + ']';
-
-              if ( field == t.attr('name') ) {
-                t.val( val );
-              }
-            });
+          jq('input[type="text"], textarea', this).each(function() {
+            jq(this).val(itemData[jq(this).attr('name')]);
           });
+
           return this;
         }
       });
@@ -285,7 +264,7 @@ var tnmb = tnMenuBuilder = {
           // Register a change
           tnmb.registerChange();
           // Update the item data.
-          ui.item.updateParentMenuItemId();
+          ui.item.updateParentData();
 
           // address sortable's incorrectly-calculated top in opera
           ui.item[0].style.top = 0;
@@ -450,11 +429,12 @@ var tnmb = tnMenuBuilder = {
 
     registerChange : function() {
       tnmb.menusChanged = true;
+      jq('#menu-id').trigger('change');
     },
 
     attachMenuEditListeners : function() {
       var that = this;
-      $('#menu-edit-form').bind('click', function(e) {
+      jq('#menu-edit-form').bind('click', function(e) {
         if ( e.target && e.target.className ) {
           if ( -1 != e.target.className.indexOf('item-edit') ) {
             return that.eventOnClickEditLink(e.target);
@@ -474,14 +454,13 @@ var tnmb = tnMenuBuilder = {
       settings = jq('#menu-item-settings-'+ matchedSection.replace('edit-', ''));
       item = settings.parent();
       if( 0 != item.length ) {
+        settings.data( 'menu-item-data', settings.getItemData() );
         if( item.hasClass('menu-item-edit-inactive') ) {
-          if( ! settings.data('menu-item-data') ) {
-            settings.data( 'menu-item-data', settings.getItemData() );
-          }
           settings.slideDown('fast');
           item.removeClass('menu-item-edit-inactive')
             .addClass('menu-item-edit-active');
         } else {
+          // XXX TODO (JMG) validate form in ajax
           settings.hide();
           item.removeClass('menu-item-edit-active')
             .addClass('menu-item-edit-inactive');
@@ -507,7 +486,8 @@ var tnmb = tnMenuBuilder = {
     },
 
     eventOnClickMenuItemDelete : function(clickedEl) {
-      var itemID = parseInt(clickedEl.id.replace('delete-', ''), 10);
+      // XXX : TODO (JMG) use (improve) the twistranet confirm box
+      var itemID = clickedEl.id.replace('delete-', '');
       tnmb.removeMenuItem( jq('#menu-item-' + itemID) );
       tnmb.registerChange();
       return false;
@@ -520,11 +500,9 @@ var tnmb = tnMenuBuilder = {
           opacity : 0,
           height: 0
         }, 350, function() {
-          var ins = jq('#menu-instructions');
-          el.remove();
-          children.shiftDepthClass(-1).updateParentMenuItemId();
-          if( ! ins.siblings().length )
-            ins.removeClass('menu-instructions-inactive');
+          jq('input.menu-item-data-satus', el).val('delete');
+          tnmb.deleteList.append(el);
+          children.shiftDepthClass(-1).updateParentData();
         });
     },
 
