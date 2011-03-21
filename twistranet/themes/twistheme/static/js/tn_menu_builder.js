@@ -70,7 +70,30 @@ var tnmb = tnMenuBuilder = {
           });
           return result;
         },
+        childItems : function() {
+          var result = jq();
+          this.each(function(){
+            var t = jq(this), depth = t.menuItemDepth(), next = t.next();
+            while( next.length && next.menuItemDepth() > depth ) {
+              if (next.menuItemDepth() == depth+1)
+                result = result.add( next );
+              next = next.next();
+            }
+          });
+          return result;
+        },
+        updatePositionData : function(i, pId){
+          return this.each(function(){
+            var that = this;
+            jq('.menu-item-data-position', that).val(i+1);
+            jq('.menu-item-data-parent_id', that).val(pId);
+            pId = this.id.replace('menu-item-', '');
+            jq(that).childItems().each( function(i) { 
+              jq(this).updatePositionData(i, pId) });
+          });
+        },
         // update parent_id and position in parent
+        // XXX TODO : replace by a unik method refreshPosData
         updateParentData : function() {
           return this.each(function(){
             var that = this,
@@ -98,56 +121,6 @@ var tnmb = tnMenuBuilder = {
                 parentinput.val( parent.find('.menu-item-data-id').val() );
             }
             positioninput.val(position);
-          });
-        },
-        hideAdvancedMenuItemFields : function() {
-          return this.each(function(){
-            var that = jq(this);
-            jq('.hide-column-tog').not(':checked').each(function(){
-              that.find('.field-' + jq(this).val() ).addClass('hidden-field');
-            });
-          });
-        },
-        /**
-         * Adds selected menu items to the menu.
-         *
-         * TODO : refactor
-         */
-        addSelectedToMenu : function(processMethod) {
-          if ( 0 == jq('#menu-to-edit').length ) {
-            return false;
-          }
-
-          return this.each(function() {
-            var t = jq(this), menuItems = {},
-              checkboxes = t.find('.tabs-panel-active .categorychecklist li input:checked'),
-              re = new RegExp('menu-item\\[(\[^\\]\]*)');
-
-            processMethod = processMethod || tnmb.addMenuItemToBottom;
-
-            // If no items are checked, bail.
-            if ( !checkboxes.length )
-              return false;
-
-            // Show the ajax spinner
-            t.find('img.waiting').show();
-
-            // Retrieve menu item data
-            jq(checkboxes).each(function(){
-              var t = jq(this),
-                listItemDBIDMatch = re.exec( t.attr('name') ),
-                listItemDBID = 'undefined' == typeof listItemDBIDMatch[1] ? 0 : parseInt(listItemDBIDMatch[1], 10);
-              if ( this.className && -1 != this.className.indexOf('add-to-top') )
-                processMethod = tnmb.addMenuItemToTop;
-              menuItems[listItemDBID] = t.closest('li').getItemData( 'add-menu-item', listItemDBID );
-            });
-
-            // Add the items
-            tnmb.addItemToMenu(menuItems, processMethod, function(){
-              // Deselect the items and hide the ajax spinner
-              checkboxes.removeAttr('checked');
-              t.find('img.waiting').hide();
-            });
           });
         },
         // used by reset on each form
@@ -264,7 +237,8 @@ var tnmb = tnMenuBuilder = {
           // Register a change
           tnmb.registerChange();
           // Update the item data.
-          ui.item.updateParentData();
+          // XXX TODO : replace by a unik method refreshPosData
+          tnmb.updateAllPositionsData();
 
           // address sortable's incorrectly-calculated top in opera
           ui.item[0].style.top = 0;
@@ -383,9 +357,10 @@ var tnmb = tnMenuBuilder = {
 
       tnmb.addItemToMenu({
         '-1': {
-          'menu-item-type': 'custom',
-          'menu-item-url': url,
-          'menu-item-title': label
+          'menu-item-type': 'link',
+          'menu-item-link_url': link_url,
+          'menu-item-title': title,
+          'menu-item-description': description
         }
       }, processMethod, callback);
     },
@@ -420,11 +395,11 @@ var tnmb = tnMenuBuilder = {
      * @param object req The request arguments.
      */
     addMenuItemToBottom : function( menuMarkup, req ) {
-      jq(menuMarkup).hideAdvancedMenuItemFields().appendTo( tnmb.targetList );
+      jq(menuMarkup).appendTo( tnmb.targetList );
     },
 
     addMenuItemToTop : function( menuMarkup, req ) {
-      jq(menuMarkup).hideAdvancedMenuItemFields().prependTo( tnmb.targetList );
+      jq(menuMarkup).prependTo( tnmb.targetList );
     },
 
     registerChange : function() {
@@ -502,7 +477,7 @@ var tnmb = tnMenuBuilder = {
         }, 350, function() {
           jq('input.menu-item-data-satus', el).val('delete');
           tnmb.deleteList.append(el);
-          children.shiftDepthClass(-1).updateParentData();
+          tnmb.updateAllPositionsData();
         });
     },
 
@@ -512,6 +487,12 @@ var tnmb = tnMenuBuilder = {
 
     pxToDepth : function(px) {
       return Math.floor(px / tnmb.options.menuItemDepthPerLevel);
+    },
+
+    updateAllPositionsData : function() {
+        jq('.menu-item-depth-0', this.menuList).each(function(i) {
+          jq(this).updatePositionData(i, tnmb.menuID);
+        })
     }
 
 };
