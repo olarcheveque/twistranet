@@ -508,6 +508,9 @@ var twistranet = {
         jq(inputs_with_hints).focusout(function(e) {
             jq('.hint', jq(this).parent()).hide();
         });
+        jq(inputs_with_hints).keypress(function(e) {
+            jq('.hint', jq(this).parent()).hide();
+        });
     },
     tnGridActions: function(e) {
      jq('.tnGrid').each(function(){
