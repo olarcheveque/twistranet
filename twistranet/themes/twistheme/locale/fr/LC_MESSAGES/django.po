@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-05 10:20+0100\n"
+"POT-Creation-Date: 2011-03-21 17:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,42 +17,46 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 
-#: templates/base.html:55
+#: templates/base.html:60
 msgid "Log out"
 msgstr "Se déconnecter"
 
-#: templates/base.html:58
+#: templates/base.html:63
 msgid "Log in"
 msgstr "Se connecter"
 
-#: templates/base.html:140
+#: templates/base.html:150
 msgid ""
-"Powered by <a href=\"http://www.twistranet.com\">twistranet</a> de <a href="
+"Powered by <a href=\"http://www.twistranet.com\">twistranet</a> from <a href="
 "\"http://www.numericube.com\">numeriCube</a>"
 msgstr ""
 "Propulsé par <a href=\"http://www.twistranet.fr\">twistranet</a> de <a href="
 "\"http://www.numericube.com\">numeriCube</a>"
 
-#: templates/base.html:147 templates/popup.html:79
+#: templates/base.html:157 templates/popup.html:86
 msgid "Confirmation Required"
 msgstr "Veuillez confirmer"
 
-#: templates/base.html:150 templates/popup.html:82
+#: templates/base.html:160 templates/popup.html:89
 msgid "Are you sure about this?"
 msgstr "Êtes-vous sûr(e) ?"
 
-#: templates/base.html:152 templates/popup.html:84
+#: templates/base.html:162 templates/popup.html:91
 msgid "Cancel"
 msgstr "Annuler"
 
-#: templates/base.html:153 templates/popup.html:85
+#: templates/base.html:163 templates/popup.html:92
 msgid "OK"
 msgstr "Ok"
 
-#: templates/base.html:156
+#: templates/base.html:166
 msgid ""
 "Changes have been made on this form, do you really want to quit without "
 "saving ?"
 msgstr ""
 "Vous avez modifié des éléments sur cette page. Voulez-vous vraiment quitter "
 "sans les enregistrer ?"
+
+#: templates/base.html:168
+msgid "Write a comment..."
+msgstr "Rédiger un commentaire..."
