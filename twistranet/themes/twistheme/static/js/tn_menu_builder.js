@@ -13,6 +13,7 @@ var tnmb = tnMenuBuilder = {
     },
 
     menuList : undefined,  // Set in init.
+    menuID : undefined,  // Set in init.
     targetList : undefined, // Set in init.
     menusChanged : false,
     isRTL: !! ( 'undefined' != typeof isRtl && isRtl ),
@@ -22,8 +23,11 @@ var tnmb = tnMenuBuilder = {
     __init__ : function() {
       tnmb.menuList = jq('#menu-to-edit');
       tnmb.targetList = tnmb.menuList;
+      tnmb.menuID = jq('#menu-id').val();
 
       this.jQueryExtensions();
+      
+      this.attachMenuEditListeners();
 
       if( tnmb.menuList.length )
         this.initSortables();
@@ -64,19 +68,19 @@ var tnmb = tnMenuBuilder = {
           });
           return result;
         },
-        updateParentMenuItemDBId : function() {
+        updateParentMenuItemId : function() {
           return this.each(function(){
             var item = jq(this),
-              input = item.find('.menu-item-data-parent-id'),
+              input = item.find('.menu-item-data-parentid'),
               depth = item.menuItemDepth(),
               parent = item.prev();
 
-            if( depth == 0 ) { // Item is on the top level, has no parent
-              input.val(0);
+            if( depth == 0 ) { // Item is on the top level, has menuid as parent
+              input.val(tnmb.menuID);
             } else { // Find the parent item, and retrieve its object id.
               while( ! parent[0] || ! parent[0].className || -1 == parent[0].className.indexOf('menu-item') || ( parent.menuItemDepth() != depth - 1 ) )
                 parent = parent.prev();
-              input.val( parent.find('.menu-item-data-db-id').val() );
+              input.val( parent.find('.menu-item-data-id').val() );
             }
           });
         },
@@ -281,7 +285,7 @@ var tnmb = tnMenuBuilder = {
           // Register a change
           tnmb.registerChange();
           // Update the item data.
-          ui.item.updateParentMenuItemDBId();
+          ui.item.updateParentMenuItemId();
 
           // address sortable's incorrectly-calculated top in opera
           ui.item[0].style.top = 0;
@@ -448,27 +452,41 @@ var tnmb = tnMenuBuilder = {
       tnmb.menusChanged = true;
     },
 
-    eventOnClickEditLink : function(clickedEl) {
-      var settings, item,
-      matchedSection = /#(.*)jq/.exec(clickedEl.href);
-      if ( matchedSection && matchedSection[1] ) {
-        settings = jq('#'+matchedSection[1]);
-        item = settings.parent();
-        if( 0 != item.length ) {
-          if( item.hasClass('menu-item-edit-inactive') ) {
-            if( ! settings.data('menu-item-data') ) {
-              settings.data( 'menu-item-data', settings.getItemData() );
-            }
-            settings.slideDown('fast');
-            item.removeClass('menu-item-edit-inactive')
-              .addClass('menu-item-edit-active');
-          } else {
-            settings.slideUp('fast');
-            item.removeClass('menu-item-edit-active')
-              .addClass('menu-item-edit-inactive');
+    attachMenuEditListeners : function() {
+      var that = this;
+      $('#menu-edit-form').bind('click', function(e) {
+        if ( e.target && e.target.className ) {
+          if ( -1 != e.target.className.indexOf('item-edit') ) {
+            return that.eventOnClickEditLink(e.target);
+          } else if ( -1 != e.target.className.indexOf('menu-delete') ) {
+            return that.eventOnClickMenuDelete(e.target);
+          } else if ( -1 != e.target.className.indexOf('item-delete') ) {
+            return that.eventOnClickMenuItemDelete(e.target);
+          } else if ( -1 != e.target.className.indexOf('item-cancel') ) {
+            return that.eventOnClickCancelLink(e.target);
           }
-          return false;
         }
+      });
+    },
+
+    eventOnClickEditLink : function(clickedEl) {
+      var settings, item, matchedSection = clickedEl.id;
+      settings = jq('#menu-item-settings-'+ matchedSection.replace('edit-', ''));
+      item = settings.parent();
+      if( 0 != item.length ) {
+        if( item.hasClass('menu-item-edit-inactive') ) {
+          if( ! settings.data('menu-item-data') ) {
+            settings.data( 'menu-item-data', settings.getItemData() );
+          }
+          settings.slideDown('fast');
+          item.removeClass('menu-item-edit-inactive')
+            .addClass('menu-item-edit-active');
+        } else {
+          settings.hide();
+          item.removeClass('menu-item-edit-active')
+            .addClass('menu-item-edit-inactive');
+        }
+        return false;
       }
     },
 
@@ -478,26 +496,6 @@ var tnmb = tnMenuBuilder = {
       return false;
     },
 
-    eventOnClickMenuSave : function(clickedEl) {
-      var locs = '',
-      menuName = jq('#menu-name'),
-      menuNameVal = menuName.val();
-      // Cancel and warn if invalid menu name
-      if( !menuNameVal || menuNameVal == menuName.attr('title') || !menuNameVal.replace(/\s+/, '') ) {
-        menuName.parent().addClass('form-invalid');
-        return false;
-      }
-      // Copy menu theme locations
-      jq('#nav-menu-theme-locations select').each(function() {
-        locs += '<input type="hidden" name="' + this.name + '" value="' + jq(this).val() + '" />';
-      });
-      jq('#update-nav-menu').append( locs );
-      // Update menu item position data
-      tnmb.menuList.find('.menu-item-data-position').val( function(index) { return index + 1; } );
-      window.onbeforeunload = null;
-
-      return true;
-    },
 
     eventOnClickMenuDelete : function(clickedEl) {
       // Delete warning AYS
@@ -524,7 +522,7 @@ var tnmb = tnMenuBuilder = {
         }, 350, function() {
           var ins = jq('#menu-instructions');
           el.remove();
-          children.shiftDepthClass(-1).updateParentMenuItemDBId();
+          children.shiftDepthClass(-1).updateParentMenuItemId();
           if( ! ins.siblings().length )
             ins.removeClass('menu-instructions-inactive');
         });

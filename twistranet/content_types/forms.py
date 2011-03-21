@@ -64,7 +64,7 @@ class CommentForm(BaseEmptyForm):
         model = Comment
         fields = ('description', )
         widgets = {
-            'description':  widgets.Textarea(attrs = {'class': 'comment-description-field'}),
+            'description':  widgets.Textarea(attrs = {'class': 'comment-description-field', 'cols': '', 'rows': ''}),
         }
 
 class DocumentForm(BaseRegularForm):
