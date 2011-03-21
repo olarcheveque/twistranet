@@ -1,7 +1,7 @@
 from django.utils.translation import ugettext as _
 from django.template import loader, Context
 from django.core.urlresolvers import reverse
-from twistranet.core.views import BaseView
+from twistranet.core.views import BaseView, BaseIndividualView
 from twistranet.twistapp.views.account_views import HomepageView
 from twistranet.twistapp.forms.admin_forms import *
 from twistranet.twistapp.models import Menu, MenuItem
@@ -30,16 +30,23 @@ def get_menu_tree(menu=None):
 def get_html_menu_tree(t, menu, level=-1):
     html = ''
     level += 1
-    initial = {'parent_id' : menu.id}
+    parent_id =  menu.id
+    position = 0
     for menuitem in menu.children:
+        position += 1
         c = Context ({'iid': menuitem.id, 
+                     'ilabel': menuitem.label,
+                     'ititle': menuitem.title,
+                     'idescription': menuitem.description,
+                     'iparentid': parent_id,
+                     'itype': 'link',
+                     'iposition': position,
                      'level': level,
-                     'ilabel': menuitem.label, 
                      'label_edit_menuitem': label_edit_menuitem,
                      'label_save': label_save,
                      'label_delete_menuitem': label_delete_menuitem,
                      'label_cancel': label_cancel,
-                     'edit_form' : MenuItemLinkForm(instance=menuitem, initial = initial),
+                     'edit_form' : MenuItemLinkForm(instance=menuitem),
                     })
         html += t.render(c)
         html += get_html_menu_tree(t, menuitem, level)
@@ -52,6 +59,7 @@ class MenuBuilder(BaseView):
     name = "menu_builder"
     template_variables = BaseView.template_variables + [
         "form",
+        "menu",
         "topmenus",
         "mainmenu",
         "links_form",
@@ -67,15 +75,20 @@ class MenuBuilder(BaseView):
         # start the menu builder for the first menu if exists
         if topmenus:
             t = loader.get_template('admin/menu_item_edit.part.html')
-            self.mainmenu = '<ul id="menu-to-edit" class="menu ui-sortable">\n%s\n</ul>' %get_html_menu_tree(t, topmenus[0])
-            links_form_initial = {'parent_id': topmenus[0].id}
+            self.menu = topmenus[0]
+            self.mainmenu = '<ul id="menu-to-edit" class="menu ui-sortable">\n%s\n</ul>' %get_html_menu_tree(t, self.menu)
         else:
+            self.menu = None
             self.mainmenu = ''
-            links_form_initial = {}
         self.form = MenuBuilderForm()
-        self.links_form = MenuItemLinkForm(initial = links_form_initial)
+        self.links_form = MenuItemLinkForm()
         referer_path = reverse(HomepageView.name)
         self.referer_url = self.request.build_absolute_uri(referer_path)
+
+###################
+# For tests only  #
+###################
+
 
 class MenuEdit(BaseView):
     """
@@ -87,12 +100,14 @@ class MenuEdit(BaseView):
     ]
     template = 'admin/menu_edit.html'
     title = _("Menu Edit")
+    model_lookup = Menu
+    form_class = MenuForm
     
     
     def prepare_view(self, *args, **kw):
+        super(MenuEdit, self).prepare_view(*args, **kw)
         self.account = self.auth
         self.actions = None
-        self.form = MenuForm()
 
 class MenuCreate(MenuEdit):
     """
@@ -101,22 +116,21 @@ class MenuCreate(MenuEdit):
     name = "menu_create"
     title = _("Menu Create")
 
-class MenuItemEdit(BaseView):
+class MenuItemEdit(BaseIndividualView):
     """
     A view used to edit a menuitem
     """
     name = "menu_item_edit"
-    template_variables = BaseView.template_variables + [
-        "form",
-    ]
+    model_lookup = MenuItem
     template = 'admin/menu_item_edit.html'
     title = _("MenuItem Edit")
+    form_class = MenuItemForm
     
     
     def prepare_view(self, *args, **kw):
+        super(MenuItemEdit, self).prepare_view(*args, **kw)
         self.account = self.auth
         self.actions = None
-        self.form = MenuItemForm()
 
 class MenuItemCreate(MenuItemEdit):
     """

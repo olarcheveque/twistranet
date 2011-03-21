@@ -26,11 +26,10 @@ class MenuItemForm(forms.ModelForm):
         help_text = _("Enter the item's description as you want it to be displayed on mouse over menu item's."),
         widget = widgets.Textarea(attrs = {'class': 'menu-description-field', 'rows':'2', 'cols': ''}),
     )
-    
-    parent_id = forms.IntegerField(required = True, widget = widgets.HiddenInput)
 
     class Meta:
         model = MenuItem
+        fields = ('title', 'description' )
 
 class MenuItemLinkForm(MenuItemForm):
 
@@ -46,3 +45,17 @@ class MenuItemLinkForm(MenuItemForm):
 class MenuItemTargetForm(forms.Form):
     """a search form for a target (community or anything else)
        list all communities, with a search filter"""
+    title = fields.CharField(
+        label = _("Title"),
+        help_text = _("Enter the item's title as you want it to be displayed in menu. Leave it blank if you want the target title."),
+    )
+
+    description = fields.CharField(
+        label = _("Description"),
+        help_text = _("Enter the item's description as you want it to be displayed on mouse over menu item's. Leave it blank if you want the target description."),
+        widget = widgets.Textarea(attrs = {'class': 'menu-description-field', 'rows':'2', 'cols': ''}),
+    )
+
+    class Meta:
+        model = MenuItem
+        fields = ('title', 'description' )

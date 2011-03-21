@@ -13,6 +13,7 @@ var tnmb = tnMenuBuilder = {
     },
 
     menuList : undefined,  // Set in init.
+    menuID : undefined,  // Set in init.
     targetList : undefined, // Set in init.
     menusChanged : false,
     isRTL: !! ( 'undefined' != typeof isRtl && isRtl ),
@@ -22,6 +23,7 @@ var tnmb = tnMenuBuilder = {
     __init__ : function() {
       tnmb.menuList = jq('#menu-to-edit');
       tnmb.targetList = tnmb.menuList;
+      tnmb.menuID = jq('#menu-id').val();
 
       this.jQueryExtensions();
       
@@ -66,19 +68,19 @@ var tnmb = tnMenuBuilder = {
           });
           return result;
         },
-        updateParentMenuItemDBId : function() {
+        updateParentMenuItemId : function() {
           return this.each(function(){
             var item = jq(this),
-              input = item.find('.menu-item-data-parent-id'),
+              input = item.find('.menu-item-data-parentid'),
               depth = item.menuItemDepth(),
               parent = item.prev();
 
-            if( depth == 0 ) { // Item is on the top level, has no parent
-              input.val(0);
+            if( depth == 0 ) { // Item is on the top level, has menuid as parent
+              input.val(tnmb.menuID);
             } else { // Find the parent item, and retrieve its object id.
               while( ! parent[0] || ! parent[0].className || -1 == parent[0].className.indexOf('menu-item') || ( parent.menuItemDepth() != depth - 1 ) )
                 parent = parent.prev();
-              input.val( parent.find('.menu-item-data-db-id').val() );
+              input.val( parent.find('.menu-item-data-id').val() );
             }
           });
         },
@@ -283,7 +285,7 @@ var tnmb = tnMenuBuilder = {
           // Register a change
           tnmb.registerChange();
           // Update the item data.
-          ui.item.updateParentMenuItemDBId();
+          ui.item.updateParentMenuItemId();
 
           // address sortable's incorrectly-calculated top in opera
           ui.item[0].style.top = 0;
@@ -520,7 +522,7 @@ var tnmb = tnMenuBuilder = {
         }, 350, function() {
           var ins = jq('#menu-instructions');
           el.remove();
-          children.shiftDepthClass(-1).updateParentMenuItemDBId();
+          children.shiftDepthClass(-1).updateParentMenuItemId();
           if( ! ins.siblings().length )
             ins.removeClass('menu-instructions-inactive');
         });

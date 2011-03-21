@@ -68,10 +68,7 @@
             {% autoescape off %}
               {{ mainmenu }}
             {% endautoescape %}
-  
-            {% comment %}
-            I don't know if there will be fields in this form in future ...
-            {% endcomment %}
+            <input type="hidden" id="menu-id" name="menu-id" value="{{menu.id}}" />
             {% for field in form %}
                 {% if not field.is_hidden %}
                     <div class="fieldWrapper">
