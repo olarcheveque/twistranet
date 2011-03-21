@@ -42,3 +42,7 @@ class MenuItemLinkForm(MenuItemForm):
     class Meta:
         model = MenuItem
         fields = ('title', 'description', 'link_url')
+
+class MenuItemTargetForm(forms.Form):
+    """a search form for a target (community or anything else)
+       list all communities, with a search filter"""

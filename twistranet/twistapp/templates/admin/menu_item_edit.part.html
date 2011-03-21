@@ -11,7 +11,7 @@
         <span class="item-type"></span>
         <a href="#menu-item-settings-{{ iid }}"
            id="edit-{{ iid }}"
-           title="{{ label_edit }}"
+           title="{{ label_edit_menuitem }}"
            class="item-edit">&nbsp;</a>
       </span>
     </dt>
@@ -34,8 +34,11 @@
             {{ field }}
         {% endif %}
     {% endfor %}
-    <div class="postboxcontrol">
-      <input type="submit" name="submit" value="{{ label_save }}" />
+    <div class="menu-item-actions">
+      <a href="#menu-item-delete-{{ iid }}"
+         class="item-delete">{{label_delete_menuitem}}</a>
+      <a href="#menu-item-cancel-{{ iid }}"
+         class="item-cancel">{{label_cancel}}</a>
     </div>
   </div>
   <ul class="menu-item-transport"></ul>

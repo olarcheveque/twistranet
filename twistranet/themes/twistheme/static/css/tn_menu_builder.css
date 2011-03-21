@@ -180,19 +180,23 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 .item-controls .menu-item-delete:hover { color: #ff0000; }
 
 .item-edit {
-  background: url("../images/menu-bits.png") no-repeat scroll 0 -105px;
+  background: url("../images/menu-bits.png") no-repeat scroll 0 0;
   position: absolute;
   right: -20px;
   top: 0;
   display: block;
   width: 23px;
-  height: 36px;
+  height: 33px;
   overflow: hidden;
   text-indent:-999em;
   border-bottom: 1px solid #eee;
   -moz-border-radius-bottomleft: 3px;
   -webkit-border-bottom-left-radius: 3px;
   border-bottom-left-radius: 3px;
+}
+
+.menu-item-edit-active .item-edit {
+  background: url("../images/menu-bits.png") no-repeat scroll 0 -33px;
 }
 
 /* Menu editing */
@@ -219,7 +223,10 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
   display:none;
 }
 
-
+.menu-item-settings .fieldWrapper {
+  padding: 2px 10px;
+  border-bottom: none;
+}
 
 /* postboxes on left column */
 
@@ -281,4 +288,25 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 .postbox .hint {
   top: 35px;
   right: -230px !important;
+}
+
+/* some buttons */
+
+.menu-item-actions {
+  margin-top: 7px;
+}
+
+.item-delete,
+.item-cancel {
+  font-size: 11px;
+  padding: 2px 0;
+  margin-right: 5px;
+  line-height: 15px;
+  color: #0093E0 !important;
+  font-weight: bold;
+}
+
+.item-cancel:hover,
+.item-delete:hover {
+  color: #E00023 !important;
 }

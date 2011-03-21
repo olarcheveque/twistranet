@@ -456,8 +456,6 @@ var tnmb = tnMenuBuilder = {
         if ( e.target && e.target.className ) {
           if ( -1 != e.target.className.indexOf('item-edit') ) {
             return that.eventOnClickEditLink(e.target);
-          } else if ( -1 != e.target.className.indexOf('menu-save') ) {
-            return that.eventOnClickMenuSave(e.target);
           } else if ( -1 != e.target.className.indexOf('menu-delete') ) {
             return that.eventOnClickMenuDelete(e.target);
           } else if ( -1 != e.target.className.indexOf('item-delete') ) {
@@ -496,26 +494,6 @@ var tnmb = tnMenuBuilder = {
       return false;
     },
 
-    eventOnClickMenuSave : function(clickedEl) {
-      var locs = '',
-      menuName = jq('#menu-name'),
-      menuNameVal = menuName.val();
-      // Cancel and warn if invalid menu name
-      if( !menuNameVal || menuNameVal == menuName.attr('title') || !menuNameVal.replace(/\s+/, '') ) {
-        menuName.parent().addClass('form-invalid');
-        return false;
-      }
-      // Copy menu theme locations
-      jq('#nav-menu-theme-locations select').each(function() {
-        locs += '<input type="hidden" name="' + this.name + '" value="' + jq(this).val() + '" />';
-      });
-      jq('#menu-edit-form').append( locs );
-      // Update menu item position data
-      tnmb.menuList.find('.menu-item-data-position').val( function(index) { return index + 1; } );
-      window.onbeforeunload = null;
-
-      return true;
-    },
 
     eventOnClickMenuDelete : function(clickedEl) {
       // Delete warning AYS
