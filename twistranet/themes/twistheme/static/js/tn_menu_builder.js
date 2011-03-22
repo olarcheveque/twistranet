@@ -59,7 +59,7 @@ var tnmb = tnMenuBuilder = {
               .addClass('menu-item-depth-'+ (depth + change) );
           });
         },
-        childMenuItems : function() {
+        allChildItems : function() {
           var result = jq();
           this.each(function(){
             var t = jq(this), depth = t.menuItemDepth(), next = t.next();
@@ -90,37 +90,6 @@ var tnmb = tnMenuBuilder = {
             pId = this.id.replace('menu-item-', '');
             jq(that).childItems().each( function(i) { 
               jq(this).updatePositionData(i, pId) });
-          });
-        },
-        // update parent_id and position in parent
-        // XXX TODO : replace by a unik method refreshPosData
-        updateParentData : function() {
-          return this.each(function(){
-            var that = this,
-              item = jq(this),
-              position = 1,
-              parentinput = item.find('.menu-item-data-parent_id'),
-              positioninput = item.find('.menu-item-data-position'),
-              depth = item.menuItemDepth(),
-              parent = item.prev();
-
-            if( depth == 0 ) { 
-              // Item is on the top level, has menuid as parent
-              parentinput.val(tnmb.menuID);
-              jq('li.menu-item-depth-0', item.parent()).each(function(i){
-                if (this==that) {
-                  position = i+1;
-                  return;
-                }
-              } );
-            } else { // Find the parent item, and retrieve its object id.
-                while( ! parent[0] || ! parent[0].className || -1 == parent[0].className.indexOf('menu-item') || ( parent.menuItemDepth() != depth - 1 ) ) {
-                    parent = parent.prev();
-                    position += 1;
-                }
-                parentinput.val( parent.find('.menu-item-data-id').val() );
-            }
-            positioninput.val(position);
           });
         },
         // used by reset on each form
@@ -188,7 +157,7 @@ var tnmb = tnMenuBuilder = {
           // Attach child elements to parent
           // Skip the placeholder
           parent = ( ui.item.next()[0] == ui.placeholder[0] ) ? ui.item.next() : ui.item;
-          children = parent.childMenuItems();
+          children = parent.allChildItems();
           transport.append( children );
 
           // Update the height of the placeholder to match the moving item.
@@ -469,13 +438,14 @@ var tnmb = tnMenuBuilder = {
     },
 
     removeMenuItem : function(el) {
-      var children = el.childMenuItems();
+      var children = el.allChildItems();
 
       el.addClass('deleting').animate({
           opacity : 0,
           height: 0
         }, 350, function() {
           jq('input.menu-item-data-satus', el).val('delete');
+          children.shiftDepthClass(-1);
           tnmb.deleteList.append(el);
           tnmb.updateAllPositionsData();
         });

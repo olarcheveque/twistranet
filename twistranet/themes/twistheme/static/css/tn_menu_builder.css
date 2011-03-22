@@ -314,6 +314,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
   color: #E00023 !important;
 }
 
-#deleted-items {
+#menu-to-delete {
   display: none;
 }
