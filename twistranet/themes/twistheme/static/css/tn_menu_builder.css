@@ -57,26 +57,27 @@
 .menu ul.sub-menu {
 }
 .menu li {
-  margin-bottom: 0;
+  margin-bottom: 7px;
   position:relative;
 }
 .menu-item-bar {
   clear:both;
   line-height:1.5em;
   position:relative;
-  margin: 0 0 7px;
+  margin: 0;
 }
 .menu-item-handle {
-  background: #E00023; /* old browsers */
-  background: -moz-linear-gradient(left, #E00023 0%, #964350 51%, #513D40 100%);
-  background: -webkit-gradient(linear, left top, right top, color-stop(0%,#E00023), color-stop(51%,#964350), color-stop(100%,#513D40));
-  color: white;
+  background: #EEE; /* old browsers */
+  background: -moz-linear-gradient(center top , #FFF 0%, #DDD 51%, #BBB 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFF), color-stop(51%,#DDD), color-stop(100%,#BBB));
+  color: #444;
   position: relative;
   padding-left: 10px;
   height: auto;
   width: 350px;
   font-weight:bold;
   overflow: hidden;
+  border: 1px solid #DDD;
   border-radius: 6px;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
@@ -92,7 +93,7 @@
   cursor: move;
 }
 .menu .deleting .menu-item-handle {
-  background-color: #f66;
+  background-color: #E00023;
   background-image: none;
 }
 
@@ -123,7 +124,7 @@ li.menu-item.ui-sortable-helper .menu-item-transport dl {
   margin-top: 13px;
 }
 
-
+/* menus level */
 
 /* WARNING: The factor of 30px is hardcoded into the nav-menus javascript. */
 .menu-item-depth-0 { margin-left: 0px; }
@@ -166,6 +167,69 @@ body.menu-max-depth-10 { min-width: 1250px !important; }
 body.menu-max-depth-11 { min-width: 1280px !important; }
 
 
+/* Menu item controls */
+.item-type { text-transform: uppercase; font-size: 11px; color: #999999; padding-right: 10px; }
+.item-controls { font-size: 11px; position: absolute; right: 20px; top: -1px; }
+.item-controls a { text-decoration: none; }
+.item-controls a:hover { cursor: pointer; text-decoration: none !important; }
+.item-controls .item-order { padding-right: 10px;}
+.item-controls .item-order a {
+  font-weight:bold;
+}
+
+.item-controls .menu-item-delete:hover { color: #ff0000; }
+
+.item-edit {
+  background: url("../images/menu-bits.png") no-repeat scroll 0 0;
+  position: absolute;
+  right: -20px;
+  top: 0;
+  display: block;
+  width: 23px;
+  height: 33px;
+  overflow: hidden;
+  text-indent:-999em;
+  border-bottom: 1px solid #eee;
+  -moz-border-radius-bottomleft: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.menu-item-edit-active .item-edit {
+  background: url("../images/menu-bits.png") no-repeat scroll 0 -33px;
+}
+
+/* Menu editing */
+.menu-instructions-inactive {
+  display: none;
+}
+.menu-item-settings {
+  background: #F9F9F9;
+  display:block;
+  width: 350px;
+  padding: 10px 0 10px 10px;
+  border: solid #E6E6E6;
+  border-width: 0 1px 1px 1px;
+  -moz-border-radius: 0 0 6px 6px;
+  -webkit-border-bottom-right-radius: 6px;
+  -webkit-border-bottom-left-radius: 6px;
+  border-radius: 0 0 6px 6px;
+}
+.menu-item-edit-active .menu-item-settings {
+  display:block;
+}
+
+.menu-item-edit-inactive .menu-item-settings {
+  display:none;
+}
+
+.menu-item-settings .fieldWrapper {
+  padding: 2px 10px;
+  border-bottom: none;
+}
+
+/* postboxes on left column */
+
 .postbox {
   border: 1px solid #E6E6E6;
   background: #E6E6E6;/* old browsers */
@@ -174,6 +238,8 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
   border-radius: 6px;
   -moz-border-radius: 6px;
   -webkit-border-radius: 6px;
+  margin-bottom: 10px;
+  padding-bottom: 1px;
 }
 
 .postbox h3 {
@@ -189,13 +255,24 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
   -webkit-border-radius: 0 0 6px 6px;
 }
 
-.postbox .inside p {
-  margin: 0 0 5px;
+.postbox .inside .fieldWrapper {
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+  border-bottom: none !important;
+}
+
+.postbox .inside label {
+  float: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  width: auto !important;
+  font-size: 12px !important;
 }
 
 .postbox .inside input[type=text],
 .postbox .inside textarea {
-  width: 170px;
+  width: 170px !important;
 }
 
 .postbox .inside input[type=submit] {
@@ -205,5 +282,38 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 
 .postbox .postboxcontrol {
   text-align: right;
-  margin-top: 8px !important;
+  margin-top: 15px !important;
+}
+
+.postbox .hint {
+  top: 35px;
+  right: -230px !important;
+}
+
+/* some buttons */
+
+.menu-item-actions {
+  margin-top: 7px;
+}
+
+.item-delete,
+.item-cancel {
+  font-size: 11px;
+  padding: 2px 0;
+  line-height: 15px;
+  color: #0093E0 !important;
+  font-weight: bold;
+}
+
+.item-delete {
+  margin-right: 20px;
+}
+
+.item-cancel:hover,
+.item-delete:hover {
+  color: #E00023 !important;
+}
+
+#menu-to-delete {
+  display: none;
 }
