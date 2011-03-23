@@ -93,7 +93,7 @@
   cursor: move;
 }
 .menu .deleting .menu-item-handle {
-  background-color: #f66;
+  background-color: #E00023;
   background-image: none;
 }
 
@@ -300,13 +300,20 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 .item-cancel {
   font-size: 11px;
   padding: 2px 0;
-  margin-right: 5px;
   line-height: 15px;
   color: #0093E0 !important;
   font-weight: bold;
 }
 
+.item-delete {
+  margin-right: 20px;
+}
+
 .item-cancel:hover,
 .item-delete:hover {
   color: #E00023 !important;
+}
+
+#menu-to-delete {
+  display: none;
 }

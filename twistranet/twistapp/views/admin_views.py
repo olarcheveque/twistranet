@@ -30,23 +30,45 @@ def get_menu_tree(menu=None):
 def get_html_menu_tree(t, menu, level=-1):
     html = ''
     level += 1
-    parent_id =  menu.id
     position = 0
     for menuitem in menu.children:
         position += 1
+        if menuitem.target:
+            type = 'content'
+            target_id = menuitem.target.object.id
+            link_url = ''
+            view_path = ''
+            edit_form = MenuItemContentForm(instance=menuitem, initial={'target_id': target_id})
+        elif menuitem.link_url:
+            type = 'link'
+            target_id = ''
+            link_url = menuitem.link_url
+            view_path = ''
+            edit_form = MenuItemLinkForm(instance=menuitem)
+        elif menuitem.view_path:
+            type = 'view'
+            target_id = ''
+            link_url = ''
+            view_path = menuitem.view_path
+            edit_form = MenuItemViewForm(instance=menuitem)
+        else:
+            raise("Something's strange with this menuitem")
         c = Context ({'iid': menuitem.id, 
                      'ilabel': menuitem.label,
                      'ititle': menuitem.title,
                      'idescription': menuitem.description,
-                     'iparentid': parent_id,
-                     'itype': 'link',
+                     'iparent_id': menu.id,
+                     'itarget_id': target_id,
+                     'ilink_url': link_url,
+                     'iview_path': view_path,
+                     'itype': type,
                      'iposition': position,
                      'level': level,
                      'label_edit_menuitem': label_edit_menuitem,
                      'label_save': label_save,
                      'label_delete_menuitem': label_delete_menuitem,
                      'label_cancel': label_cancel,
-                     'edit_form' : MenuItemLinkForm(instance=menuitem),
+                     'edit_form' : edit_form,
                     })
         html += t.render(c)
         html += get_html_menu_tree(t, menuitem, level)
