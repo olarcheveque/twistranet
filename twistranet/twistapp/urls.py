@@ -83,6 +83,7 @@ urlpatterns = patterns('',
     # Administration pages.
     url(r'^configuration/$',                    AsView(ConfigurationEdit), name = ConfigurationEdit.name),
     url(r'^menu_builder/$',                     AsView(MenuBuilder), name = MenuBuilder.name),
+    url(r'^menuitem/json/(\w+)/validate$',      AsView(MenuItemValidate), name = MenuItemValidate.name),
     # used for ui tests during development : XXX TODO (JMG) remove
     url(r'^menu/(\d+)/edit$',                   AsView(MenuEdit), name = MenuEdit.name),
     url(r'^menu/new$',                          AsView(MenuCreate), name = MenuCreate.name),

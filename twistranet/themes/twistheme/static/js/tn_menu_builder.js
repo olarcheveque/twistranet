@@ -4,6 +4,23 @@
  */
 
 
+/* helpers */
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jq.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 var tnMenuBuilder;
 
 var tnmb = tnMenuBuilder = {
@@ -16,6 +33,7 @@ var tnmb = tnMenuBuilder = {
     menuList : undefined,  // Set in init.
     menuID : undefined,  // Set in init.
     targetList : undefined, // Set in init.
+    tempIds: new Array(),  // to store  temporary new ids
     menusChanged : false,
     isRTL: !! ( 'undefined' != typeof isRtl && isRtl ),
     negateIfRTL: ( 'undefined' != typeof isRtl && isRtl ) ? -1 : 1,
@@ -28,7 +46,7 @@ var tnmb = tnMenuBuilder = {
       tnmb.menuID = jq('#menu-id').val();
 
       this.jQueryExtensions();
-      
+
       this.attachMenuEditListeners();
 
       if( tnmb.menuList.length )
@@ -88,7 +106,7 @@ var tnmb = tnMenuBuilder = {
             jq('.menu-item-data-position', that).val(i+1);
             jq('.menu-item-data-parent_id', that).val(pId);
             pId = this.id.replace('menu-item-', '');
-            jq(that).childItems().each( function(i) { 
+            jq(that).childItems().each( function(i) {
               jq(this).updatePositionData(i, pId) });
           });
         },
@@ -300,6 +318,32 @@ var tnmb = tnMenuBuilder = {
       }
     },
 
+    generateTempId: function() {
+      n = tnmb.tempIds.length+1;
+      new_id = 'tempid-' + n;
+      tnmb.tempIds[n-1] = new_id;
+      return new_id;
+    },
+
+    validateInline: function(formid, type) {
+        var data = {};
+        var form = jq(formid);
+        jq('input[type=text], textarea', form).each(
+          function(){
+            data[this.name] = jq(this).val();
+          }
+        );
+        validate_url = home_url + 'menuitem/json/' + type + '/validate';
+        jq.ajaxSetup({
+          beforeSend: function(xhr) {xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));}
+        });
+        jq.post(validate_url, data, function(result){
+          jsondata = eval( "(" + result + ")" );
+          success = jsondata.success;
+          alert(success);
+        });
+    },
+
     addCustomLink : function( processMethod ) {
       var url = jq('#custom-menu-item-url').val(),
         label = jq('#custom-menu-item-name').val();
@@ -469,5 +513,4 @@ var tnmb = tnMenuBuilder = {
 
 
 jq(document).ready(function(){ tnMenuBuilder.__init__(); });
-
 

@@ -1,10 +1,17 @@
 from django.utils.translation import ugettext as _
+from django.http import HttpResponse
 from django.template import loader, Context
 from django.core.urlresolvers import reverse
 from twistranet.core.views import BaseView, BaseIndividualView
 from twistranet.twistapp.views.account_views import HomepageView
 from twistranet.twistapp.forms.admin_forms import *
 from twistranet.twistapp.models import Menu, MenuItem
+try:
+    #python >= 2.6
+    import json
+except:
+    #python 2.5
+    import simplejson as json
 
 label_save = _('Save')
 label_edit_menuitem = _('Edit menu entry')
@@ -27,7 +34,7 @@ def get_menu_tree(menu=None):
     return tree
 
 # used for menu_builder html calls
-def get_html_menu_tree(t, menu, level=-1):
+def get_html_menu_tree( t, menu, level=-1):
     html = ''
     level += 1
     position = 0
@@ -53,7 +60,7 @@ def get_html_menu_tree(t, menu, level=-1):
             edit_form = MenuItemViewForm(instance=menuitem)
         else:
             raise("Something's strange with this menuitem")
-        c = Context ({'iid': menuitem.id, 
+        c = Context ({'iid': menuitem.id,
                      'ilabel': menuitem.label,
                      'ititle': menuitem.title,
                      'idescription': menuitem.description,
@@ -68,7 +75,7 @@ def get_html_menu_tree(t, menu, level=-1):
                      'label_save': label_save,
                      'label_delete_menuitem': label_delete_menuitem,
                      'label_cancel': label_cancel,
-                     'edit_form' : edit_form,
+                     'edit_form' : edit_form
                     })
         html += t.render(c)
         html += get_html_menu_tree(t, menuitem, level)
@@ -106,6 +113,38 @@ class MenuBuilder(BaseView):
         self.links_form = MenuItemLinkForm()
         referer_path = reverse(HomepageView.name)
         self.referer_url = self.request.build_absolute_uri(referer_path)
+
+
+class MenuItemValidate(BaseView):
+    """
+    This view return inline validation in json format
+    for menuitem inline forms
+    """
+    title = "Menu Item - Validation"
+    name = "menuitem_validate"
+    itemtype = ""
+    form_class = MenuItemForm
+
+    def prepare_view(self, itemtype):
+        if itemtype == 'link':
+            self.form_class = MenuItemLinkForm
+        elif itemtype == 'content':
+            self.form_class = MenuItemContentForm
+        elif itemtype == 'view':
+            self.form_class = MenuItemViewForm
+        else:
+            raise NotImplementedError("this menu item type doesn't exist")
+
+        self.form = self.form_class(self.request.POST)
+
+    def render_view(self,):
+        if self.request.method == 'POST':
+            #import ipdb; ipdb.set_trace()
+            data =  {'success' : self.form.is_valid()}
+            return HttpResponse( json.dumps(data),
+                                 mimetype='text/plain')
+
+
 
 ###################
 # For tests only  #
