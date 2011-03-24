@@ -327,9 +327,9 @@ var tnmb = tnMenuBuilder = {
       return new_id;
     },
 
-    validateInline: function(formid, type) {
+    validateInline: function(addBoxId, type) {
         var data = {};
-        var form = jq(formid);
+        form = jq('#'+ addBoxId + ' form');
         jq('input[type=text], textarea', form).each(
           function(){
             data[this.name] = jq(this).val();
@@ -339,27 +339,34 @@ var tnmb = tnMenuBuilder = {
         jq.ajaxSetup({
           beforeSend: function(xhr) {xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));}
         });
-        var success = false;
         jq.post(validate_url, data, function(result){
           jsondata = eval( "(" + result + ")" );
           success = jsondata.success;
-          errors = jsondata.errors;
-          jq('.fieldWrapperWithError label .small').remove();
-          jq('.fieldWrapper', form).removeClass('fieldWrapperWithError');
-          for (var i in errors) {
-            field = jq("input[name=" + i + "], textarea[name=" + i + "]", form);
-            fwrapper = field.parent();
-            fwrapper.addClass('fieldWrapperWithError');
-            jq('label', fwrapper).append('<span class="small">&nbsp;' + errors[i][0] + '</span>');
+          if (!success) {
+            errors = jsondata.errors;
+            jq('.fieldWrapperWithError label .small', form).remove();
+            jq('.fieldWrapper', form).removeClass('fieldWrapperWithError');
+            for (var i in errors) {
+              field = jq("input[name=" + i + "], textarea[name=" + i + "]", form);
+              fwrapper = field.parent();
+              fwrapper.addClass('fieldWrapperWithError');
+              jq('label', fwrapper).append('<span class="small">&nbsp;' + errors[i][0] + '</span>');
+            }
           }
+          else tnmb.addMenuItem(addBoxId, data, type);
         });
-        return success;
     },
     
-    fillItemEditForm: function(menuMarkup, data) {
+    newAddForm: function(form) {
+        jq('input[type=text], textarea', form).val('');
+        jq('.fieldWrapperWithError label .small', form).remove();
+        jq('.fieldWrapper', form).removeClass('fieldWrapperWithError');
+    },
+    
+    fillItemEditForm: function(data) {
         data['id'] = tnmb.generateTempId();
         data['position'] = 10000; //not important (updatePosition will set the good job)
-        if (typeof data['label']=='undefined' && data['title']) data['label'] = data['title']; // complex
+        if ((typeof data['label']=='undefined' || ! data['label']) && data['title']) data['label'] = data['title']; // complex
         item_model = tnmb.menuItemModel.clone();
         menuitem = item_model.html();
         data_keys = ['id', 'label', 'title', 'description', 'link_url', 'target_id', 'view_path', 'position'];
@@ -373,15 +380,23 @@ var tnmb = tnMenuBuilder = {
         return menuitem;
     },
     
+    addLinkItem: function() {
+        // launch the validation and if success will add menu item
+        tnmb.validateInline('add-custom-links', 'link');
+    },
     // generic addMenuItem
-    // each specific addItem method will insert a specific menuMarkup (an edit form cloned from add form)
-    addMenuItem: function(menuMarkup, data) {
-      menuitem = fillItemEditForm(menuMarkup, data);
-      jq(menuitem).appendTo( tnmb.targetList );
-      settings = jq('li:last .menu-item-settings',tnmb.targetList);
-      settings.data('menu-item-data', settings.getItemData());
+    // each specific addItem method will insert a specific edit form cloned from add form
+    addMenuItem: function(addBoxId, data, type) {
+      uiform = jq('<form></form>');
+      jq('#' + addBoxId + ' .fieldWrapper').each(function(){
+        uiform.append(jq(this).clone());
+      });
+      menuitem = jq(tnmb.fillItemEditForm(data));
+      jq('.ui-data', menuitem).append(uiform.children());
+      menuitem.appendTo( tnmb.targetList );
       tnmb.updateAllPositionsData();
       tnmb.registerChange();
+      tnmb.newAddForm(jq('#' + addBoxId + ' form'));
     },
 
     registerChange : function() {
