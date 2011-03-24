@@ -33,6 +33,7 @@ var tnmb = tnMenuBuilder = {
     menuList : undefined,  // Set in init.
     menuID : undefined,  // Set in init.
     targetList : undefined, // Set in init.
+    menuItemModel : undefined, // Set in init.
     tempIds: new Array(),  // to store  temporary new ids
     menusChanged : false,
     isRTL: !! ( 'undefined' != typeof isRtl && isRtl ),
@@ -44,6 +45,7 @@ var tnmb = tnMenuBuilder = {
       tnmb.deleteList = jq("#menu-to-delete");
       tnmb.targetList = tnmb.menuList;
       tnmb.menuID = jq('#menu-id').val();
+      tnmb.menuItemModel = jq('#item-model');
 
       this.jQueryExtensions();
 
@@ -320,7 +322,7 @@ var tnmb = tnMenuBuilder = {
 
     generateTempId: function() {
       n = tnmb.tempIds.length+1;
-      new_id = 'tempid-' + n;
+      new_id = 'tempID' + n;
       tnmb.tempIds[n-1] = new_id;
       return new_id;
     },
@@ -337,82 +339,49 @@ var tnmb = tnMenuBuilder = {
         jq.ajaxSetup({
           beforeSend: function(xhr) {xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));}
         });
+        var success = false;
         jq.post(validate_url, data, function(result){
           jsondata = eval( "(" + result + ")" );
           success = jsondata.success;
-          alert(success);
+          errors = jsondata.errors;
+          jq('.fieldWrapperWithError label .small').remove();
+          jq('.fieldWrapper', form).removeClass('fieldWrapperWithError');
+          for (var i in errors) {
+            field = jq("input[name=" + i + "], textarea[name=" + i + "]", form);
+            fwrapper = field.parent();
+            fwrapper.addClass('fieldWrapperWithError');
+            jq('label', fwrapper).append('<span class="small">&nbsp;' + errors[i][0] + '</span>');
+          }
         });
+        return success;
     },
-
-    addCustomLink : function( processMethod ) {
-      var url = jq('#custom-menu-item-url').val(),
-        label = jq('#custom-menu-item-name').val();
-
-      processMethod = processMethod || tnmb.addMenuItemToBottom;
-
-      if ( '' == url || 'http://' == url )
-        return false;
-
-      // Show the ajax spinner
-      jq('.customlinkdiv img.waiting').show();
-      this.addLinkToMenu( url, label, processMethod, function() {
-        // Remove the ajax spinner
-        jq('.customlinkdiv img.waiting').hide();
-        // Set custom link form back to defaults
-        jq('#custom-menu-item-name').val('').blur();
-        jq('#custom-menu-item-url').val('http://');
-      });
-    },
-
-    addLinkToMenu : function(url, label, processMethod, callback) {
-      processMethod = processMethod || tnmb.addMenuItemToBottom;
-      callback = callback || function(){};
-
-      tnmb.addItemToMenu({
-        '-1': {
-          'menu-item-type': 'link',
-          'menu-item-link_url': link_url,
-          'menu-item-title': title,
-          'menu-item-description': description
+    
+    fillItemEditForm: function(menuMarkup, data) {
+        data['id'] = tnmb.generateTempId();
+        data['position'] = 10000; //not important (updatePosition will set the good job)
+        if (typeof data['label']=='undefined' && data['title']) data['label'] = data['title']; // complex
+        item_model = tnmb.menuItemModel.clone();
+        menuitem = item_model.html();
+        data_keys = ['id', 'label', 'title', 'description', 'link_url', 'target_id', 'view_path', 'position'];
+        jq(data_keys).each(function(){
+          if (typeof data[this]=='undefined') data[this]='';
+        });
+        for (var key in data) {
+          var model_value = new RegExp("model-" + key, "g");
+          menuitem = menuitem.replace(model_value, data[key]);
         }
-      }, processMethod, callback);
+        return menuitem;
     },
-
-    addItemToMenu : function(menuItem, processMethod, callback) {
-      var menu = jq('#menu').val(),
-        nonce = jq('#menu-settings-column-nonce').val();
-
-      processMethod = processMethod || function(){};
-      callback = callback || function(){};
-
-      params = {
-        'action': 'add-menu-item',
-        'menu': menu,
-        'menu-settings-column-nonce': nonce,
-        'menu-item': menuItem
-      };
-
-      jq.post( ajaxurl, params, function(menuMarkup) {
-        var ins = jq('#menu-instructions');
-        processMethod(menuMarkup, params);
-        if( ! ins.hasClass('menu-instructions-inactive') && ins.siblings().length )
-          ins.addClass('menu-instructions-inactive');
-        callback();
-      });
-    },
-
-    /**
-     * Process the add menu item request response into menu list item.
-     *
-     * @param string menuMarkup The text server response of menu item markup.
-     * @param object req The request arguments.
-     */
-    addMenuItemToBottom : function( menuMarkup, req ) {
-      jq(menuMarkup).appendTo( tnmb.targetList );
-    },
-
-    addMenuItemToTop : function( menuMarkup, req ) {
-      jq(menuMarkup).prependTo( tnmb.targetList );
+    
+    // generic addMenuItem
+    // each specific addItem method will insert a specific menuMarkup (an edit form cloned from add form)
+    addMenuItem: function(menuMarkup, data) {
+      menuitem = fillItemEditForm(menuMarkup, data);
+      jq(menuitem).appendTo( tnmb.targetList );
+      settings = jq('li:last .menu-item-settings',tnmb.targetList);
+      settings.data('menu-item-data', settings.getItemData());
+      tnmb.updateAllPositionsData();
+      tnmb.registerChange();
     },
 
     registerChange : function() {
@@ -488,7 +457,7 @@ var tnmb = tnMenuBuilder = {
           opacity : 0,
           height: 0
         }, 350, function() {
-          jq('input.menu-item-data-satus', el).val('delete');
+          jq('input.menu-item-data-status', el).val('delete');
           children.shiftDepthClass(-1);
           tnmb.deleteList.append(el);
           tnmb.updateAllPositionsData();

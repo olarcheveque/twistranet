@@ -18,23 +18,43 @@ label_edit_menuitem = _('Edit menu entry')
 label_delete_menuitem = _('Delete menu entry')
 label_cancel = _('Cancel')
 
-# used for menu_builder json calls
-def get_menu_tree(menu=None):
-    tree = []
-    if menu is None:
-        menus = Menu.objects.all()
-    else:
-        menus = menu.children
-    for m in menus:
-        item = {}
-        item['id'] = m.id
-        item['title'] = m.label
-        item['children'] = get_menu_tree(m)
-        tree.append(m)
-    return tree
+def get_item_template(id, label, title, description, parent_id, target_id,
+                      link_url, view_path, type, position, level=0,
+                      edit_form = None, state='inactive', status='edit'):
+
+    t = loader.get_template('admin/menu_item_edit.part.html')
+    c = Context ({'iid': id,
+                 'ilabel': label,
+                 'ititle': title,
+                 'idescription': description,
+                 'iparent_id': parent_id,
+                 'itarget_id': target_id,
+                 'ilink_url': link_url,
+                 'iview_path': view_path,
+                 'itype': type,
+                 'iposition': position,
+                 'level': level,
+                 'label_edit_menuitem': label_edit_menuitem,
+                 'label_save': label_save,
+                 'label_delete_menuitem': label_delete_menuitem,
+                 'label_cancel': label_cancel,
+                 'edit_form' : edit_form,
+                 'state': state,
+                 'status': status,
+                })
+    return t.render(c)
+
+def get_item_model(menu):
+    """html model used by javascript
+       to generate new item edit forms
+       the prefix 'model-' is used by javascript to change values
+    """
+    return get_item_template('model-id', 'model-label', 'model-title', 'model-description', menu.id, 'model-target_id',
+                             'model-link_url', 'model-view_path', 'model-type', 'model-position', level=0,
+                              edit_form = None, state='active', status='add')
 
 # used for menu_builder html calls
-def get_html_menu_tree( t, menu, level=-1):
+def get_html_menu_tree( menu, level=-1):
     html = ''
     level += 1
     position = 0
@@ -60,25 +80,9 @@ def get_html_menu_tree( t, menu, level=-1):
             edit_form = MenuItemViewForm(instance=menuitem)
         else:
             raise("Something's strange with this menuitem")
-        c = Context ({'iid': menuitem.id,
-                     'ilabel': menuitem.label,
-                     'ititle': menuitem.title,
-                     'idescription': menuitem.description,
-                     'iparent_id': menu.id,
-                     'itarget_id': target_id,
-                     'ilink_url': link_url,
-                     'iview_path': view_path,
-                     'itype': type,
-                     'iposition': position,
-                     'level': level,
-                     'label_edit_menuitem': label_edit_menuitem,
-                     'label_save': label_save,
-                     'label_delete_menuitem': label_delete_menuitem,
-                     'label_cancel': label_cancel,
-                     'edit_form' : edit_form
-                    })
-        html += t.render(c)
-        html += get_html_menu_tree(t, menuitem, level)
+        html += get_item_template(menuitem.id, menuitem.label, menuitem.title, menuitem.description,
+                                  menu.id, target_id, link_url, view_path, type, position, level, edit_form, 'inactive', 'edit')
+        html += get_html_menu_tree(menuitem, level)
     return html
 
 class MenuBuilder(BaseView):
@@ -93,6 +97,7 @@ class MenuBuilder(BaseView):
         "mainmenu",
         "links_form",
         "referer_url",
+        "item_model",
     ]
     template = 'admin/menu_builder_form.html'
     title = _("Menu Builder")
@@ -103,12 +108,13 @@ class MenuBuilder(BaseView):
         self.topmenus = topmenus = Menu.objects.all()
         # start the menu builder for the first menu if exists
         if topmenus:
-            t = loader.get_template('admin/menu_item_edit.part.html')
             self.menu = topmenus[0]
-            self.mainmenu = '<ul id="menu-to-edit" class="menu ui-sortable">\n%s\n</ul>' %get_html_menu_tree(t, self.menu)
+            self.mainmenu = '<ul id="menu-to-edit" class="menu ui-sortable">\n%s\n</ul>' %get_html_menu_tree(self.menu)
+            self.item_model = get_item_model(self.menu)
         else:
             self.menu = None
             self.mainmenu = ''
+            self.item_model = ''
         self.form = MenuBuilderForm()
         self.links_form = MenuItemLinkForm()
         referer_path = reverse(HomepageView.name)
@@ -139,8 +145,7 @@ class MenuItemValidate(BaseView):
 
     def render_view(self,):
         if self.request.method == 'POST':
-            #import ipdb; ipdb.set_trace()
-            data =  {'success' : self.form.is_valid()}
+            data =  {'success' : self.form.is_valid(), 'errors' : self.form.errors}
             return HttpResponse( json.dumps(data),
                                  mimetype='text/plain')
 

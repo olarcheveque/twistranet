@@ -39,6 +39,7 @@ class MenuItemLinkForm(MenuItemForm):
         label = "URL",
         help_text = _("Enter the custom link's url."),
         required = True,
+        initial='http://',
         )
     class Meta:
         model = MenuItem
