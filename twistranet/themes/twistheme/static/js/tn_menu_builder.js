@@ -330,7 +330,7 @@ var tnmb = tnMenuBuilder = {
     validateInline: function(addBoxId, type, add) {
         var data = {};
         var form = jq('#'+ addBoxId);
-        jq('input[type=text], textarea', form).each(
+        jq('input[type=text], input[type=hidden], textarea', form).each(
           function(){
             data[this.name] = jq(this).val();
           }
@@ -393,9 +393,8 @@ var tnmb = tnMenuBuilder = {
     // each specific addItem method will insert a specific edit form cloned from add form
     addMenuItem: function(addBoxId, data, type) {
       uiform = jq('<form></form>');
-      jq('#' + addBoxId + ' .fieldWrapper').each(function(){
-        uiform.append(jq(this).clone());
-      });
+      uiform = jq('#' + addBoxId + ' form').clone();
+      jq('.postboxcontrol', uiform).remove();
       menuitem = jq(tnmb.fillItemEditForm(data));
       jq('.ui-data', menuitem).append(uiform.children());
       jq('.final-data .menu-item-data-type', menuitem).val(type);
