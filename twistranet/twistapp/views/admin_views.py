@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from twistranet.core.views import BaseView, BaseIndividualView
 from twistranet.twistapp.views.account_views import HomepageView
 from twistranet.twistapp.forms.admin_forms import *
-from twistranet.twistapp.models import Menu, MenuItem
+from twistranet.twistapp.models import Menu, MenuItem, Community
 try:
     #python >= 2.6
     import json
@@ -99,6 +99,7 @@ class MenuBuilder(BaseView):
         "view_form",
         "referer_url",
         "item_model",
+        "communities",
     ]
     template = 'admin/menu_builder_form.html'
     title = _("Menu Builder")
@@ -121,6 +122,7 @@ class MenuBuilder(BaseView):
         self.view_form = MenuItemViewForm()
         referer_path = reverse(HomepageView.name)
         self.referer_url = self.request.build_absolute_uri(referer_path)
+        self.communities = Community.objects.get_query_set()[:10]
 
 
 class MenuItemValidate(BaseView):

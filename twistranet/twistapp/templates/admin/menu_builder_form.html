@@ -26,7 +26,7 @@
       {% endcomment%}
       <div id="menu_edit_left">
         <div id="add-custom-links" class="postbox ">
-          <h3>{% trans 'Add external link' %}</h3>
+          <h3>{% trans 'Add custom link' %}</h3>
           <div class="inside">
             <form action="{{ path }}" 
                   method="post">
@@ -82,7 +82,15 @@
         <div id="add-community" class="postbox ">
           <h3>{% trans 'Add community' %}</h3>
           <div class="inside">
-
+          {% for community in communities %}
+            <div id="content-target-{{community.id}}" class="content-target">
+              <form id="content-item-form-{{community.id}}" class="content-item-form">
+                <input type="hidden" value="{{community.id}}" name="target_id">
+                <input type="hidden" value="{{community.title}}" name="label">
+              </form>
+              <a href="{{community.get_absolute_url}}">{{community.title}}</a>
+            </div>
+          {% endfor %}
           </div>
         </div>
       </div>

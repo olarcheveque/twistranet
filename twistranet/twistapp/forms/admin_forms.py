@@ -39,7 +39,7 @@ class MenuItemLinkForm(MenuItemForm):
 
     link_url = LargeURLField(
         label = "URL",
-        help_text = _("Enter the custom link's url."),
+        help_text = _("Enter a custom link's url. It could be an external or internal valid url."),
         required = True,
         initial='http://',
         )

@@ -393,6 +393,10 @@ var tnmb = tnMenuBuilder = {
         // launch the validation and if success will add menu item
         tnmb.validateInline('add-view', 'view', true);
     },
+    addContentItem: function(cid) {
+        // launch the validation and if success will add menu item
+        tnmb.validateInline('content-target-'+cid, 'content', true);
+    },
     // generic addMenuItem
     // each specific addItem method will insert a specific edit form cloned from add form
     addMenuItem: function(addBoxId, data, type) {
@@ -438,6 +442,14 @@ var tnmb = tnMenuBuilder = {
           e.preventDefault();
           e.stopPropagation();
           tnmb.addViewItem();
+          return false;
+      });
+      jq('.content-target a').bind('click', function(e){
+          e.preventDefault();
+          e.stopPropagation();
+          cid = (jq(this).parent()).attr('id').replace('content-target-', '');
+          //console.log(cid);
+          tnmb.addContentItem(cid);
           return false;
       });
     },
