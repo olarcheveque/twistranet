@@ -414,7 +414,7 @@ var tnmb = tnMenuBuilder = {
       jq('#menu-edit-form').bind('click', function(e) {
         if ( e.target && e.target.className ) {
           if ( -1 != e.target.className.indexOf('item-edit') ) {
-            return that.eventOnClickEditLink(e.target);
+            return that.eventOnClickEditLink(e, e.target);
           } else if ( -1 != e.target.className.indexOf('menu-delete') ) {
             return that.eventOnClickMenuDelete(e.target);
           } else if ( -1 != e.target.className.indexOf('item-delete') ) {
@@ -426,7 +426,8 @@ var tnmb = tnMenuBuilder = {
       });
     },
 
-    eventOnClickEditLink : function(clickedEl) {
+    eventOnClickEditLink : function(e, clickedEl) {
+      e.preventDefault();
       var settings, item, matchedSection = clickedEl.id;
       eltid = matchedSection.replace('edit-', '');
       settings = jq('#menu-item-settings-'+ eltid);
@@ -443,6 +444,7 @@ var tnmb = tnMenuBuilder = {
             tnmb.validateInline('ui-data-' + eltid, type, false);
         }
       }
+      return false;
     },
 
     editMenuItem: function(item){
