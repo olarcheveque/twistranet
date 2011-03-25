@@ -3,7 +3,9 @@ from django import forms
 from django.forms import widgets
 from django.forms import fields
 from twistranet.twistapp.forms.base_forms import BaseForm
+from twistranet.twistapp.forms.fields import ViewPathField, LargeURLField
 from twistranet.twistapp.models import Menu, MenuItem
+
 
 class MenuBuilderForm(forms.Form):
     """just a basic form to build menus
@@ -35,7 +37,7 @@ class MenuItemForm(forms.ModelForm):
 
 class MenuItemLinkForm(MenuItemForm):
 
-    link_url = forms.URLField(
+    link_url = LargeURLField(
         label = "URL",
         help_text = _("Enter the custom link's url."),
         required = True,
@@ -69,7 +71,7 @@ class MenuItemContentForm(MenuItemForm):
 
 class MenuItemViewForm(MenuItemForm):
 
-    view_path = forms.URLField(
+    view_path = ViewPathField(
         label = "View Path",
         help_text = _("Enter the internal view path."),
         required = True,

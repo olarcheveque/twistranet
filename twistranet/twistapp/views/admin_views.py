@@ -96,6 +96,7 @@ class MenuBuilder(BaseView):
         "topmenus",
         "mainmenu",
         "links_form",
+        "view_form",
         "referer_url",
         "item_model",
     ]
@@ -117,6 +118,7 @@ class MenuBuilder(BaseView):
             self.item_model = ''
         self.form = MenuBuilderForm()
         self.links_form = MenuItemLinkForm()
+        self.view_form = MenuItemViewForm()
         referer_path = reverse(HomepageView.name)
         self.referer_url = self.request.build_absolute_uri(referer_path)
 

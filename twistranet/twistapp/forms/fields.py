@@ -1,15 +1,17 @@
 """
-The twistranet Resource Field.
-Used to manage resource upload.
+The twistranet Fields
 """
 import os
+import urlparse
 from django import forms
+from django.core.validators import URL_VALIDATOR_USER_AGENT
 from django.db import models
 from django.core.validators import EMPTY_VALUES
 from django.utils.encoding import smart_unicode
 from django.utils.translation import ugettext as _
 from  twistranet.twistapp.lib.log import log
 import widgets
+from validators import URLValidator, ViewPathValidator
 
 class PermissionFormField(forms.ChoiceField):
     """
@@ -152,4 +154,36 @@ class ResourceFormField(forms.MultiValueField):
         
     def compress(self, data_list):
         return data_list
+
+
+# URLField which also accept relative urls
+class LargeURLField(forms.CharField):
+    """
+    A URL field which accepts internal link
+    and intranet links (without a standard domain)
+    """
+
+    def __init__(self, max_length=None, min_length=None, verify_exists=False,
+            validator_user_agent=URL_VALIDATOR_USER_AGENT, *args, **kwargs):
+        super(LargeURLField, self).__init__(max_length, min_length, *args,
+                                       **kwargs)
+        self.validators.append(URLValidator(verify_exists=verify_exists, validator_user_agent=validator_user_agent))
+
+    def to_python(self, value):
+        if value:
+            value = urlparse.urlunparse(urlparse.urlparse(value))
+        return super(LargeURLField, self).to_python(value)
+
+
+class ViewPathField(forms.CharField):
+    """
+    View Path field  (could be improved)
+    """
+    
+    def __init__(self, max_length=None, min_length=None, *args, **kwargs):
+
+        super(ViewPathField, self).__init__(max_length, min_length, *args,
+                                       **kwargs)
+        self.validators.append(ViewPathValidator())
+        self.default_error_messages = { 'invalid': _(u'Enter a valid Path.'),}
 
