@@ -424,6 +424,12 @@ var tnmb = tnMenuBuilder = {
           }
         }
       });
+      jq('#add-custom-links form').bind('submit', function(e){
+          e.preventDefault();
+          e.stopPropagation();
+          tnmb.addLinkItem();
+          return false;
+      });
     },
 
     eventOnClickEditLink : function(e, clickedEl) {
