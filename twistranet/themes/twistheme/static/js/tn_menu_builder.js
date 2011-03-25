@@ -327,9 +327,9 @@ var tnmb = tnMenuBuilder = {
       return new_id;
     },
 
-    validateInline: function(addBoxId, type) {
+    validateInline: function(addBoxId, type, add) {
         var data = {};
-        form = jq('#'+ addBoxId + ' form');
+        var form = jq('#'+ addBoxId);
         jq('input[type=text], textarea', form).each(
           function(){
             data[this.name] = jq(this).val();
@@ -342,10 +342,10 @@ var tnmb = tnMenuBuilder = {
         jq.post(validate_url, data, function(result){
           jsondata = eval( "(" + result + ")" );
           success = jsondata.success;
+          jq('.fieldWrapperWithError label .small', form).remove();
+          jq('.fieldWrapper', form).removeClass('fieldWrapperWithError');
           if (!success) {
             errors = jsondata.errors;
-            jq('.fieldWrapperWithError label .small', form).remove();
-            jq('.fieldWrapper', form).removeClass('fieldWrapperWithError');
             for (var i in errors) {
               field = jq("input[name=" + i + "], textarea[name=" + i + "]", form);
               fwrapper = field.parent();
@@ -353,14 +353,19 @@ var tnmb = tnMenuBuilder = {
               jq('label', fwrapper).append('<span class="small">&nbsp;' + errors[i][0] + '</span>');
             }
           }
-          else tnmb.addMenuItem(addBoxId, data, type);
+          else if (add) {
+              tnmb.addMenuItem(addBoxId, data, type);
+          }
+          else if (!add) {
+              item = jq(jq(form).parents('li'));
+              tnmb.editMenuItem(item);
+          }
         });
     },
     
     newAddForm: function(form) {
         jq('input[type=text], textarea', form).val('');
-        jq('.fieldWrapperWithError label .small', form).remove();
-        jq('.fieldWrapper', form).removeClass('fieldWrapperWithError');
+        jq('input[name=link_url]', form).val('http://');
     },
     
     fillItemEditForm: function(data) {
@@ -369,7 +374,7 @@ var tnmb = tnMenuBuilder = {
         if ((typeof data['label']=='undefined' || ! data['label']) && data['title']) data['label'] = data['title']; // complex
         item_model = tnmb.menuItemModel.clone();
         menuitem = item_model.html();
-        data_keys = ['id', 'label', 'title', 'description', 'link_url', 'target_id', 'view_path', 'position'];
+        data_keys = ['id', 'label', 'title', 'description', 'link_url', 'target_id', 'view_path', 'position', 'type'];
         jq(data_keys).each(function(){
           if (typeof data[this]=='undefined') data[this]='';
         });
@@ -382,7 +387,7 @@ var tnmb = tnMenuBuilder = {
     
     addLinkItem: function() {
         // launch the validation and if success will add menu item
-        tnmb.validateInline('add-custom-links', 'link');
+        tnmb.validateInline('add-custom-links', 'link', true);
     },
     // generic addMenuItem
     // each specific addItem method will insert a specific edit form cloned from add form
@@ -393,6 +398,7 @@ var tnmb = tnMenuBuilder = {
       });
       menuitem = jq(tnmb.fillItemEditForm(data));
       jq('.ui-data', menuitem).append(uiform.children());
+      jq('.final-data .menu-item-data-type', menuitem).val(type);
       menuitem.appendTo( tnmb.targetList );
       tnmb.updateAllPositionsData();
       tnmb.registerChange();
@@ -423,22 +429,30 @@ var tnmb = tnMenuBuilder = {
 
     eventOnClickEditLink : function(clickedEl) {
       var settings, item, matchedSection = clickedEl.id;
-      settings = jq('#menu-item-settings-'+ matchedSection.replace('edit-', ''));
+      eltid = matchedSection.replace('edit-', '');
+      settings = jq('#menu-item-settings-'+ eltid);
       item = settings.parent();
       if( 0 != item.length ) {
-        settings.data( 'menu-item-data', settings.getItemData() );
         if( item.hasClass('menu-item-edit-inactive') ) {
+          settings.data( 'menu-item-data', settings.getItemData() );
           settings.slideDown('fast');
           item.removeClass('menu-item-edit-inactive')
             .addClass('menu-item-edit-active');
         } else {
-          // XXX TODO (JMG) validate form in ajax
-          settings.hide();
-          item.removeClass('menu-item-edit-active')
-            .addClass('menu-item-edit-inactive');
+            type = jq('.menu-item-data-type', settings).val();
+            // validate and close if success
+            tnmb.validateInline('ui-data-' + eltid, type, false);
         }
-        return false;
       }
+    },
+
+    editMenuItem: function(item){
+        settings = jq('.menu-item-settings', item);
+        settings.data( 'menu-item-data', settings.getItemData() );
+        settings.hide();
+        item.removeClass('menu-item-edit-active')
+          .addClass('menu-item-edit-inactive');
+        return false;
     },
 
     eventOnClickCancelLink : function(clickedEl) {

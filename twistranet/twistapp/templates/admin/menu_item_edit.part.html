@@ -18,7 +18,7 @@
   </dl>
   <div id="menu-item-settings-{{ iid }}"
        class="menu-item-settings">
-    <div class="ui-data">
+    <div class="ui-data" id="ui-data-{{ iid }}">
       {% if edit_form %}
         {% for field in edit_form %}
             {% if not field.is_hidden %}
@@ -48,6 +48,7 @@
       <input type="hidden" class="menu-item-data-link_url" name="menu-item-data-link_url-{{iid}}" value="{{ilink_url}}" />
       <input type="hidden" class="menu-item-data-target_id" name="menu-item-data-target_id-{{iid}}" value="{{itarget_id}}" />
       <input type="hidden" class="menu-item-data-view_path" name="menu-item-data-view_path-{{iid}}" value="{{iview_path}}" />
+      <input type="hidden" class="menu-item-data-type" name="menu-item-data-view_path-{{iid}}" value="{{itype}}" />
     </div>
     <div class="menu-item-actions">
       <a href="#menu-item-delete-{{ iid }}"

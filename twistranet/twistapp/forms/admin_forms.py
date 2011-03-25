@@ -56,6 +56,7 @@ class MenuItemContentForm(MenuItemForm):
 
     description = fields.CharField(
         label = _("Description"),
+        required = False,
         help_text = _("Enter the item's description as you want it to be displayed on mouse over menu item's. Leave it blank if you want to keep the target description."),
         widget = widgets.Textarea(attrs = {'class': 'menu-description-field', 'rows':'2', 'cols': ''}),
     )
