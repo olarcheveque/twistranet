@@ -138,6 +138,8 @@ var tnmb = tnMenuBuilder = {
           }
 
           if( !id ) return this;
+          
+          if (typeof itemData == 'undefined') return this;
 
           jq('input[type="text"], textarea', this).each(function() {
             jq(this).val(itemData[jq(this).attr('name')]);
@@ -400,12 +402,13 @@ var tnmb = tnMenuBuilder = {
     // generic addMenuItem
     // each specific addItem method will insert a specific edit form cloned from add form
     addMenuItem: function(addBoxId, data, type) {
-      uiform = jq('<form></form>');
       uiform = jq('#' + addBoxId + ' form').clone();
       jq('.postboxcontrol', uiform).remove();
       menuitem = jq(tnmb.fillItemEditForm(data));
-      jq('.ui-data', menuitem).append(uiform.children());
+      jq('.ui-data', menuitem).append(uiform.contents());
       jq('.final-data .menu-item-data-type', menuitem).val(type);
+      // fix jquery bug on clone (text content of textarea are not cloned)
+      jq('.ui-data textarea[name=description]', menuitem).val(data.description);
       menuitem.appendTo( tnmb.targetList );
       tnmb.updateAllPositionsData();
       tnmb.registerChange();
@@ -508,16 +511,21 @@ var tnmb = tnMenuBuilder = {
       return false;
     },
 
+    // if status == add (new item) just remove it
+    // if status == edit (item exists in db) > change status && place elt in delete list
     removeMenuItem : function(el) {
+      var state = jq('.menu-item-data-satus:first', el);
       var children = el.allChildItems();
-
       el.addClass('deleting').animate({
           opacity : 0,
           height: 0
         }, 350, function() {
-          jq('input.menu-item-data-status', el).val('delete');
           children.shiftDepthClass(-1);
-          tnmb.deleteList.append(el);
+          if (state.val()=='add') el.remove();
+          else {
+            state.val('delete');
+            tnmb.deleteList.append(el);
+          }
           tnmb.updateAllPositionsData();
         });
     },
