@@ -407,7 +407,8 @@ var tnmb = tnMenuBuilder = {
       menuitem = jq(tnmb.fillItemEditForm(data));
       jq('.ui-data', menuitem).append(uiform.contents());
       jq('.final-data .menu-item-data-type', menuitem).val(type);
-      // fix jquery bug on clone (text content of textarea are not cloned)
+      // workaround a strange jquery bug on clone (text content of textarea are not copied FF only bug)
+      // http://bugs.jquery.com/ticket/3016
       jq('.ui-data textarea[name=description]', menuitem).val(data.description);
       menuitem.appendTo( tnmb.targetList );
       tnmb.updateAllPositionsData();
