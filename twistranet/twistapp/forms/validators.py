@@ -8,26 +8,26 @@ from django.utils.encoding import smart_unicode
 
 class ViewPathValidator(RegexValidator):
     regex = re.compile(
-        r'^(((?!/)\S)+)$' , re.IGNORECASE) # option : accept everything except slash and spaces
+        r'^(((?!/)\S)+)$' , re.IGNORECASE) # option : accept everything except '/' and spaces
 
 
 class URLValidator(RegexValidator):
     regex = re.compile(
-        r'(?!^//)' #dont accept start with double slash
-        r'^('
-          r'('
-            r'(https?://|ftp://)' # start with 'http://'' or 'https://'' or 'ftp://'
-            r'('
-              r'(([A-Z0-9]\.?)+)|' # folowed by standard domain or just a name...
-              r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or a ip number
-            r')'
-            r'(?::\d+)?' # with optional port
-          r')|'
-          r'(\.\.?)|'    # or start with '.(.)'
-          r'(/{1})|'    # or start with unik '/' and non space char
-          r'((?![/|\s]))'   # or at least by one non space char, nor '/'
-        r')'  #end startwith
-        r'((?!//)\S)*$' , re.IGNORECASE) # option : accept everything in fine except double slash
+        r'(?!^//)'                                      # dont accept start with '//'
+        r'^('                                           # block start with
+          r'('                                          # optional adress block
+            r'(https?://|ftp://)'                       # block protocol
+            r'('                                        # block server name
+              r'(([A-Z0-9]\.?)+)|'                      # a domain or just a server name
+              r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'   # or an ip number
+            r')'                                        # end server name
+            r'(?::\d+)?'                                # with optional port
+          r')|'                                         # end optional adress block
+          r'(\.\.?)|'                                   # or start with '.(.)'
+          r'(/{1})|'                                    # or start with unik '/'
+          r'((?![/|\s]))'                               # or start at least by one non space char except '/'
+        r')'                                            # end startwith
+        r'((?!//)\S)*$' , re.IGNORECASE)                # optional end with : accept everything except '//' and spaces
 
     def __init__(self, verify_exists=False, validator_user_agent=URL_VALIDATOR_USER_AGENT):
         super(URLValidator, self).__init__()
