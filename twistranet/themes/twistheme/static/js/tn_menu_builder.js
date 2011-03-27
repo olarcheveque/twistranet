@@ -48,12 +48,9 @@ var tnmb = tnMenuBuilder = {
       tnmb.menuItemModel = jq('#item-model');
 
       this.jQueryExtensions();
-
       this.attachMenuEditListeners();
-
       if( tnmb.menuList.length )
         this.initSortables();
-
     },
 
     jQueryExtensions : function() {
@@ -112,7 +109,7 @@ var tnmb = tnMenuBuilder = {
               jq(this).updatePositionData(i, pId) });
           });
         },
-        // used for reset on each form
+        // used to get uidata on each form
         getUIItemData : function() {
           var itemData = {};
           var id = this.find('.menu-item-data-id').val();
@@ -124,7 +121,7 @@ var tnmb = tnMenuBuilder = {
           });
           return itemData;
         },
-        // used for reset ui on each form
+        // used to reset uidata on each form
         setUIItemData : function( itemData ) {
           var id = jq('.menu-item-data-id', this).val();
           if( !id ) return this;
@@ -139,13 +136,11 @@ var tnmb = tnMenuBuilder = {
           uidata = settings.data('menu-ui-item-data');
           for (var key in uidata) {
             jq('.final-data .menu-item-data-' + key, this).val(uidata[key]);
-            console.log(key);
-            console.log(uidata[key]);
           }
           this.setLabel();
         },
         
-        // set and display the good label on item edit
+        // store and display the new label on item edit
         setLabel : function() {
             var label  = jq('.menu-item-data-label', this);
             var label_original  = jq('.menu-item-data-label_original', this);
@@ -158,7 +153,14 @@ var tnmb = tnMenuBuilder = {
         }
       });
     },
-
+    cleanMenuForm : function(e) {
+      jq('.menu-item-edit-active .item-edit').each(function(){
+        jq(this).trigger('click');
+      });
+      jq('.ui-data').remove();
+      jq('.menu-item-data-label').remove();
+      jq('.menu-item-data-label_original').remove();
+    },
     initSortables : function() {
       var currentDepth = 0, originalDepth, minDepth, maxDepth,
         prev, next, prevBottom, nextThreshold, helperHeight, transport,
@@ -338,40 +340,61 @@ var tnmb = tnMenuBuilder = {
       return new_id;
     },
 
-    validateInline: function(addBoxId, type, add) {
+    validateInline: function(addBoxId, type, add, field) {
         var data = {};
-        var form = jq('#'+ addBoxId);
-        jq('input[type=text], input[type=hidden], textarea', form).each(
-          function(){
-            data[this.name] = jq(this).val();
-          }
-        );
-        validate_url = home_url + 'menuitem/json/' + type + '/validate';
         jq.ajaxSetup({
           beforeSend: function(xhr) {xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));}
         });
-        jq.post(validate_url, data, function(result){
-          jsondata = eval( "(" + result + ")" );
-          success = jsondata.success;
-          jq('.fieldWrapperWithError label .small', form).remove();
-          jq('.fieldWrapper', form).removeClass('fieldWrapperWithError');
-          if (!success) {
-            errors = jsondata.errors;
-            for (var i in errors) {
-              field = jq("input[name=" + i + "], textarea[name=" + i + "]", form);
-              fwrapper = field.parent();
-              fwrapper.addClass('fieldWrapperWithError');
-              jq('label', fwrapper).append('<span class="small">&nbsp;' + errors[i][0] + '</span>');
+        if (typeof field=='undefined') {
+          var form = jq('#'+ addBoxId);
+          jq('input[type=text], input[type=hidden], textarea', form).each(
+            function(){
+              data[this.name] = jq(this).val();
             }
-          }
-          else if (add) {
-              tnmb.addMenuItem(addBoxId, data, type);
-          }
-          else if (!add) {
-              item = jq(jq(form).parents('li'));
-              tnmb.editMenuItem(item);
-          }
-        });
+          );
+          validate_url = home_url + 'menuitem/json/' + type + '/all/validate';
+          jq.post(validate_url, data, function(result){
+            jsondata = eval( "(" + result + ")" );
+            success = jsondata.success;
+            jq('.fieldWrapperWithError label .small', form).remove();
+            jq('.fieldWrapper', form).removeClass('fieldWrapperWithError');
+            if (!success) {
+              errors = jsondata.errors;
+              for (var i in errors) {
+                field = jq("input[name=" + i + "], textarea[name=" + i + "]", form);
+                fwrapper = field.parent();
+                fwrapper.addClass('fieldWrapperWithError');
+                jq('label', fwrapper).append('<span class="small">&nbsp;' + errors[i][0] + '</span>');
+              }
+            }
+            else if (add) {
+                tnmb.addMenuItem(addBoxId, data, type);
+            }
+            else if (!add) {
+                item = jq(jq(form).parents('li'));
+                tnmb.editMenuItem(item);
+            }
+          });
+        }
+        // single field validation
+        else {
+          fname = field.attr('name');
+          data[fname] = field.val();
+          validate_url = home_url + 'menuitem/json/' + type + '/' + fname + '/validate';
+          jq.post(validate_url, data, function(result){
+            jsondata = eval( "(" + result + ")" );
+            success = jsondata.success;
+            fwrapper = field.parent();
+            jq('label .small', fwrapper).remove();
+            fwrapper.removeClass('fieldWrapperWithError');
+            if (!success) {
+              errors = jsondata.errors;
+              fwrapper.addClass('fieldWrapperWithError');
+              jq('label', fwrapper).append('<span class="small">&nbsp;' + errors[fname][0] + '</span>');
+            }
+            // todo callback ...
+          });
+        }
     },
     
     newAddForm: function(form) {
@@ -440,6 +463,12 @@ var tnmb = tnMenuBuilder = {
 
     attachMenuEditListeners : function() {
       var that = this;
+      jq('#menu-edit-form').bind('submit', function(e){
+         e.preventDefault();
+         that.cleanMenuForm();
+         //this.submit();
+         return false;
+      })
       jq('#menu-edit-form').bind('click', function(e) {
         if ( e.target && e.target.className ) {
           if ( -1 != e.target.className.indexOf('item-edit') ) {
@@ -469,7 +498,6 @@ var tnmb = tnMenuBuilder = {
           e.preventDefault();
           e.stopPropagation();
           cid = (jq(this).parent()).attr('id').replace('content-target-', '');
-          //console.log(cid);
           tnmb.addContentItem(cid);
           return false;
       });

@@ -2,6 +2,7 @@ from django.utils.translation import ugettext as _
 from django.http import HttpResponse
 from django.template import loader, Context
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ValidationError
 from twistranet.core.views import BaseView, BaseIndividualView
 from twistranet.twistapp.views.account_views import HomepageView
 from twistranet.twistapp.forms.admin_forms import *
@@ -130,14 +131,15 @@ class MenuBuilder(BaseView):
 class MenuItemValidate(BaseView):
     """
     This view return inline validation in json format
-    for menuitem inline forms
+    for menuitem inline forms, or just for a field
     """
     title = "Menu Item - Validation"
     name = "menuitem_validate"
     itemtype = ""
     form_class = MenuItemForm
+    fieldname = 'all'
 
-    def prepare_view(self, itemtype):
+    def prepare_view(self, itemtype, fieldname):
         if itemtype == 'link':
             self.form_class = MenuItemLinkForm
         elif itemtype == 'content':
@@ -147,11 +149,28 @@ class MenuItemValidate(BaseView):
         else:
             raise NotImplementedError("this menu item type doesn't exist")
 
+        self.fieldname = fieldname
+
         self.form = self.form_class(self.request.POST)
 
     def render_view(self,):
         if self.request.method == 'POST':
-            data =  {'success' : self.form.is_valid(), 'errors' : self.form.errors}
+            fieldname = self.fieldname
+            if fieldname != 'all':
+                form = self.form
+                value = form.data[fieldname]
+                f = form.fields[fieldname]
+                try:
+                    f.validate(value)
+                    f.run_validators(value)
+                    success = True
+                    errors = {}
+                except ValidationError, e:
+                    success = False
+                    errors = {fieldname : e.messages}
+                data =  {'success' : success, 'errors' : errors}
+            else :
+                data =  {'success' : self.form.is_valid(), 'errors' : self.form.errors}
             return HttpResponse( json.dumps(data),
                                  mimetype='text/plain')
 
