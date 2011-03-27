@@ -162,7 +162,6 @@ var tnmb = tnMenuBuilder = {
           jq('.ui-data', form).remove();
           jq('.menu-item-data-label', form).remove();
           jq('.menu-item-data-label_original', form).remove();
-          console.log('c parti');
           return true;
       }
       else return false;
