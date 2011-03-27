@@ -34,6 +34,7 @@ var tnmb = tnMenuBuilder = {
     menuID : undefined,  // Set in init.
     targetList : undefined, // Set in init.
     menuItemModel : undefined, // Set in init.
+    menuMainForm : undefined, // Set in init.
     tempIds: new Array(),  // to store  temporary new ids
     menusChanged : false,
     isRTL: !! ( 'undefined' != typeof isRtl && isRtl ),
@@ -46,6 +47,7 @@ var tnmb = tnMenuBuilder = {
       tnmb.targetList = tnmb.menuList;
       tnmb.menuID = jq('#menu-id').val();
       tnmb.menuItemModel = jq('#item-model');
+      tnmb.menuMainForm = jq('#menu-edit-form');
 
       this.jQueryExtensions();
       this.attachMenuEditListeners();
@@ -153,13 +155,17 @@ var tnmb = tnMenuBuilder = {
         }
       });
     },
-    cleanMenuForm : function(e) {
-      jq('.menu-item-edit-active .item-edit').each(function(){
-        jq(this).trigger('click');
-      });
-      jq('.ui-data').remove();
-      jq('.menu-item-data-label').remove();
-      jq('.menu-item-data-label_original').remove();
+    mainSubmit : function() {
+      var form = tnmb.menuMainForm;
+      jq('.menu-item-edit-active .item-edit', form).trigger('click');
+      if (!jq('.ui-data .fieldWrapperWithError', form).length) {
+          jq('.ui-data', form).remove();
+          jq('.menu-item-data-label', form).remove();
+          jq('.menu-item-data-label_original', form).remove();
+          console.log('c parti');
+          return true;
+      }
+      else return false;
     },
     initSortables : function() {
       var currentDepth = 0, originalDepth, minDepth, maxDepth,
@@ -339,10 +345,11 @@ var tnmb = tnMenuBuilder = {
       tnmb.tempIds[n-1] = new_id;
       return new_id;
     },
-
-    validateInline: function(addBoxId, type, add, field) {
+    // inline validation for complete form or just a field
+    validateInline: function(addBoxId, type, field) {
         var data = {};
         jq.ajaxSetup({
+          async: false,
           beforeSend: function(xhr) {xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));}
         });
         if (typeof field=='undefined') {
@@ -367,13 +374,7 @@ var tnmb = tnMenuBuilder = {
                 jq('label', fwrapper).append('<span class="small">&nbsp;' + errors[i][0] + '</span>');
               }
             }
-            else if (add) {
-                tnmb.addMenuItem(addBoxId, data, type);
-            }
-            else if (!add) {
-                item = jq(jq(form).parents('li'));
-                tnmb.editMenuItem(item);
-            }
+            else tnmb.addMenuItem(addBoxId, data, type);
           });
         }
         // single field validation
@@ -392,7 +393,7 @@ var tnmb = tnMenuBuilder = {
               fwrapper.addClass('fieldWrapperWithError');
               jq('label', fwrapper).append('<span class="small">&nbsp;' + errors[fname][0] + '</span>');
             }
-            // todo callback ...
+            // possible callback ...
           });
         }
     },
@@ -424,15 +425,15 @@ var tnmb = tnMenuBuilder = {
     
     addLinkItem: function() {
         // launch the validation and if success will add menu item
-        tnmb.validateInline('add-custom-links', 'link', true);
+        tnmb.validateInline('add-custom-links', 'link');
     },
     addViewItem: function() {
         // launch the validation and if success will add menu item
-        tnmb.validateInline('add-view', 'view', true);
+        tnmb.validateInline('add-view', 'view');
     },
     addContentItem: function(cid) {
         // launch the validation and if success will add menu item
-        tnmb.validateInline('content-target-'+cid, 'content', true);
+        tnmb.validateInline('content-target-'+cid, 'content');
     },
     // generic addMenuItem
     // each specific addItem method will insert a specific edit form cloned from add form
@@ -451,6 +452,7 @@ var tnmb = tnMenuBuilder = {
       // http://bugs.jquery.com/ticket/3016
       jq('.ui-data textarea[name=description]', menuitem).val(data.description);
       menuitem.appendTo( tnmb.targetList );
+      tnmb.validateOnChange(menuitem);
       tnmb.updateAllPositionsData();
       tnmb.registerChange();
       tnmb.newAddForm(jq('#' + addBoxId + ' form'));
@@ -463,11 +465,8 @@ var tnmb = tnMenuBuilder = {
 
     attachMenuEditListeners : function() {
       var that = this;
-      jq('#menu-edit-form').bind('submit', function(e){
-         e.preventDefault();
-         that.cleanMenuForm();
-         //this.submit();
-         return false;
+      tnmb.menuMainForm.bind('submit', function(e){
+         if (!tnmb.mainSubmit()) return false;
       })
       jq('#menu-edit-form').bind('click', function(e) {
         if ( e.target && e.target.className ) {
@@ -501,6 +500,9 @@ var tnmb = tnMenuBuilder = {
           tnmb.addContentItem(cid);
           return false;
       });
+      jq('#menu-edit-form .menu-item').each(function(){
+          tnmb.validateOnChange(this);
+      });
     },
 
     eventOnClickEditLink : function(e, clickedEl) {
@@ -517,27 +519,44 @@ var tnmb = tnMenuBuilder = {
             .addClass('menu-item-edit-active');
         } else {
             type = jq('.menu-item-data-type', settings).val();
-            // validate and close if success
-            tnmb.validateInline('ui-data-' + eltid, type, false);
+            tnmb.editMenuItem(item);
         }
       }
       return false;
     },
 
     editMenuItem: function(item){
-        settings = jq('.menu-item-settings', item);
-        itemData = settings.getUIItemData();
-        settings.data( 'menu-ui-item-data', itemData );
-        item.setFinalData(settings);
-        settings.hide();
-        item.removeClass('menu-item-edit-active')
-          .addClass('menu-item-edit-inactive');
+        jq('input[type=text], textarea', item).each(function(){this.blur()});
+        if (!jq('.ui-data .fieldWrapperWithError', item).length) {
+          settings = jq('.menu-item-settings', item);
+          itemData = settings.getUIItemData();
+          settings.data( 'menu-ui-item-data', itemData );
+          item.setFinalData(settings);
+          settings.hide();
+          item.removeClass('menu-item-edit-active')
+            .addClass('menu-item-edit-inactive');
+        }
+        else tnmb.onError();
         return false;
+    },
+    
+    validateOnChange: function(item) {
+        var type = jq('.menu-item-data-type', item).val();
+        jq('input[type=text], textarea', item).change(function(){
+            tnmb.validateInline('', type, jq(this));
+        })
+    },
+    
+    // improve
+    onError: function() {
+       alert('fix errors first');
     },
 
     eventOnClickCancelLink : function(clickedEl) {
       var settings = jq(clickedEl).closest('.menu-item-settings');
       settings.setUIItemData( settings.data('menu-ui-item-data') );
+      jq('.fieldWrapperWithError label .small', settings).remove();
+      jq('.fieldWrapper', settings).removeClass('fieldWrapperWithError');
       return false;
     },
 

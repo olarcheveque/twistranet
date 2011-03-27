@@ -127,6 +127,24 @@ class MenuBuilder(BaseView):
         self.referer_url = self.request.build_absolute_uri(referer_path)
         self.communities = Community.objects.get_query_set()[:10]
 
+        if self.request.method == 'POST':
+            req = self.request.POST
+            menuitems = {}
+            others_keys = {}
+            menuID = req.get('menu-id')
+            for key in req.keys():
+                k_split =  key.split('-')
+                if len(k_split)>1:
+                    itemID = k_split[-1]
+                    itemkey =k_split[-2]
+                    if not menuitems.has_key(itemID):
+                        menuitems[itemID] = {}
+                    menuitems[itemID][itemkey] = req.get(key)
+                else:
+                    others_keys[key] = req.get(key)
+            import ipdb; ipdb.set_trace()
+
+
 
 class MenuItemValidate(BaseView):
     """
@@ -156,6 +174,7 @@ class MenuItemValidate(BaseView):
     def render_view(self,):
         if self.request.method == 'POST':
             fieldname = self.fieldname
+            # unik field validation
             if fieldname != 'all':
                 form = self.form
                 value = form.data[fieldname]
@@ -169,6 +188,7 @@ class MenuItemValidate(BaseView):
                     success = False
                     errors = {fieldname : e.messages}
                 data =  {'success' : success, 'errors' : errors}
+            # entire form validation
             else :
                 data =  {'success' : self.form.is_valid(), 'errors' : self.form.errors}
             return HttpResponse( json.dumps(data),
