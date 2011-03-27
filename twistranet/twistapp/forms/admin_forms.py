@@ -22,13 +22,14 @@ class MenuItemForm(forms.ModelForm):
         required = True,
         label = _("Title"),
         help_text = _("Enter the item's title as you want it to be displayed in menu."),
+        widget = widgets.TextInput(attrs = {'id': ''}),
     )
 
     description = fields.CharField(
         label = _("Description"),
         required = False,
         help_text = _("Enter the item's description as you want it to be displayed on mouse over menu item's."),
-        widget = widgets.Textarea(attrs = {'class': 'menu-description-field', 'rows':'2', 'cols': ''}),
+        widget = widgets.Textarea(attrs = {'class': 'menu-description-field', 'rows':'2', 'cols': '', 'id': ''}),
     )
 
     class Meta:
@@ -42,6 +43,7 @@ class MenuItemLinkForm(MenuItemForm):
         help_text = _("Enter a custom link's url. It could be an external or internal valid url."),
         required = True,
         initial='http://',
+        widget = widgets.TextInput(attrs = {'id': ''}),
         )
     class Meta:
         model = MenuItem
@@ -54,13 +56,14 @@ class MenuItemContentForm(MenuItemForm):
         required = False,
         label = _("Title"),
         help_text = _("Enter the item's title as you want it to be displayed in menu. Leave it blank if you want to keep the target title."),
+        widget = widgets.TextInput(attrs = {'id': ''}),
     )
 
     description = fields.CharField(
         label = _("Description"),
         required = False,
         help_text = _("Enter the item's description as you want it to be displayed on mouse over menu item's. Leave it blank if you want to keep the target description."),
-        widget = widgets.Textarea(attrs = {'class': 'menu-description-field', 'rows':'2', 'cols': ''}),
+        widget = widgets.Textarea(attrs = {'class': 'menu-description-field', 'rows':'2', 'cols': '', 'id': ''}),
     )
 
     target_id = forms.IntegerField(required = True, widget = widgets.HiddenInput)
@@ -75,6 +78,7 @@ class MenuItemViewForm(MenuItemForm):
         label = "View Path",
         help_text = _("Enter the internal view path."),
         required = True,
+        widget = widgets.TextInput(attrs = {'id': ''}),
         )
     class Meta:
         model = MenuItem
