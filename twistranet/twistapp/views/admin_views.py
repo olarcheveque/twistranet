@@ -107,6 +107,54 @@ class MenuBuilder(BaseView):
     title = _("Menu Builder")
     
     def prepare_view(self, *args, **kw):
+
+        if self.request.method == 'POST':
+            req = self.request.POST
+            menuitems = {}
+            menuID = req.get('menu-id')
+            for key in req.keys():
+                k_split =  key.split('-')
+                if len(k_split)>1 and key!='menu-id':
+                    itemID = k_split[-1]
+                    itemkey =k_split[-2]
+                    if not menuitems.has_key(itemID):
+                        menuitems[itemID] = {}
+                    menuitems[itemID][itemkey] = req.get(key)
+            # first pass create all new items
+            for id in menuitems.keys():
+                status  = menuitems[id][u'status']
+                if status==u'add':
+                    newitem = MenuItem.objects.create(
+                        parent_id = menuID,
+                        title =  menuitems[id][u'title']
+                    )
+                    menuitems[id][u'realId'] = newitem.id
+                    menuitems[id][u'status'] = 'edit'
+            # second pass edit all items
+            for id in menuitems.keys():
+                status  = menuitems[id][u'status']
+                if status==u'edit':
+                    if menuitems[id].has_key(realId) :
+                        item = MenuItem.objects.get(id = realId)
+                    else:
+                        item = MenuItem.objects.get(id = id)
+                    parent_id = menuitems[id][u'parent_id']
+                    item.parent = MenuItem.objects.get(id = int(parent_id))
+                    target_id = menuitems[id][u'target_id']
+                    if target_id:
+                        # the case when parent was a temp item just added
+                        if target_id.startswith(u'tempID'):
+                            target_id = menuitems[target_id][u'realId']
+                        item.target = MenuItem.objects.get(id = int(target_id))
+                    for k in (u'title', u'description', u'link_url', u'view_path'):
+                        item[k] = menuitems[id][k]
+            # last pass delete
+            for id in menuitems.keys():
+                status  = menuitems[id][u'status']
+                if status==u'delete':
+                    item = MenuItem.objects.get(id = id)
+                    item.delete()
+
         self.account = self.auth
         self.actions = None
         self.topmenus = topmenus = Menu.objects.all()
@@ -126,24 +174,6 @@ class MenuBuilder(BaseView):
         referer_path = reverse(HomepageView.name)
         self.referer_url = self.request.build_absolute_uri(referer_path)
         self.communities = Community.objects.get_query_set()[:10]
-
-        if self.request.method == 'POST':
-            req = self.request.POST
-            menuitems = {}
-            others_keys = {}
-            menuID = req.get('menu-id')
-            for key in req.keys():
-                k_split =  key.split('-')
-                if len(k_split)>1:
-                    itemID = k_split[-1]
-                    itemkey =k_split[-2]
-                    if not menuitems.has_key(itemID):
-                        menuitems[itemID] = {}
-                    menuitems[itemID][itemkey] = req.get(key)
-                else:
-                    others_keys[key] = req.get(key)
-            import ipdb; ipdb.set_trace()
-
 
 
 class MenuItemValidate(BaseView):
