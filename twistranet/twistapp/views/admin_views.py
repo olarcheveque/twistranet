@@ -97,6 +97,7 @@ class MenuBuilder(BaseView):
         "mainmenu",
         "links_form",
         "view_form",
+        "content_form",
         "referer_url",
         "item_model",
         "communities",
@@ -120,6 +121,7 @@ class MenuBuilder(BaseView):
         self.form = MenuBuilderForm()
         self.links_form = MenuItemLinkForm()
         self.view_form = MenuItemViewForm()
+        self.content_form = MenuItemContentForm()
         referer_path = reverse(HomepageView.name)
         self.referer_url = self.request.build_absolute_uri(referer_path)
         self.communities = Community.objects.get_query_set()[:10]

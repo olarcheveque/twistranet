@@ -82,15 +82,32 @@
         <div id="add-community" class="postbox ">
           <h3>{% trans 'Add community' %}</h3>
           <div class="inside">
-          {% for community in communities %}
-            <div id="content-target-{{community.id}}" class="content-target">
-              <form id="content-item-form-{{community.id}}" class="content-item-form">
-                <input type="hidden" value="{{community.id}}" name="target_id">
-                <input type="hidden" value="{{community.title}}" name="label">
-              </form>
-              <a href="{{community.get_absolute_url}}">{{community.title}}</a>
+            {% for community in communities %}
+              <div id="content-target-{{community.id}}" class="content-target">
+                <form id="content-item-form-{{community.id}}" class="content-item-form">
+                  <input type="hidden" value="{{community.id}}" name="target_id">
+                  <input type="hidden" value="{{community.title}}" name="label">
+                </form>
+                <a href="{{community.get_absolute_url}}">{{community.title}}</a>
+              </div>
+            {% endfor %}
+            <div id="content-item-model-form">
+              {% comment %} The visible fields only for content form edition {% endcomment %}
+              {% for field in content_form %}
+                {% if not field.is_hidden %}
+                    <div class="fieldWrapper">
+                        {{ field.errors }}
+                        {{ field.label_tag }} {{ field }}
+                        {% if field.help_text %}
+                            <span class="hint">{{ field.help_text }}
+                                <span class="hint-pointer">&nbsp;</span>
+                            </span>
+                        {% endif %}
+                        <div class="clear"><!-- --></div>
+                    </div>
+                {% endif %}
+              {% endfor %}
             </div>
-          {% endfor %}
           </div>
         </div>
       </div>

@@ -112,40 +112,49 @@ var tnmb = tnMenuBuilder = {
               jq(this).updatePositionData(i, pId) });
           });
         },
-        // used by reset on each form
-        getItemData : function( itemType, id ) {
-          itemType = itemType || 'menu-item';
-
+        // used for reset on each form
+        getUIItemData : function() {
           var itemData = {};
-
-          if( !id && itemType == 'menu-item' ) {
-            id = this.find('.menu-item-data-id').val();
-          }
-
+          var id = this.find('.menu-item-data-id').val();
           if( !id ) return itemData;
-
           jq('input[type="text"], textarea', this).each(function() {
-            itemData[jq(this).attr('name')]=jq(this).val();
+            data_key = jq(this).attr('name');
+            value = jq(this).val();
+            itemData[data_key]=value;
           });
-
           return itemData;
         },
-        setItemData : function( itemData, itemType, id ) { // Can take a type, such as 'menu-item', or an id.
-          itemType = itemType || 'menu-item';
-
-          if( !id && itemType == 'menu-item' ) {
-            id = jq('.menu-item-data-id', this).val();
-          }
-
+        // used for reset ui on each form
+        setUIItemData : function( itemData ) {
+          var id = jq('.menu-item-data-id', this).val();
           if( !id ) return this;
-          
           if (typeof itemData == 'undefined') return this;
-
           jq('input[type="text"], textarea', this).each(function() {
             jq(this).val(itemData[jq(this).attr('name')]);
           });
-
           return this;
+        },
+        // setFinalData on item edit (close box)
+        setFinalData: function(settings) {
+          uidata = settings.data('menu-ui-item-data');
+          for (var key in uidata) {
+            jq('.final-data .menu-item-data-' + key, this).val(uidata[key]);
+            console.log(key);
+            console.log(uidata[key]);
+          }
+          this.setLabel();
+        },
+        
+        // set and display the good label on item edit
+        setLabel : function() {
+            var label  = jq('.menu-item-data-label', this);
+            var label_original  = jq('.menu-item-data-label_original', this);
+            var title  = jq('.menu-item-data-title', this);
+            if (title.val()) label.val(title.val());
+            // for target contents items retrieve the original label
+            // when title is empty
+            else label.val(label_original.val());
+            jq('.item-title', this).text(label.val());
         }
       });
     },
@@ -373,10 +382,13 @@ var tnmb = tnMenuBuilder = {
     fillItemEditForm: function(data) {
         data['id'] = tnmb.generateTempId();
         data['position'] = 10000; //not important (updatePosition will set the good job)
-        if ((typeof data['label']=='undefined' || ! data['label']) && data['title']) data['label'] = data['title']; // complex
+        if ((typeof data['label']=='undefined' || ! data['label']) && data['title']) {
+           data['label'] = data['title'];
+           data['label_original'] = data['title'];
+        }
         item_model = tnmb.menuItemModel.clone();
         menuitem = item_model.html();
-        data_keys = ['id', 'label', 'title', 'description', 'link_url', 'target_id', 'view_path', 'position', 'type'];
+        data_keys = ['id', 'label', 'label_original', 'title', 'description', 'link_url', 'target_id', 'view_path', 'position', 'type'];
         jq(data_keys).each(function(){
           if (typeof data[this]=='undefined') data[this]='';
         });
@@ -402,12 +414,17 @@ var tnmb = tnMenuBuilder = {
     // generic addMenuItem
     // each specific addItem method will insert a specific edit form cloned from add form
     addMenuItem: function(addBoxId, data, type) {
-      uiform = jq('#' + addBoxId + ' form').clone();
+      box = jq('#' + addBoxId );
+      uiform = jq('form', box).clone(true);
       jq('.postboxcontrol', uiform).remove();
+      if (type=='content') {
+        uicontentform = jq('#content-item-model-form', box.parent()).clone(true);
+        uiform.prepend(uicontentform.contents());
+      }
       menuitem = jq(tnmb.fillItemEditForm(data));
       jq('.ui-data', menuitem).append(uiform.contents());
       jq('.final-data .menu-item-data-type', menuitem).val(type);
-      // workaround a strange jquery bug on clone (text content of textarea are not copied FF only bug)
+      // workaround a strange jquery bug on clone (text content of textarea are not copied - FF only bug)
       // http://bugs.jquery.com/ticket/3016
       jq('.ui-data textarea[name=description]', menuitem).val(data.description);
       menuitem.appendTo( tnmb.targetList );
@@ -466,7 +483,7 @@ var tnmb = tnMenuBuilder = {
       item = settings.parent();
       if( 0 != item.length ) {
         if( item.hasClass('menu-item-edit-inactive') ) {
-          settings.data( 'menu-item-data', settings.getItemData() );
+          settings.data( 'menu-ui-item-data', settings.getUIItemData() );
           settings.slideDown('fast');
           item.removeClass('menu-item-edit-inactive')
             .addClass('menu-item-edit-active');
@@ -481,7 +498,9 @@ var tnmb = tnMenuBuilder = {
 
     editMenuItem: function(item){
         settings = jq('.menu-item-settings', item);
-        settings.data( 'menu-item-data', settings.getItemData() );
+        itemData = settings.getUIItemData();
+        settings.data( 'menu-ui-item-data', itemData );
+        item.setFinalData(settings);
         settings.hide();
         item.removeClass('menu-item-edit-active')
           .addClass('menu-item-edit-inactive');
@@ -490,7 +509,7 @@ var tnmb = tnMenuBuilder = {
 
     eventOnClickCancelLink : function(clickedEl) {
       var settings = jq(clickedEl).closest('.menu-item-settings');
-      settings.setItemData( settings.data('menu-item-data') );
+      settings.setUIItemData( settings.data('menu-ui-item-data') );
       return false;
     },
 
