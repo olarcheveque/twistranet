@@ -151,15 +151,15 @@ class MenuBuilder(BaseView):
                     for k in (u'title', u'description', u'link_url', u'view_path'):
                          setattr(item, k, menuitems[id][k])
                     item.order = int(menuitems[id][u'position'])
-                    try:
-                        item.save()
-                    except:
-                        import ipdb; ipdb.set_trace()
+                    # bug (not authorized) with bootstrapped items
+                    item.save()
+
             # last pass delete
             for id in menuitems.keys():
                 status  = menuitems[id][u'status']
                 if status==u'delete':
                     item = MenuItem.objects.get(id = id)
+                    # bug (not authorized) with bootstrapped items
                     item.delete()
 
         self.account = self.auth
