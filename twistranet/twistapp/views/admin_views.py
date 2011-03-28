@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from twistranet.core.views import BaseView, BaseIndividualView
 from twistranet.twistapp.views.account_views import HomepageView
 from twistranet.twistapp.forms.admin_forms import *
-from twistranet.twistapp.models import Menu, MenuItem, Community
+from twistranet.twistapp.models import Twistable, Menu, MenuItem, Community
 try:
     #python >= 2.6
     import json
@@ -120,13 +120,15 @@ class MenuBuilder(BaseView):
                     if not menuitems.has_key(itemID):
                         menuitems[itemID] = {}
                     menuitems[itemID][itemkey] = req.get(key)
+            # TODO XXX JMG : order by status/ and by id, so we will be able to edit everything in one pass only
             # first pass create all new items
             for id in menuitems.keys():
                 status  = menuitems[id][u'status']
                 if status==u'add':
                     newitem = MenuItem.objects.create(
                         parent_id = menuID,
-                        title =  menuitems[id][u'title']
+                        title =  menuitems[id][u'title'],
+                        link_url = 'tempValueForModelValidation'
                     )
                     menuitems[id][u'realId'] = newitem.id
                     menuitems[id][u'status'] = 'edit'
@@ -134,20 +136,25 @@ class MenuBuilder(BaseView):
             for id in menuitems.keys():
                 status  = menuitems[id][u'status']
                 if status==u'edit':
-                    if menuitems[id].has_key(realId) :
-                        item = MenuItem.objects.get(id = realId)
+                    if menuitems[id].has_key(u'realId') :
+                        item = MenuItem.objects.get(id = menuitems[id][u'realId'])
                     else:
                         item = MenuItem.objects.get(id = id)
                     parent_id = menuitems[id][u'parent_id']
-                    item.parent = MenuItem.objects.get(id = int(parent_id))
+                    # the case when parent was a temp item just added
+                    if parent_id.startswith(u'tempID'):
+                        parent_id = menuitems[parent_id][u'realId']
+                    item.parent = MenuItem.objects.get(id = parent_id)
                     target_id = menuitems[id][u'target_id']
                     if target_id:
-                        # the case when parent was a temp item just added
-                        if target_id.startswith(u'tempID'):
-                            target_id = menuitems[target_id][u'realId']
-                        item.target = MenuItem.objects.get(id = int(target_id))
+                        item.target = Twistable.objects.get(id = target_id)
                     for k in (u'title', u'description', u'link_url', u'view_path'):
-                        item[k] = menuitems[id][k]
+                         setattr(item, k, menuitems[id][k])
+                    item.order = int(menuitems[id][u'position'])
+                    try:
+                        item.save()
+                    except:
+                        import ipdb; ipdb.set_trace()
             # last pass delete
             for id in menuitems.keys():
                 status  = menuitems[id][u'status']
