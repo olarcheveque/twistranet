@@ -60,7 +60,7 @@ Installation
 ------------
 
 Open a command line
-To install the last Twistranet released version (it comes soon)
+To install the last Twistranet released version
 
     $ pip install numericube-twistranet
 
