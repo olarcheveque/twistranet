@@ -162,6 +162,10 @@ class MenuBuilder(BaseView):
                     # bug (not authorized) with bootstrapped items
                     item.delete()
 
+            # and finally save root menu to apply the model order rules
+            menu = Menu.objects.get(id = id)
+            menu.save()
+
         self.account = self.auth
         self.actions = None
         self.topmenus = topmenus = Menu.objects.all()
