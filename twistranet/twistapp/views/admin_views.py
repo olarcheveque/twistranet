@@ -174,6 +174,7 @@ class MenuBuilder(BaseView):
             self.menu = topmenus[0]
             self.mainmenu = '<ul id="menu-to-edit" class="menu ui-sortable">\n%s\n</ul>' %get_html_menu_tree(self.menu)
             self.item_model = get_item_model(self.menu)
+            self.title = '%s : %s' %(self.title, self.menu.title)
         else:
             self.menu = None
             self.mainmenu = ''
