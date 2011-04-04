@@ -6,7 +6,9 @@ from django.core.exceptions import ValidationError
 from twistranet.core.views import BaseView, BaseIndividualView
 from twistranet.twistapp.views.account_views import HomepageView
 from twistranet.twistapp.forms.admin_forms import *
-from twistranet.twistapp.models import Twistable, Menu, MenuItem, Community
+from twistranet.twistapp.models import Twistable, Menu, MenuItem, Community, GlobalCommunity
+from twistranet.actions import *
+
 try:
     #python >= 2.6
     import json
@@ -105,7 +107,17 @@ class MenuBuilder(BaseView):
     ]
     template = 'admin/menu_builder_form.html'
     title = _("Menu Builder")
-    
+    category = GLOBAL_ACTIONS
+
+    def as_action(self,):
+        """
+        Check that I'm an admin
+        """
+        if GlobalCommunity.objects.exists():
+            glob = GlobalCommunity.get()
+            if glob.can_edit:
+                return BaseView.as_action(self,)
+
     def prepare_view(self, *args, **kw):
 
         if self.request.method == 'POST':
@@ -167,7 +179,6 @@ class MenuBuilder(BaseView):
             menu.save()
 
         self.account = self.auth
-        self.actions = None
         self.topmenus = topmenus = Menu.objects.all()
         # start the menu builder for the first menu if exists
         if topmenus:

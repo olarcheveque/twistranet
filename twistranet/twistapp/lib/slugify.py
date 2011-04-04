@@ -19,6 +19,7 @@ RESERVED_KEYWORDS = [
     "join",
     "media",
     "media_resource",
+    "menu_builder",
     "new",
     "resource",
     "remove_from_network",
