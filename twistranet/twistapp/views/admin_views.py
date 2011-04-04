@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import loader, Context
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
+from django.contrib import messages
 from twistranet.core.views import BaseView, BaseIndividualView
 from twistranet.twistapp.views.account_views import HomepageView
 from twistranet.twistapp.forms.admin_forms import *
@@ -177,6 +178,7 @@ class MenuBuilder(BaseView):
             # and finally save root menu to apply the model order rules
             menu = Menu.objects.get(id = menuID)
             menu.save()
+            messages.info(self.request, _("Menu has been saved."))
 
         self.account = self.auth
         self.topmenus = topmenus = Menu.objects.all()
@@ -246,59 +248,3 @@ class MenuItemValidate(BaseView):
                 data =  {'success' : self.form.is_valid(), 'errors' : self.form.errors}
             return HttpResponse( json.dumps(data),
                                  mimetype='text/plain')
-
-
-
-###################
-# For tests only  #
-###################
-
-
-class MenuEdit(BaseView):
-    """
-    A view used to edit a menu
-    """
-    name = "menu_edit"
-    template_variables = BaseView.template_variables + [
-        "form",
-    ]
-    template = 'admin/menu_edit.html'
-    title = _("Menu Edit")
-    model_lookup = Menu
-    form_class = MenuForm
-    
-    
-    def prepare_view(self, *args, **kw):
-        super(MenuEdit, self).prepare_view(*args, **kw)
-        self.account = self.auth
-        self.actions = None
-
-class MenuCreate(MenuEdit):
-    """
-    A view used to create a menu
-    """
-    name = "menu_create"
-    title = _("Menu Create")
-
-class MenuItemEdit(BaseIndividualView):
-    """
-    A view used to edit a menuitem
-    """
-    name = "menu_item_edit"
-    model_lookup = MenuItem
-    template = 'admin/menu_item_edit.html'
-    title = _("MenuItem Edit")
-    form_class = MenuItemForm
-    
-    
-    def prepare_view(self, *args, **kw):
-        super(MenuItemEdit, self).prepare_view(*args, **kw)
-        self.account = self.auth
-        self.actions = None
-
-class MenuItemCreate(MenuItemEdit):
-    """
-    A view used to create a menuitem
-    """
-    name = "menu_item_create"
-    title = _("MenuItem Create")

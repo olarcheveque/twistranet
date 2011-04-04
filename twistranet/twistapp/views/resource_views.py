@@ -441,6 +441,7 @@ def resource_quickupload_file(request):
             file_data = SimpleUploadedFile(file_name, request.raw_post_data)
         except:
             log.debug("XHR Upload of %s has been aborted" %file_name)
+            file_data = None
             # not really useful here since the upload block
             # is removed by "cancel" action, but
             # could be useful if someone change the js behavior

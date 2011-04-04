@@ -1,14 +1,28 @@
 import urlparse
 import urllib2
 import re
+from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator, URL_VALIDATOR_USER_AGENT
 from django.utils.encoding import smart_unicode
+from django.core.urlresolvers import reverse
 
 
 class ViewPathValidator(RegexValidator):
     regex = re.compile(
         r'^(((?!/)\S)+)$' , re.IGNORECASE) # option : accept everything except '/' and spaces
+
+    def __call__(self, value):
+        try:
+            super(ViewPathValidator, self).__call__(value)
+        except ValidationError, e:
+            raise
+        else:
+            value = value
+        try:
+            url = reverse(value)
+        except: # view does not exist
+            raise ValidationError(_(u'This View does not exist.'), code='invalid_view')
 
 
 class URLValidator(RegexValidator):
