@@ -432,8 +432,8 @@ def resource_quickupload_file(request):
     return success/error + file infos (url/preview/title ...)
     """               
     msg = {}
-    if request.environ.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-        file_name = urllib.unquote(request.environ['HTTP_X_FILE_NAME'])
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        file_name = urllib.unquote(request.META.get('HTTP_X_FILE_NAME'))
         title = request.GET.get('title', '')
         upload_with = "XHR"        
         try:
