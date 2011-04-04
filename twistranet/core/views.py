@@ -47,6 +47,7 @@ class AsPublicView(object):
         self.view_instance_class = view_instance_class
         self.args = args
         self.kw = kw
+        self.__name__ = self.view_instance_class.__name__
         
     def has_access(self, request):
         return True         # Can always access a public view
