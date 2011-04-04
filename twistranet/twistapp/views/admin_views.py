@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import loader, Context
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
+from django.contrib import messages
 from twistranet.core.views import BaseView, BaseIndividualView
 from twistranet.twistapp.views.account_views import HomepageView
 from twistranet.twistapp.forms.admin_forms import *
@@ -177,6 +178,7 @@ class MenuBuilder(BaseView):
             # and finally save root menu to apply the model order rules
             menu = Menu.objects.get(id = menuID)
             menu.save()
+            messages.info(self.request, _("Menu has been saved."))
 
         self.account = self.auth
         self.topmenus = topmenus = Menu.objects.all()
