@@ -50,8 +50,7 @@ class MenuItemLinkForm(MenuItemForm):
         fields = ('title', 'description', 'link_url')
 
 class MenuItemContentForm(MenuItemForm):
-    """a search form for a target (community or anything else)
-       list all communities, with a search filter"""
+    """the edit form for a target (community or anything else)"""
     title = fields.CharField(
         required = False,
         label = _("Title"),
