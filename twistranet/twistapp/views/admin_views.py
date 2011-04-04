@@ -120,7 +120,9 @@ class MenuBuilder(BaseView):
                     if not menuitems.has_key(itemID):
                         menuitems[itemID] = {}
                     menuitems[itemID][itemkey] = req.get(key)
+
             # TODO XXX JMG : order by status/ and by id, so we will be able to edit everything in one pass only
+            # just change status before with  1= add, 2 = edit, 3 = delete
             # first pass create all new items
             for id in menuitems.keys():
                 status  = menuitems[id][u'status']
@@ -151,7 +153,6 @@ class MenuBuilder(BaseView):
                     for k in (u'title', u'description', u'link_url', u'view_path'):
                          setattr(item, k, menuitems[id][k])
                     item.order = int(menuitems[id][u'position'])
-                    # bug (not authorized) with bootstrapped items
                     item.save()
 
             # last pass delete
@@ -159,11 +160,10 @@ class MenuBuilder(BaseView):
                 status  = menuitems[id][u'status']
                 if status==u'delete':
                     item = MenuItem.objects.get(id = id)
-                    # bug (not authorized) with bootstrapped items
                     item.delete()
 
             # and finally save root menu to apply the model order rules
-            menu = Menu.objects.get(id = id)
+            menu = Menu.objects.get(id = menuID)
             menu.save()
 
         self.account = self.auth

@@ -349,6 +349,17 @@ global_community_templates = PermissionTemplate((
 ))
 
 
-
+# Menuitems permissions (admin can edit > everybody can view)
+menuitem_templates = PermissionTemplate((
+    {
+        "id":               "public",
+        "name":             "Public",
+        "description":      "Content visible to people who can view this account.",
+        can_list:           public,
+        can_view:           public,
+        can_edit:           manager,
+        can_delete:         manager,
+    },
+))
 
 
