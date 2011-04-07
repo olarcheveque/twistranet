@@ -130,7 +130,6 @@ class ResourceWidget(forms.MultiWidget):
             publisher_id = auth.id
 
         # Render hidden fields used for upload and browser
-        import ipdb; ipdb.set_trace()
         output.append('<input type="hidden" name="media_type" value="%s" />' %media_type)
         output.append('<input type="hidden" name="selector_target" value="id_%s_0" />' %name)
         output.append('<input type="hidden" name="default_publisher_id" value="%s" />' %publisher_id)
