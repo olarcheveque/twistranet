@@ -28,7 +28,7 @@ class ResourcesTest(TNBaseTest):
         """
         # Get the first public resource
         r = Resource.objects.all()
-        import sys;sys.stdout=sys.__stdout__;sys.stderr=sys.__stderr__;import ipdb; ipdb.set_trace()
+        # import sys;sys.stdout=sys.__stdout__;sys.stderr=sys.__stderr__;import ipdb; ipdb.set_trace()
         self.failUnless(r.resource_file)
 
 
