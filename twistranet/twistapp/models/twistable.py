@@ -252,6 +252,10 @@ class Twistable(_AbstractTwistable):
     permission_templates = ()       # Define this in your subclasses
     permissions = PermissionField(db_index = True)
     _access_network = models.ForeignKey("Account", null = True, blank = True, related_name = "+", db_index = True, )
+    
+    # Scoring information. This is stored directly on the object for performance reasons.
+    # Should be updated by BATCH, not necessarily 'live' (for perf reasons as well).
+    static_score = models.IntegerField(default = 0)
         
     # The permissions. It's strongly forbidden to edit those roles by hand, use the 'permissions' property instead.
     _p_can_view = models.IntegerField(default = 16, db_index = True)
