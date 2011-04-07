@@ -121,9 +121,19 @@ class ResourceWidget(forms.MultiWidget):
                 final_attrs = dict(final_attrs, id='%s_%s' % (id_, i))
             output.append(widget.render(name + '_%s' % i, widget_value, final_attrs))
 
+        # find default publisher
+        auth = Twistable.objects._getAuthenticatedAccount()
+        publisher = getattr(self, 'publisher', None)
+        publisher_id = getattr(self, 'publisher_id', '')
+        if publisher is None or not publisher_id:
+            publisher = auth
+            publisher_id = auth.id
+
         # Render hidden fields used for upload and browser
+        import ipdb; ipdb.set_trace()
         output.append('<input type="hidden" name="media_type" value="%s" />' %media_type)
         output.append('<input type="hidden" name="selector_target" value="id_%s_0" />' %name)
+        output.append('<input type="hidden" name="default_publisher_id" value="%s" />' %publisher_id)
         
         # Render the Quick upload File widget
         if self.allow_upload:
@@ -131,12 +141,6 @@ class ResourceWidget(forms.MultiWidget):
 
         # Display browser resources in all selectable accounts
         if self.allow_select:
-            auth = Twistable.objects._getAuthenticatedAccount()
-            publisher = getattr(self, 'publisher', None)
-            publisher_id = getattr(self, 'publisher_id', '')
-            if publisher is None or not publisher_id:
-                publisher = auth
-                publisher_id = auth.id
             selectable_accounts = Resource.objects.selectable_accounts(auth)
             sids = [s.id for s in selectable_accounts]
             if publisher_id not in sids:

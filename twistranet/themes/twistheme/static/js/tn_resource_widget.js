@@ -224,7 +224,7 @@ getActivePublisher = function() {
     if (publisher_pane.length)   return publisher_pane.val();
     else if (default_publisher_id) return default_publisher_id;
     // upload alone without browser
-    return jq('input[name="publisher_id"]' ,jq('.resource-widget').parents('form')).val();
+    return jq('input[name="default_publisher_id"]' ,jq('.resource-widget')).val();
 }
 
 
