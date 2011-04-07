@@ -78,8 +78,8 @@ TwistranetQuickUpload.onAllUploadsComplete = function(){
     // XXX FIXME > JMG it's not safe
     // in inline forms after upload
     jq('#form-File .tnQuickUpload').remove();
-    jq('#form-File  #resources-renderer').append(jq('#form-File  textarea'));
-    jq('#form-File  textarea').show();
+    jq('#form-File #resources-renderer').append(jq('#form-File textarea'));
+    jq('#form-File  textarea,#form-File input[type=submit]').show();
 
 }
 TwistranetQuickUpload.clearQueue = function(uploader, domelement) {

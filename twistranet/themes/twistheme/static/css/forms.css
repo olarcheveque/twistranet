@@ -188,7 +188,8 @@ ul.inline-form select {
 
 /* For resource widget cohabitation (the textarea is displayed only after upload) */
 
-#form-File ul.inline-form textarea {
+#form-File ul.inline-form textarea,
+#form-File ul.inline-form input[type="submit"] {
   display: none;
 }
 
