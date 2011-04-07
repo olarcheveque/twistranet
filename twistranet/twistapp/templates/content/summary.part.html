@@ -45,6 +45,7 @@
                 <li class="date">{{ content.created_at|timesince }}</li>
                 {% if content.language %}<li class="lang">{{ content.language }}</li>{%endif%}
                 <li class="target">{{ content.permissions }}</li>
+                {% include 'sharing/summary.part.html' %}
                 {% if content.can_edit %}
                     <li class="action">
                         <a href="{% url edit_content content.id %}">Edit</a>

@@ -1,0 +1,25 @@
+{# Here's where we add the share / like links #}
+{% load i18n %}
+
+{% with content.likes as likes %}
+    <li class="i_like">
+        {% if not likes.i_like %}
+            I like {# JMG => Put the link here #}
+        {% else %}
+            I don't like  {# JMG => Put the link here #}
+        {% endif %}
+    </li>
+
+    {% with likes.n_likes as n_likes %}
+        {% if n_likes %}
+            <li class="n_likes">
+                {# TODO : Use the featured 'likers' as hover information #}
+                {% blocktrans %}{{ likes.n_likes }} like this{% endblocktrans %}
+            </li>
+        {% endif %}
+    {% endwith %}
+
+{% endwith %}
+
+
+
