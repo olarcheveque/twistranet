@@ -2,13 +2,15 @@
 {% load i18n %}
 
 {% with content.likes as likes %}
-    <li class="i_like">
-        {% if not likes.i_like %}
-            I like {# JMG => Put the link here #}
-        {% else %}
-            I don't like  {# JMG => Put the link here #}
-        {% endif %}
-    </li>
+    {% if not likes.i_like %}
+        <li class="i_like">
+            I like
+        </li>
+    {% else %}
+        <li class="i_unlike">
+            I don't like
+        </li>
+    {% endif %}
 
     {% with likes.n_likes as n_likes %}
         {% if n_likes %}
