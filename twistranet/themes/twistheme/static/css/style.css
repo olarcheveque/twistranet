@@ -109,13 +109,17 @@
   .postmetadata .edit:hover     { background: url(../images/icons/icons-hover.png) 0 -80px no-repeat;  }
 
   .postmetadata .i_like,
-  .postmetadata .i_unlike       { padding: 2px 0 2px 20px !important;}
+  .postmetadata .i_unlike,
+  .postmetadata .n_likes       { padding: 2px 0 2px 20px !important;}
   
   .postmetadata .i_like         { background: url(../images/icons/like_blue_16.png) top left no-repeat; }
   .postmetadata .i_like:hover   { background: url(../images/icons/like_red_16.png) top left no-repeat;}
 
   .postmetadata .i_unlike       { background: url(../images/icons/unlike_blue_16.png) top left no-repeat; }
   .postmetadata .i_unlike:hover { background: url(../images/icons/unlike_red_16.png) top left no-repeat;}
+
+  .postmetadata .n_likes       { background: url(../images/icons/nlikes_blue_16.png) top left no-repeat; }
+  .postmetadata .n_likes:hover { background: url(../images/icons/nlikes_red_16.png) top left no-repeat;}
 
 #pagenavigator {
   clear: both;
