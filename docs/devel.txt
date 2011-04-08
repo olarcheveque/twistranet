@@ -51,10 +51,16 @@ This will create a new project called "MyProject" in devel mode.
 
 The server is started on port 8000.
 
-To start the server in debug mode
-Enter CTR-C to stop it
+Start the server in debug mode
+------------------------------
+
+Enter CTR-C to stop the server
+
+Go to project root
 
     (twistranet-devel) $ cd MyProject
+
+Set twistranet in debug mode
 
 Under Linux
 
@@ -64,7 +70,7 @@ Under Windows
 
     (twistranet-devel) $ set TWISTRANET_DEBUG="DEBUG"
 
-And start
+And restart the server
 
     (twistranet-devel) $ python manage.py runserver
 
