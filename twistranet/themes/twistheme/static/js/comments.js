@@ -77,7 +77,7 @@ jq(function()
   jq(".view_comments").click(function() 
   {
     var ID = jq(this).attr("id");
-    
+    var comment_action = jq(this).parents('li');
     jq.ajax({
       type: "GET",
       url: home_url + "comment/" + ID + "/list.xml",
@@ -85,6 +85,7 @@ jq(function()
       cache: false,
       success: function(html){
         loadComments(ID, html);
+        jq(comment_action).removeClass('add-comment').removeClass('view-all-comments');
       }
     });
     return false;

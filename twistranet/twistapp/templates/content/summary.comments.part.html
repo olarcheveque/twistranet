@@ -1,5 +1,14 @@
 {% load i18n %}
 {% with content.comments.count as comment_count %}
+<li
+  {% if comment_count > 2 %}
+      class="view-all-comments"
+  {% else %}
+      {% if content.publisher.can_publish and  not comment_count %}
+          class="add-comment"
+      {% endif %}
+  {% endif %}
+    >
     <div class="comment_ui" id="view{{ content.id }}">
         <a class="view_comments" id="{{ content.id }}" href="">
             {% if comment_count > 2 %}
@@ -11,4 +20,5 @@
             {% endif %}
         </a>
     </div>
+</li>
 {% endwith %}

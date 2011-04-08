@@ -47,13 +47,12 @@
                 <li class="target">{{ content.permissions }}</li>
                 {% include 'sharing/summary.part.html' %}
                 {% if content.can_edit %}
-                    <li class="action">
+                    <li class="edit">
                         <a href="{% url edit_content content.id %}">Edit</a>
                     </li>
                 {% endif %}
-                <li class="action">
-                  {% include 'content/summary.comments.part.html' %}
-                </li>
+                {% include 'content/summary.comments.part.html' %}
+
                 <!-- {{ content.id }} -->
             </ul>
         </div>
