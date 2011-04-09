@@ -160,6 +160,20 @@ It's easy to set a new one.
 
 - Start your server again
 
+error when using mod_python
+---------------------------
+mod_wsgi is recommended, but if you need mod_python
+this little django1.2.5 hack is needed :
+
+- in django.http.init: do not use "from mod_python.util import parse_qsl"
+
+replace the lines 7 to 11 with::
+
+  from cgi import parse_qsl
+
+Thanks to esimorre https://github.com/numericube/twistranet/issues#issue/6
+
+
 Greetings
 ==========
 

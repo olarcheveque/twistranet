@@ -1,7 +1,0 @@
-Django
-django-debug-toolbar
-django-piston
-django-haystack
-django-tinymce
-django-modeltranslation
-sorl-thumbnail
