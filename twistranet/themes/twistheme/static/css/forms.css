@@ -186,11 +186,20 @@ ul.inline-form select {
   background-color: #efefef;
 }
 
+/* firefox only bug it doesn't support form inside fieldsets */
+#form-File form, x:-moz-any-link, x:default {
+    margin-top: -10px !important;
+}
+
+
 /* For resource widget cohabitation (the textarea is displayed only after upload) */
 
-#form-File ul.inline-form textarea,
-#form-File ul.inline-form input[type="submit"] {
+#form-File ul.inline-form textarea {
   display: none;
+}
+
+#form-File ul.inline-form input[type="submit"] {
+  visibility: hidden;
 }
 
 

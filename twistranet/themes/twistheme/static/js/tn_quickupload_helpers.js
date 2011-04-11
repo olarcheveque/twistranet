@@ -15,7 +15,8 @@ var lastUploadValue = '';
 var scopeValue = '';
 var lastUploadType = '';
     
-TwistranetQuickUpload.addUploadFields = function(uploader, domelement, file, id, fillTitles) {
+TwistranetQuickUpload.onAfterSelect = function(uploader, domelement, file, id, fillTitles) {
+    // if you want to fill some fields before upload
     if (fillTitles)  {
         var labelfiletitle = jq('#uploadify_label_file_title').val();
         var blocFile = uploader._getItemByFileId(id);
@@ -43,8 +44,20 @@ TwistranetQuickUpload.showButtons = function(uploader, domelement) {
     return false;
 }
 
+TwistranetQuickUpload.onDragAndDrop = function() {
+    // because we want to allow drag and drop in status update textarea (outside quickupload form)
+    // when drag&dropping, we must show the file quickupload fieldset
+    // before starting upload
+    // so we use some magic here since the inlinefom tabs switcher is not perfect
+    fileformbutton = jq('a#formhandle-File');
+    if (fileformbutton.width()) {
+        fileformbutton.parents("fieldset").hide();
+        jq(''+ fileformbutton.attr('href')).show();
+    }
+}
 
 TwistranetQuickUpload.sendDataAndUpload = function(uploader, domelement, typeupload) {
+    /* regular stuff */
     var handler = uploader._handler;
     var files = handler._files;
     var params = uploader._options.params;
@@ -79,7 +92,8 @@ TwistranetQuickUpload.onAllUploadsComplete = function(){
     // in inline forms after upload
     jq('#form-File .tnQuickUpload').remove();
     jq('#form-File #resources-renderer').append(jq('#form-File textarea'));
-    jq('#form-File  textarea,#form-File input[type=submit]').show();
+    jq('#form-File  textarea').show();
+    jq('#form-File input[type=submit]').css('visibility', 'visible');
 
 }
 TwistranetQuickUpload.clearQueue = function(uploader, domelement) {
@@ -89,10 +103,11 @@ TwistranetQuickUpload.clearQueue = function(uploader, domelement) {
         if (files[id]) {
             handler.cancel(id);
         }
-        jq('.qq-upload-list li', domelement).remove();
-        handler._files = [];
-        if (typeof handler._inputs != 'undefined') handler._inputs = {};
-    }    
+    }
+    jq('.qq-upload-list li', domelement).remove();
+    jq('.qq-upload-list', domelement).hide();
+    handler._files = [];
+    if (typeof handler._inputs != 'undefined') handler._inputs = {};
 }    
 TwistranetQuickUpload.onUploadComplete = function(uploader, domelement, id, fileName, responseJSON) {
     var uploadList = jq('.qq-upload-list', domelement);
@@ -111,6 +126,7 @@ TwistranetQuickUpload.onUploadComplete = function(uploader, domelement, id, file
                 lastUploadLegend = responseJSON.legend; 
                 lastUploadValue = responseJSON.value;
                 scopeValue = responseJSON.scope;
+                uploadList.hide();
                 if(scopeValue && typeof Panels!='undefined') Panels[scopeValue.toString()] = 'unloaded';
                 window.setTimeout( TwistranetQuickUpload.onAllUploadsComplete, 5);
             }       

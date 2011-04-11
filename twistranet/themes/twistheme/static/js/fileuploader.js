@@ -1,7 +1,7 @@
 /**
  * http://github.com/valums/file-uploader
  * 
- * Multiple file upload component with progress-bar, drag-and-drop. 
+ * Multiple file upload component with progress-bar, drag-and-drop.
  * © 2010 Andrew Valums andrew(at)valums.com 
  * 
  * Licensed under GNU GPL 2 or later, see license.txt.
@@ -41,6 +41,8 @@ qq.FileUploader = function(o){
         // simultnaeous uploads limit (2 by default)
         simUploadLimit: 2,
         onSubmit: function(id, fileName){},
+        // callBack after draganddrop and before sending data
+        onDragAndDrop: function(){},
         onComplete: function(id, fileName, responseJSON){},
         //
         // UI customizations
@@ -62,7 +64,7 @@ qq.FileUploader = function(o){
         classes: {
             // used to get elements from templates
             button: 'qq-upload-button',
-            drop: 'qq-upload-drop-area',
+            drops: 'qq-upload-drop-area', // drop area classes inside uploader
             dropActive: 'qq-upload-drop-area-active',
             list: 'qq-upload-list',
                         
@@ -85,6 +87,7 @@ qq.FileUploader = function(o){
         showMessage: function(message){
             alert(message);
         },
+        externaldrops: [], // list of other dom elements in page that can be used as droparea
         debugMode: false
     };
 
@@ -123,8 +126,8 @@ qq.FileUploader = function(o){
         onChange: function(input){
             self._onInputChange(input);
         }        
-    });        
-    
+    });
+    this._activeDropZone = undefined;
     this._setupDragDrop();
 };
 
@@ -145,8 +148,33 @@ qq.FileUploader.prototype = {
     isUploading: function(){
         return !!this._filesInProgress;
     },  
+/**
+     * Get all elements listed in this._options.classes
+     *
+     * First optional element is root for search,
+     * this._element is default value.
+     *
+     * Usage
+     *  1. this._getElements('button');
+     *  2. this._getElements(item, 'file');
+     **/
+    _getElements: function(parent, type){
+        if (typeof parent == 'string'){
+            // parent was not passed
+            type = parent;
+            parent = this._element;
+        }
+
+        var elements = qq.getByClass(parent, this._options.classes[type]);
+
+        if (!elements.length){
+            throw new Error('elements not found ' + type);
+        }
+
+        return elements;
+    },
     /**
-     * Gets one of the elements listed in this._options.classes
+     * Gets the first of the elements listed in this._options.classes
      * 
      * First optional element is root for search,
      * this._element is default value.
@@ -156,13 +184,8 @@ qq.FileUploader.prototype = {
      *  2. this._getElement(item, 'file'); 
      **/
     _getElement: function(parent, type){                        
-        if (typeof parent == 'string'){
-            // parent was not passed
-            type = parent;
-            parent = this._element;                   
-        }
         
-        var element = qq.getByClass(parent, this._options.classes[type])[0];
+        var element = this._getElements(parent,type)[0];
         
         if (!element){
             throw new Error('element not found ' + type);
@@ -170,6 +193,7 @@ qq.FileUploader.prototype = {
         
         return element;
     },
+    
     _error: function(code, fileName, id){
         var message = this._options.messages[code];
         message = message.replace('{file}', this._formatFileName(fileName));
@@ -208,6 +232,20 @@ qq.FileUploader.prototype = {
         
         return false;
     },
+    /* return all drop areas */
+    _getDropAreas: function() {
+        var drops = new Array();
+        internals = this._getElements('drops');
+        for (var i=0; i<internals.length; i++) {
+            drops[i] = internals[i];
+        }
+        externals = this._options.externaldrops;
+        baselen = internals.length;
+        for (var i=0; i<externals.length; i++) {
+            drops[baselen+i] = externals[i];
+        }
+        return drops;
+    },
     _setupDragDrop: function(){
         function isValidDrag(e){            
             var dt = e.dataTransfer,
@@ -219,66 +257,82 @@ qq.FileUploader.prototype = {
             return dt && dt.effectAllowed != 'none' && 
                 (dt.files || (!isWebkit && dt.types.contains && dt.types.contains('Files')));
         }
-        
-        var self = this,
-            dropArea = this._getElement('drop');                        
-        
-        dropArea.style.display = 'none';
-        
-        var hideTimeout;        
-        qq.attach(document, 'dragenter', function(e){            
-            e.preventDefault(); 
-        });        
+        if(qq.UploadHandlerXhr.isSupported()) {
+            var self = this,
+            dropAreas = this._getDropAreas();
+            var hideTimeout;
 
-        qq.attach(document, 'dragover', function(e){
-            if (isValidDrag(e)){
-                         
-                if (hideTimeout){
-                    clearTimeout(hideTimeout);
-                }
-                
-                if (dropArea == e.target || qq.contains(dropArea,e.target)){
-                    var effect = e.dataTransfer.effectAllowed;
-                    if (effect == 'move' || effect == 'linkMove'){
-                        e.dataTransfer.dropEffect = 'move'; // for FF (only move allowed)    
-                    } else {                    
-                        e.dataTransfer.dropEffect = 'copy'; // for Chrome
-                    }                                                                                    
-                    qq.addClass(dropArea, self._classes.dropActive);     
-                    e.stopPropagation();                                                           
-                } else {
-                    dropArea.style.display = 'block';
-                    e.dataTransfer.dropEffect = 'none';    
-                }
-                                
-                e.preventDefault();                
-            }            
-        });         
-        
-        qq.attach(document, 'dragleave', function(e){  
-            if (isValidDrag(e)){
-                                
-                if (dropArea == e.target || qq.contains(dropArea,e.target)){                                        
-                    qq.removeClass(dropArea, self._classes.dropActive);      
-                    e.stopPropagation();                                       
-                } else {
-                                        
+            qq.attach(document, 'dragenter', function(e){
+                e.preventDefault();
+            });
+
+            qq.attach(document, 'dragover', function(e){
+                if (isValidDrag(e)){
                     if (hideTimeout){
                         clearTimeout(hideTimeout);
                     }
-                    
-                    hideTimeout = setTimeout(function(){                                                
-                        dropArea.style.display = 'none';                            
-                    }, 77);
-                }   
-            }            
-        });
-        
-        qq.attach(dropArea, 'drop', function(e){            
-            dropArea.style.display = 'none';
-            self._addSelection(e.dataTransfer.files);            
-            e.preventDefault();
-        });                      
+                    for (var i=0; i<dropAreas.length; i++) {
+                        dropArea = dropAreas[i];
+                        if (dropArea.clientHeight && (dropArea == e.target || qq.contains(dropArea,e.target))){
+                            this._activeDropZone = dropArea;
+                            break;
+                        }
+                     }
+                    if (typeof this._activeDropZone != 'undefined') {
+                        var effect = e.dataTransfer.effectAllowed;
+                        if (effect == 'move' || effect == 'linkMove'){
+                            e.dataTransfer.dropEffect = 'move'; // for FF (only move allowed)
+                        } else {
+                            e.dataTransfer.dropEffect = 'copy'; // for Chrome
+                        }
+                        qq.addClass(this._activeDropZone, self._classes.dropActive);
+                        e.stopPropagation();
+                    } else {
+                        e.dataTransfer.dropEffect = 'none';
+                    }
+                    e.preventDefault();
+                }
+            });
+
+            qq.attach(document, 'dragleave', function(e){
+                if (isValidDrag(e)){
+                    if (typeof this._activeDropZone != 'undefined') {
+                        dropArea = this._activeDropZone;
+                        if (dropArea == e.target || qq.contains(dropArea,e.target)){
+                            qq.removeClass(dropArea, self._classes.dropActive);
+                            this._activeDropZone = undefined;
+                            e.stopPropagation();
+                        } else {
+
+                            if (hideTimeout){
+                                clearTimeout(hideTimeout);
+                            }
+
+                            hideTimeout = setTimeout(function(){
+                                qq.removeClass(dropArea, self._classes.dropActive);
+                            }, 77);
+                        }
+                    }
+                }
+            });
+            for (var i=0; i<dropAreas.length; i++) {
+                dropArea = dropAreas[i];
+                qq.attach(dropArea, 'drop', function(e){
+                    qq.removeClass(dropArea, self._classes.dropActive);
+                    this._activeDropZone = undefined;
+                    self._options.onDragAndDrop();
+                    self._addSelection(e.dataTransfer.files);
+                    e.preventDefault();
+                });
+            }
+        }
+        else {
+           // for IE just remove internal drop areas (unuseful)
+            internals = this._getElements('drops');
+            for (var i=0; i<internals.length; i++) {
+                internals[i].parentNode.removeChild(internals[i]);
+            }
+        }
     },
     _createUploadHandler: function(){
         var self = this,
@@ -345,6 +399,9 @@ qq.FileUploader.prototype = {
         }  
         if (valid){
             var i = files.length;
+            if (i) {
+               qq.css(this._getElement('list'), {'display':'block'});
+            }
             while (i--){ 
                 this._addFile(files[i]);               
             }
@@ -485,6 +542,10 @@ qq.FileUploader.prototype = {
                 var item = target.parentNode;
                 self._handler.cancel(item.qqFileId);
                 qq.remove(item);
+                items = list.childNodes;
+                if (!items.length) {
+                   qq.css(list, {'display':'none'});
+                }
             }
         });
 
@@ -671,7 +732,7 @@ qq.UploadHandlerForm.prototype = {
             delete this._inputs[id];
             uid = id.replace('qq-upload-handler-iframe','');
             this._files[uid] = null;
-        }        
+        }
 
         var iframe = document.getElementById(id);
         if (iframe){
@@ -778,7 +839,8 @@ qq.UploadHandlerXhr = function(o){
         action: '/upload',
         onProgress: function(id, fileName, loaded, total){},
         onComplete: function(id, fileName, response){},
-        onBeforeSubmit: function(){}
+        onBeforeSubmit: function(){},
+        onDragAndDrop: function(){}
     };
     qq.extend(this._options, o);
 
@@ -883,7 +945,7 @@ qq.UploadHandlerXhr.prototype = {
         
         if (this._xhrs[id]){
             this._xhrs[id].abort();
-            this._xhrs[id] = null;                                   
+            this._xhrs[id] = null;
         }
     },
     getName: function(id){

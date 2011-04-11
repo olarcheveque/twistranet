@@ -296,9 +296,9 @@ UPLOAD_JS = """
     }
     uploadparams['csrfmiddlewaretoken'] = '%(ul_csrf_token)s';
     xhrheaders['X-CSRFToken'] = '%(ul_csrf_token)s';
-    addUploadFields_%(ul_id)s = function(file, id) {
+    onAfterSelect_%(ul_id)s = function(file, id) {
         var uploader = xhr_%(ul_id)s;
-        TwistranetQuickUpload.addUploadFields(uploader, uploader._element, file, id, fillTitles);
+        TwistranetQuickUpload.onAfterSelect(uploader, uploader._element, file, id, fillTitles);
     }
     sendDataAndUpload_%(ul_id)s = function() {
         var uploader = xhr_%(ul_id)s;
@@ -312,6 +312,10 @@ UPLOAD_JS = """
         var uploader = xhr_%(ul_id)s;
         TwistranetQuickUpload.onUploadComplete(uploader, uploader._element, id, fileName, responseJSON);
     } 
+    externaldrops = [];
+    if (jq('#form-StatusUpdate textarea:first').length) {
+      externaldrops = [jq('#form-StatusUpdate textarea:first')[0]]
+    }
     createUploader_%(ul_id)s= function(){    
         xhr_%(ul_id)s = new qq.FileUploader({
             element: jQuery('#%(ul_id)s')[0],
@@ -319,11 +323,13 @@ UPLOAD_JS = """
             params: uploadparams,
             xhrheaders: xhrheaders,
             autoUpload: auto,
-            onAfterSelect: addUploadFields_%(ul_id)s,
+            onAfterSelect: onAfterSelect_%(ul_id)s,
             onComplete: onUploadComplete_%(ul_id)s,
+            onDragAndDrop: TwistranetQuickUpload.onDragAndDrop,
             allowedExtensions: %(ul_extensions_list)s,
             sizeLimit: %(ul_xhr_size_limit)s,
             simUploadLimit: %(ul_sim_upload_limit)s,
+            externaldrops: externaldrops,
             template: '<div class="qq-uploader">' +
                       '<div class="qq-upload-drop-area"><span>%(ul_draganddrop_text)s</span></div>' +
                       '<div class="qq-upload-button">%(ul_button_text)s</div>' +
@@ -402,7 +408,7 @@ def resource_quickupload(request):
         ul_xhr_size_limit          = settings.QUICKUPLOAD_SIZE_LIMIT and str(settings.QUICKUPLOAD_SIZE_LIMIT*1024) or '0',
         ul_sim_upload_limit        = str(settings.QUICKUPLOAD_SIM_UPLOAD_LIMIT),
         ul_button_text             = _(u'Browse'),
-        ul_draganddrop_text        = _(u'Drag and drop files to upload'),
+        ul_draganddrop_text        = _(u'... or drag and drop files to upload'),
         ul_msg_all_sucess          = _( u'All files uploaded with success.'),
         ul_msg_some_sucess         = _( u' files uploaded with success, '),
         ul_msg_some_errors         = _( u" uploads return an error."),

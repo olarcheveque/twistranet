@@ -1417,8 +1417,8 @@ msgid "Browse"
 msgstr "Parcourir"
 
 #: views/resource_views.py:405
-msgid "Drag and drop files to upload"
-msgstr "Glissez-déposez des fichiers ici pour les envoyer."
+msgid "... or drag and drop files to upload"
+msgstr "... ou glissez-déposez des fichiers ici pour les envoyer."
 
 #: views/resource_views.py:406
 msgid "All files uploaded with success."
