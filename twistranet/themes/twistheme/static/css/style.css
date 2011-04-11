@@ -113,7 +113,7 @@
   .postmetadata .n_likes,
   .postmetadata .edit,
   .postmetadata .add-comment,
-  .postmetadata .view-all-comments       { padding: 2px 0 2px 20px !important;}
+  .postmetadata .view-all-comments       { cursor: pointer; padding: 2px 0 2px 20px !important;}
   
   .postmetadata .i_like         { background: url(../images/icons/like_blue_16.png) top left no-repeat; }
   .postmetadata .i_like:hover   { background: url(../images/icons/like_red_16.png) top left no-repeat;}
