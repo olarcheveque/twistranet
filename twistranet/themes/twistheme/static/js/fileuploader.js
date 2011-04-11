@@ -399,9 +399,6 @@ qq.FileUploader.prototype = {
         }  
         if (valid){
             var i = files.length;
-            if (i) {
-               qq.css(this._getElement('list'), {'display':'block'});
-            }
             while (i--){ 
                 this._addFile(files[i]);               
             }
@@ -480,6 +477,7 @@ qq.FileUploader.prototype = {
         return true;                
     },
     _addToList: function(id, fileName){
+        qq.css(this._getElement('list'), {'display':'block'});
         var item = qq.toElement(this._options.fileTemplate);                
         item.qqFileId = id;
 
@@ -487,8 +485,7 @@ qq.FileUploader.prototype = {
         qq.setText(fileElement, this._formatFileName(fileName));    
 
         this._getElement('list').appendChild(item);
-        // not the good place
-        //this._filesInProgress++;
+
     },
     _updateProgress: function(id, loaded, total){
         var item = this._getItemByFileId(id);

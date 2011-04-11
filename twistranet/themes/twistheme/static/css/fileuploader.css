@@ -65,8 +65,9 @@
 }
 
 .qq-upload-file {
-    width: 150px;
+    width: 140px;
     overflow: hidden;
+    display: inline-block;
 }
 
 
@@ -123,7 +124,7 @@
 }
 
 .qq-upload-infos {
-   width: 120px;
+   width: 170px;
    height: 15px;
    overflow: hidden;
 }
