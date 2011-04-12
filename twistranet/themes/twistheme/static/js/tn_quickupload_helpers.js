@@ -49,10 +49,14 @@ TwistranetQuickUpload.onDragAndDrop = function() {
     // when drag&dropping, we must show the file quickupload fieldset
     // before starting upload
     // so we use some magic here since the inlinefom tabs switcher is not perfect
+    // and if the user has started to write in Status Update textarea we must copy the text
     fileformbutton = jq('a#formhandle-File');
     if (fileformbutton.width()) {
         fileformbutton.parents("fieldset").hide();
         jq(''+ fileformbutton.attr('href')).show();
+        sutextfield = jq('#form-StatusUpdate textarea:first');
+        jq('#form-File textarea:first').val(sutextfield.val());
+        sutextfield.val('');
     }
 }
 
