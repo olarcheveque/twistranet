@@ -179,3 +179,4 @@ Greetings
 
 Email templates are inspired from MailChimp's Email-Blueprints (https://github.com/mailchimp/Email-Blueprints). We do love Mailchimp and strongly recommand it if you want a powerful mailing-list solution!
 
+MimeTypes Icons came from Farm Fresh Free icons Collection, under Creative Commons 3.0 License. Many thanks to http://www.fatcow.com/free-icons
