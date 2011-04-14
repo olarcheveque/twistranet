@@ -87,7 +87,10 @@ urlpatterns = patterns('',
 
     # Search engine
     (r'^search/',                               include('twistranet.search.urls')),
-    
+
+    # Like and Share engine
+    (r'^share/',                               include('twistranet.sharing.urls')),
+
     # Tags management
     (r'^tags/',                                 include('twistranet.tagging.urls')),
 

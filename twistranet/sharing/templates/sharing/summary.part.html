@@ -3,12 +3,16 @@
 
 {% with content.likes as likes %}
     {% if not likes.i_like %}
-        <li class="i_like">
-            I like
+        <li class="i_like"
+            id="toggle_like_{{ content.id }}">
+            <a class="toggle_like"
+               href="#">{% blocktrans %}I like{% endblocktrans %}</a>
         </li>
     {% else %}
-        <li class="i_unlike">
-            I don't like
+        <li class="i_unlike"
+            id="toggle_like_{{ content.id }}">
+            <a class="toggle_like"
+               href="#">{% blocktrans %}I don't like{% endblocktrans %}</a>
         </li>
     {% endif %}
 

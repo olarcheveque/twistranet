@@ -23,7 +23,7 @@ from twistranet.twistapp.models import Content, Account
 from twistranet.twistapp.forms import form_registry
 from twistranet.twistapp.lib.log import *
 from twistranet.core.views import *
-from models import Tag
+
 
 
 class LikeToggleView(BaseObjectActionView):
@@ -42,6 +42,11 @@ class LikeToggleView(BaseObjectActionView):
         super(LikeToggleView, self).prepare_view(*args, **kw)
         if not self.content.likes['i_like']:
             self.content.like()
+            ilike = True
         else:
             self.content.unlike()
+            ilike = False
+        data =  {'i_like' : ilike, 'n_likes' : self.content.likes.n_likes}
+        return HttpResponse( json.dumps(data),
+                             mimetype='text/plain')
 
