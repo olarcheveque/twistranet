@@ -64,6 +64,9 @@
 
                 <!-- {{ content.id }} -->
             </ul>
+            <ul class="sharing-info">
+              {% include 'sharing/summary.part.html' %}
+            </ul>
         </div>
         <div id="view_comments{{ content.id }}" class="comments-container">
             {% with content.last_comments as comments %}

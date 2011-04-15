@@ -3,25 +3,35 @@
 
 {% with content.likes as likes %}
     {% with likes.n_likes as n_likes %}
+    {% with likes.op_likes as op_likes %}
         {% if n_likes %}
                 <li class="f_likes">
-                    {% for account in likes.featured %}
-                      <span>toto</span>
-                    {% endfor %}
+                    {% autoescape off %}
+                      {% for featured in likes.featured %}
+                         {{ featured.html_link }}
+                      {% endfor %}
+                    {% endautoescape %}
                 </li>
         {% endif %}
         {% if not likes.i_like %}
-            {% if n_likes %}
-                <li class="n_likes">
-                    {% blocktrans %}{{ n_likes }} people like this{% endblocktrans %}
-                </li>
-            {% endif %}
             <li class="i_like"
                 id="toggle_like_{{ content.id }}">
                 <a class="toggle_like"
                    href="#">{% blocktrans %}I like{% endblocktrans %}</a>
             </li>
+            {% if n_likes %}
+                <li class="n_likes">
+                    {% blocktrans %}{{ n_likes }} people like this{% endblocktrans %}
+                </li>
+            {% else %}
+                <li>&nbsp;</li>
+            {% endif %}
         {% else %}
+            <li class="i_unlike"
+                id="toggle_like_{{ content.id }}">
+                <a class="toggle_like"
+                   href="#">{% blocktrans %}I don't like{% endblocktrans %}</a>
+            </li>
             {% if op_likes %}
                 <li class="n_likes">
                     {% blocktrans %}You and {{ op_likes }} people like this{% endblocktrans %}
@@ -31,13 +41,8 @@
                     {% blocktrans %}You like this{% endblocktrans %}
                 </li>
             {% endif %}
-            <li class="i_unlike"
-                id="toggle_like_{{ content.id }}">
-                <a class="toggle_like"
-                   href="#">{% blocktrans %}I don't like{% endblocktrans %}</a>
-            </li>
         {% endif %}
-
+    {% endwith %}
     {% endwith %}
 {% endwith %}
 

@@ -2,7 +2,7 @@
 
 jq(function()
 {
-  jq(".i_like,.i_unlike,.toggle_like").click(function(e)
+  jq(".i_like,.i_unlike,.toggle_like").live('click', function(e)
   {
     if (jq(e.target).is( "a" )) obj = jq(this).parent();
     else obj =this;
@@ -13,17 +13,15 @@ jq(function()
       url: home_url + "share/like_toggle_by_id/" + ID,
       cache: false,
       success: function(data){
-        jsondata = eval( "(" + data + ")" );
-        if (jsondata.i_like) {
-            jq(obj).addClass('i_unlike');
-            jq(obj).removeClass('i_like');
-        }
-        else {
-            jq(obj).addClass('i_like');
-            jq(obj).removeClass('i_unlike');
-        }
+        jq(jq(obj).parent()).html(data);
       }
     });
     return false;
-  })
+  });
+  jq('.n_likes').live('click', function(){
+    jq('>.f_likes', jq(this).parent()).show();
+  });
+  jq('.f_likes').live('mouseleave', function(){
+    jq(this).hide('slow');
+  });
 });

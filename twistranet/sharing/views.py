@@ -4,6 +4,7 @@ Tags-specific views, including JSON stuff.
 import urllib
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
+from django.template.loader import get_template
 from django.template import RequestContext, loader
 from django.shortcuts import *
 from django.contrib import messages
@@ -28,27 +29,28 @@ from twistranet.core.views import *
 
 class LikeToggleView(BaseObjectActionView):
     """
-    Individual Content View.
+    Like / Unlike switcher
+    return html ajax response.
     """
     model_lookup = Content
     name = "like_toggle_by_id"
+    template = "sharing/summary.part.html"
 
 
-    def render_view(self,):
+    def prepare_view(self, *args, **kw):
         """
         """
-        #import ipdb; ipdb.set_trace()
+        super(LikeToggleView, self).prepare_view(*args, **kw)
         likes = self.content.likes()
         n_likes = likes['n_likes']
         if not likes['i_like']:
             self.content.like()
-            ilike = True
-            n_likes += 1
         else:
             self.content.unlike()
-            ilike = False
-            n_likes -= 1
-        data =  {'i_like' : ilike, 'n_likes' : n_likes}
-        return HttpResponse( json.dumps(data),
-                             mimetype='text/plain')
+
+    def render_view(self,):
+        t = get_template(self.template)
+        params = {'content': self.content}
+        c = RequestContext(self.request, params)
+        return HttpResponse(t.render(c))
 

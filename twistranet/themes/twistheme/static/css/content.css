@@ -1,5 +1,9 @@
 /* Content-related stuff, including small content views */
 
+#content {
+  line-height: 1.3em;
+}
+
 .post {
     margin-top: 0.5em;
     padding: 5px;
@@ -212,4 +216,88 @@
 
 .view-metadata .activepost {
   background-color: transparent;
+}
+
+
+
+.postmetadata {
+  margin: 0;
+  color: #999;
+  }
+  .postmetadata .date, .postmetadata .author, .postmetadata .comment, .postmetadata .category, .postmetadata .tag, .postmetadata .edit {
+    margin:  0 0 0 2px;
+    padding: 0 0 0 20px;
+  }
+  .postmetadata .date           { background: url(../images/icons/icons-normal.png) 0 0 no-repeat; }
+  .postmetadata .date:hover     { background: url(../images/icons/icons-hover.png) 0 0 no-repeat;  }
+
+  .postmetadata .author         { background: url(../images/icons/icons-normal.png) 0 -16px no-repeat; }
+  .postmetadata .author:hover   { background: url(../images/icons/icons-hover.png) 0 -16px no-repeat;  }
+
+  .postmetadata .target        { background: url(../images/icons/icons-normal.png) 0 -32px no-repeat; }
+  .postmetadata .target:hover  { background: url(../images/icons/icons-hover.png) 0 -32px no-repeat;  }
+
+  .postmetadata .category       { background: url(../images/icons/icons-normal.png) 0 -48px no-repeat; }
+  .postmetadata .category:hover { background: url(../images/icons/icons-hover.png) 0 -48px no-repeat;  }
+
+  .postmetadata .tag            { background: url(../images/icons/icons-normal.png) 0 -64px no-repeat; }
+  .postmetadata .tag:hover      { background: url(../images/icons/icons-hover.png) 0 -64px no-repeat;  }
+
+  .postmetadata .edit           { background: url(../images/icons/icons-normal.png) 0 -80px no-repeat; }
+  .postmetadata .edit:hover     { background: url(../images/icons/icons-hover.png) 0 -80px no-repeat;  }
+
+  .entry .postmetadata ul li.f_likes { display: none }
+
+  .postmetadata .i_like,
+  .postmetadata .i_unlike,
+  .postmetadata .n_likes,
+  .postmetadata .edit,
+  .postmetadata .add-comment,
+  .postmetadata .view-all-comments       { cursor: pointer; padding: 2px 0 2px 20px !important;}
+
+  .postmetadata .i_like,
+  .postmetadata .i_unlike       { float: right; position: relative; top: -2px}
+
+  .postmetadata .i_like         { background: url(../images/icons/like_blue_16.png) top left no-repeat; }
+  .postmetadata .i_like:hover   { background: url(../images/icons/like_red_16.png) top left no-repeat;}
+
+  .postmetadata .i_unlike       { background: url(../images/icons/unlike_blue_16.png) top left no-repeat; }
+  .postmetadata .i_unlike:hover { background: url(../images/icons/unlike_red_16.png) top left no-repeat;}
+
+  .postmetadata .n_likes       { background: url(../images/icons/nlikes_blue_16.png) top left no-repeat; }
+/*  .postmetadata .n_likes:hover { background: url(../images/icons/nlikes_red_16.png) top left no-repeat; } */
+
+  .postmetadata .edit          { background: url(../images/icons/edit_blue_16.png) top left no-repeat; }
+  .postmetadata .edit:hover    { background: url(../images/icons/edit_red_16.png) top left no-repeat;}
+
+  .postmetadata .add-comment       { background: url(../images/icons/comment_blue_16.png) top left no-repeat; }
+  .postmetadata .add-comment:hover { background: url(../images/icons/comment_red_16.png) top left no-repeat;}
+
+  .postmetadata .view-all-comments       { background: url(../images/icons/comment_blue_16.png) top left no-repeat; }
+  .postmetadata .view-all-comments:hover { background: url(../images/icons/comment_red_16.png) top left no-repeat;}
+
+.sharing-info {
+   clear:both;
+   margin: 5px 5px 0 0 !important;
+   background-color: #F7F7F7 !important;
+   padding: 3px !important;
+}
+
+.f_likes {
+    background-color: #F7F7F7;
+    border: 1px solid #DDD;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -webkit-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+    padding: 10px !important;
+    position: absolute;
+    z-index: 20;
+}
+
+.f_likes a {
+    padding: 2px 0;
+    display: block;
 }
