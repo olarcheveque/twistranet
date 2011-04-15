@@ -37,6 +37,7 @@ class LikeToggleView(BaseObjectActionView):
     def render_view(self,):
         """
         """
+        #import ipdb; ipdb.set_trace()
         likes = self.content.likes()
         n_likes = likes['n_likes']
         if not likes['i_like']:

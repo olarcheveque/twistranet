@@ -108,9 +108,12 @@
   .postmetadata .edit           { background: url(../images/icons/icons-normal.png) 0 -80px no-repeat; }
   .postmetadata .edit:hover     { background: url(../images/icons/icons-hover.png) 0 -80px no-repeat;  }
 
+  .postmetadata .n_likes { padding: 2px 0 2px 20px !important;}
+
+  .postmetadata .f_likes { display: none;}
+
   .postmetadata .i_like,
   .postmetadata .i_unlike,
-  .postmetadata .n_likes,
   .postmetadata .edit,
   .postmetadata .add-comment,
   .postmetadata .view-all-comments       { cursor: pointer; padding: 2px 0 2px 20px !important;}
