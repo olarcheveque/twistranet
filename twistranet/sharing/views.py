@@ -33,20 +33,21 @@ class LikeToggleView(BaseObjectActionView):
     model_lookup = Content
     name = "like_toggle_by_id"
 
-    def prepare_view(self, *args, **kw):
+
+    def render_view(self,):
         """
-        Prepare tag view.
-        Basically, tag view is just a search of the most relevant content matching this tag.
-        We also provide a paginator to browse results easily.
         """
-        super(LikeToggleView, self).prepare_view(*args, **kw)
-        if not self.content.likes['i_like']:
+        likes = self.content.likes()
+        n_likes = likes['n_likes']
+        if not likes['i_like']:
             self.content.like()
             ilike = True
+            n_likes += 1
         else:
             self.content.unlike()
             ilike = False
-        data =  {'i_like' : ilike, 'n_likes' : self.content.likes.n_likes}
+            n_likes -= 1
+        data =  {'i_like' : ilike, 'n_likes' : n_likes}
         return HttpResponse( json.dumps(data),
                              mimetype='text/plain')
 

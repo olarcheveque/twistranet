@@ -79,7 +79,7 @@ def unlike(self):
     """
     Now you don't like anymore
     """
-    auth = self.objects._getAuthenticatedUser()
+    auth = Twistable.objects._getAuthenticatedAccount()
     Like.objects.filter(
         who = auth,
         what = self

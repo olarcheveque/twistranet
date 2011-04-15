@@ -13,7 +13,15 @@ jq(function()
       url: home_url + "share/like_toggle_by_id/" + ID,
       cache: false,
       success: function(data){
-        console.log(data);
+        jsondata = eval( "(" + data + ")" );
+        if (jsondata.i_like) {
+            jq(obj).addClass('i_unlike');
+            jq(obj).removeClass('i_like');
+        }
+        else {
+            jq(obj).addClass('i_like');
+            jq(obj).removeClass('i_unlike');
+        }
       }
     });
     return false;

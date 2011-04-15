@@ -19,8 +19,7 @@
     {% with likes.n_likes as n_likes %}
         {% if n_likes %}
             <li class="n_likes">
-                {# TODO : Use the featured 'likers' as hover information #}
-                {% blocktrans %}{{ likes.n_likes }} like this{% endblocktrans %}
+                {% blocktrans %}{{ n_likes }} like this{% endblocktrans %}
             </li>
         {% endif %}
     {% endwith %}
