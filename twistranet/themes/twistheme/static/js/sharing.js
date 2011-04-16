@@ -21,7 +21,7 @@ jq(function()
   jq('.n_likes').live('click', function(){
     jq('>.f_likes', jq(this).parent()).show();
   });
-  jq('.f_likes').live('mouseleave', function(){
+  jq('.f_likes').live('click', function(){
     jq(this).hide('slow');
   });
 });

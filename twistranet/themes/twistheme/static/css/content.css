@@ -265,7 +265,6 @@
   .postmetadata .i_unlike:hover { background: url(../images/icons/unlike_red_16.png) top left no-repeat;}
 
   .postmetadata .n_likes       { background: url(../images/icons/nlikes_blue_16.png) top left no-repeat; }
-/*  .postmetadata .n_likes:hover { background: url(../images/icons/nlikes_red_16.png) top left no-repeat; } */
 
   .postmetadata .edit          { background: url(../images/icons/edit_blue_16.png) top left no-repeat; }
   .postmetadata .edit:hover    { background: url(../images/icons/edit_red_16.png) top left no-repeat;}
@@ -281,10 +280,11 @@
    margin: 5px 5px 0 0 !important;
    background-color: #F7F7F7 !important;
    padding: 3px !important;
+   position: relative;
 }
 
 .f_likes {
-    background-color: #F7F7F7;
+    background: #F7F7F7 url(../images/icons/nlikes_red_16.png) 2px 2px no-repeat;
     border: 1px solid #DDD;
     border-radius: 3px;
     -moz-border-radius: 3px;
@@ -292,9 +292,12 @@
     -webkit-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
-    padding: 10px !important;
+    padding: 7px 10px 7px 22px !important;
     position: absolute;
+    top: -1px;
+    left: 0;
     z-index: 20;
+    min-width: 130px;
 }
 
 .f_likes a {
