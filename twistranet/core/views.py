@@ -590,4 +590,22 @@ class BaseWallView(BaseIndividualView):
         self.latest_content_list = self.get_recent_content_list()
         self.content_forms = self.get_inline_forms(self.object)
 
-        
+
+class BaseWallAjaxView(BaseIndividualView):
+    """
+    The wall called in ajax (only summary content parts)
+    """
+
+    template_variables = BaseIndividualView.template_variables + [
+        "latest_content_list",
+    ]
+    select_related_summary_fields = (
+        "owner",
+        "publisher",
+    )
+    def prepare_view(self, value = None):
+        """
+        Fetch the individual object, plus its latest content.
+        """
+        super(BaseWallAjaxView, self).prepare_view(value)
+        self.latest_content_list = self.get_recent_content_list()

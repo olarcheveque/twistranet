@@ -8,11 +8,5 @@
 
 {% block content %}
     {% include "content/content_forms.part.html" %}
-    {% if latest_content_list %}
-        {% for content in latest_content_list %}
-            {%include content.summary_view %}
-        {% endfor %}
-    {% else %}
-        <p>{% blocktrans %}No contents are available.{% endblocktrans %}</p>
-    {% endif %}
+    {% include "wall.content.part.html" %}
 {% endblock %}

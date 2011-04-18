@@ -12,8 +12,10 @@ urlpatterns = patterns('',
     url(r'^timeline$',                              AsView(PublicTimelineView), name = PublicTimelineView.name),
     
     # Account pages 
-    url(r'^account/(\d+)/$',                        AsView(UserAccountView, lookup = 'id'), name = 'account_by_id'),              # The 'profile' page
+    url(r'^account/(\d+)/$',                        AsView(UserAccountView, lookup = 'id'), name = 'account_by_id'),
     url(r'^account/(%s)/$' % SLUG_REGEX,            AsView(UserAccountView, lookup = 'slug'), name = 'account_by_slug'),
+    url(r'^account/(\d+)/ajax/$',                   AsView(UserAccountAjaxView, lookup = 'id'), name = 'ajax_account_by_id'),
+    url(r'^account/(%s)/ajax/$' % SLUG_REGEX,       AsView(UserAccountAjaxView, lookup = 'slug'), name = 'ajax_account_by_slug'),
     url(r'^account/(\d+)/communities/$',            AsView(AccountCommunitiesView), name='account_communities'),
     url(r'^account/(\d+)/network/$',                AsView(AccountNetworkView), name='account_network'),
     url(r'^account/(\d+)/edit$',                    AsView(UserAccountEdit), name = UserAccountEdit.name),

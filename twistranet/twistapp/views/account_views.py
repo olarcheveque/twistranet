@@ -32,13 +32,13 @@ class UserAccountView(BaseWallView):
         'actions/context.box.html',
         'account/relations.box.html',
     ]
-    
+
     template_variables = BaseWallView.template_variables + [
         "account",
         "n_communities",
         "n_network_members",
     ]
-    
+
     model_lookup = UserAccount
     template = "account/view.html"
     title = None
@@ -91,6 +91,68 @@ class UserAccountView(BaseWallView):
             return _("%(name)s's profile") % {'name': self.account.title}
         return super(UserAccountView, self).get_title()
 
+
+class UserAccountAjaxView(BaseWallAjaxView):
+    """
+    This is what is used as a base view for accounts
+    """
+
+    # context_boxes could be used to reload left col in ajax
+    context_boxes = [
+        'account/profile.box.html',
+        'actions/context.box.html',
+        'account/relations.box.html',
+    ]
+
+    template_variables = BaseWallAjaxView.template_variables + [
+        "account",
+        "n_communities",
+        "n_network_members",
+    ]
+
+    model_lookup = UserAccount
+    template = "wall.content.part.html"
+    title = None
+    name = "ajax_account_by_id"
+
+    def prepare_view(self, *args, **kw):
+        """
+        Add a few parameters for the view
+        """
+        # Regular creation
+        super(UserAccountAjaxView, self).prepare_view(*args, **kw)
+        if not hasattr(self, "useraccount"):
+            self.useraccount = self.auth
+        self.account = self.useraccount
+        self.n_communities = self.account and self.account.communities.count() or False
+        self.n_network_members = self.account and self.account.network.count() or False
+
+    def get_recent_content_list(self):
+        """
+        Retrieve recent content list for the given account.
+        XXX TODO: Optimize this by adding a (first_twistable_on_home, last_twistable_on_home) values pair on the Account object.
+        This way we can just query objects with id > last_twistable_on_home
+        """
+        latest_ids = Content.objects.getActivityFeed(self.object)
+        nb_all = latest_ids.count()
+        page = int(self.request.GET.get('page',1))
+        page_size = settings.TWISTRANET_CONTENT_PER_PAGE
+        nb_to = page_size*page
+        nb_from = page_size*(page-1)
+        if nb_from < nb_all:
+            latest_ids = latest_ids.order_by("-id").values_list('id', flat = True)[nb_from:nb_to]
+            latest_list = Content.objects.__booster__.filter(id__in = tuple(latest_ids)).select_related(*self.select_related_summary_fields).order_by("-created_at")
+            return latest_list
+        return []
+
+    def get_title(self,):
+        """
+        We override get_title in a way that it could be removed easily in subclasses.
+        Just define a valid value for self.title and this get_title() will keep the BaseView behaviour
+        """
+        if not self.title:
+            return _("%(name)s's profile") % {'name': self.account.title}
+        return super(UserAccountAjaxView, self).get_title()
 
 class HomepageView(UserAccountView):
     """
