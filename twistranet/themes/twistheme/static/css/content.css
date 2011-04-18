@@ -243,9 +243,6 @@
   .postmetadata .tag            { background: url(../images/icons/icons-normal.png) 0 -64px no-repeat; }
   .postmetadata .tag:hover      { background: url(../images/icons/icons-hover.png) 0 -64px no-repeat;  }
 
-  .postmetadata .edit           { background: url(../images/icons/icons-normal.png) 0 -80px no-repeat; }
-  .postmetadata .edit:hover     { background: url(../images/icons/icons-hover.png) 0 -80px no-repeat;  }
-
   .entry .postmetadata ul li.f_likes { display: none }
 
   .postmetadata .i_like,
@@ -253,27 +250,27 @@
   .postmetadata .n_likes,
   .postmetadata .edit,
   .postmetadata .add-comment,
-  .postmetadata .view-all-comments       { cursor: pointer; padding: 2px 0 2px 20px !important;}
+  .postmetadata .view-all-comments       { cursor: pointer; padding: 2px 0 1px 20px !important;}
 
   .postmetadata .i_like,
-  .postmetadata .i_unlike       { float: right; position: relative; top: -2px}
+  .postmetadata .i_unlike       { display: block !important; float: right; position: relative; top: -2px; padding: 0 0 0 20px !important; height: 16px; line-height: 1.7em !important;}
 
-  .postmetadata .i_like         { background: url(../images/icons/like_blue_16.png) top left no-repeat; }
-  .postmetadata .i_like:hover   { background: url(../images/icons/like_red_16.png) top left no-repeat;}
+  .postmetadata .i_like         { background: url(../images/icons/icons-normal.png) 0 -112px no-repeat;}
+  .postmetadata .i_like:hover   { background: url(../images/icons/icons-hover.png) 0 -112px no-repeat;}
 
-  .postmetadata .i_unlike       { background: url(../images/icons/unlike_blue_16.png) top left no-repeat; }
-  .postmetadata .i_unlike:hover { background: url(../images/icons/unlike_red_16.png) top left no-repeat;}
+  .postmetadata .i_unlike       { background: url(../images/icons/icons-normal.png) 0 -128px no-repeat; }
+  .postmetadata .i_unlike:hover { background: url(../images/icons/icons-hover.png) 0 -128px no-repeat;}
 
-  .postmetadata .n_likes       { background: url(../images/icons/nlikes_blue_16.png) top left no-repeat; }
+  .postmetadata .n_likes       { background: url(../images/icons/icons-normal.png) 0 -144px no-repeat; }
 
-  .postmetadata .edit          { background: url(../images/icons/edit_blue_16.png) top left no-repeat; }
-  .postmetadata .edit:hover    { background: url(../images/icons/edit_red_16.png) top left no-repeat;}
+  .postmetadata .edit          { background: url(../images/icons/icons-normal.png) 0 -160px no-repeat; }
+  .postmetadata .edit:hover    { background: url(../images/icons/icons-hover.png) 0 -160px no-repeat;}
 
-  .postmetadata .add-comment       { background: url(../images/icons/comment_blue_16.png) top left no-repeat; }
-  .postmetadata .add-comment:hover { background: url(../images/icons/comment_red_16.png) top left no-repeat;}
+  .postmetadata .add-comment       { background: url(../images/icons/icons-normal.png) 0 -176px no-repeat; }
+  .postmetadata .add-comment:hover { background: url(../images/icons/icons-hover.png) 0 -176px no-repeat;}
 
-  .postmetadata .view-all-comments       { background: url(../images/icons/comment_blue_16.png) top left no-repeat; }
-  .postmetadata .view-all-comments:hover { background: url(../images/icons/comment_red_16.png) top left no-repeat;}
+  .postmetadata .view-all-comments       { background: url(../images/icons/icons-normal.png) 0 -176px no-repeat; }
+  .postmetadata .view-all-comments:hover { background: url(../images/icons/icons-hover.png) 0 -176px no-repeat;}
 
 .sharing-info {
    clear:both;
