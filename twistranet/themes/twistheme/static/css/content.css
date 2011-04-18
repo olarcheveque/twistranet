@@ -281,7 +281,7 @@
 }
 
 .f_likes {
-    background: #F7F7F7 url(../images/icons/nlikes_red_16.png) 2px 2px no-repeat;
+    background-color: #F7F7F7;
     border: 1px solid #DDD;
     border-radius: 3px;
     -moz-border-radius: 3px;
@@ -300,4 +300,14 @@
 .f_likes a {
     padding: 2px 0;
     display: block;
+}
+
+.f_likes .close {
+    background: url(../images/icons/icons-hover.png) 0 -144px no-repeat;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    cursor: pointer;
 }

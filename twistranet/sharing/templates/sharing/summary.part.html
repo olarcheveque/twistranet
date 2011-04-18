@@ -6,6 +6,7 @@
     {% with likes.op_likes as op_likes %}
         {% if n_likes %}
                 <li class="f_likes">
+                    <div class="close">&nbsp;</div>
                     {% autoescape off %}
                       {% for featured in likes.featured %}
                          {{ featured.html_link }}
