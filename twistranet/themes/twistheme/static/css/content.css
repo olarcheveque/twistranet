@@ -284,17 +284,19 @@
   background-position: 0 -128px;
 }
 
-.view-all-comments .comment_ui a,
-.few-comments .comment_ui a {
+.view-all-comments .comment_ui a {
   background-position: 0 -128px;
 }
 
-.few-comments * {
-  display: none !important;
+.few-comments .comment_ui a {
+  background: none !important;
+  cursor: default;
 }
+
 
 .comment_count {font-weight: bold;}
 
+.few-comments .comment_count,
 .add-comment .comment_count {display: none;}
 
 .comments-container {

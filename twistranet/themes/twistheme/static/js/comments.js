@@ -40,7 +40,7 @@ loadComments = function(ID, html) {
     comments_container = jq("#view_comments"+ID);
     comments_container.empty();
     comments_container.prepend(html);
-    jq("#view"+ID).parent().remove();
+    jq("#view"+ID).parent().css('visibility','hidden');
     twistranet.showCommentsActions();
     commentOnSubmit(comments_container, ID);
     commentOnFocus(comments_container);
