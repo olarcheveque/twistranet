@@ -314,24 +314,25 @@
     background-color:   #f7f7f7;
 }
 
-.detailview-comments {
-  width: 500px;
-  margin-top: 10px;
-}
-
-.detailview-comments textarea {
-  width: 483px !important;
-}
-
-.detailview-comments .comment {
-  width: 486px !important;
-}
-
 .view-metadata .activepost {
   background-color: transparent;
 }
 
+.view-metadata .public-actions {
+  float: none !important;
+}
 
+.view-metadata .comments-container {
+  width: 500px;
+}
+
+.view-metadata .comments-container textarea {
+  width: 483px !important;
+}
+
+.view-metadata .comments-container .comment {
+  width: 486px !important;
+}
 
 .postmetadata {
   margin: 0;
