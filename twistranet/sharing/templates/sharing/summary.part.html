@@ -7,7 +7,7 @@
             <li class="f_likes">
                 {% autoescape off %}
                   {% for featured in likes.featured %}
-                     {{ featured.html_link }}
+                     {{ featured.html_link }}{% if not forloop.last %},&nbsp;{% endif %}
                   {% endfor %}
                 {% endautoescape %}
             </li>

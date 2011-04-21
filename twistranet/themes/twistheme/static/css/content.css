@@ -251,7 +251,7 @@
     top: -1px;
     left: 0;
     z-index: 20;
-    min-width: 130px;
+    width: 200px;
 }
 
 
@@ -289,9 +289,8 @@
   background-position: 0 -128px;
 }
 
-.few-comments,
-.few-comments a {
-  cursor: default !important;
+.few-comments * {
+  display: none !important;
 }
 
 .comment_count {font-weight: bold;}
