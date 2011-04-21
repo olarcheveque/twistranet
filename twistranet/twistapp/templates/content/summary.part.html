@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load wiki %}
 {# Generate a summary for 'content' object #}
-<div class="post" id="post-{{content.id}}">
+<div class="post post-{{content.model_name}}" id="post-{{content.id}}">
     <div class="summary-thumbnail">
         {% with content.owner_for_display as account %}
             {% include 'account/medium.thumbnail.alone.html' %}
@@ -37,6 +37,14 @@
                 </div>
             {% endif %}
         </div>
+        <div class="public-actions">
+            <ul class="comment-actions">
+              {% include 'content/summary.comments.part.html' %}
+            </ul>
+            <ul class="sharing-actions">
+              {% include 'sharing/summary.part.html' %}
+            </ul>
+        </div>
         <div class="postmetadata">
             <ul>
                 {% if not content.owner_for_display == content.owner %}
@@ -44,18 +52,9 @@
                 {% endif %}
                 <li class="date">{{ content.created_at|timesince }}</li>
                 {% if content.language %}<li class="lang">{{ content.language }}</li>{%endif%}
-                <li class="target">{{ content.permissions }}</li>
-                {% if content.can_edit %}
-                    <li class="edit">
-                        <a href="{% url edit_content content.id %}">Edit</a>
-                    </li>
-                {% endif %}
-                {% include 'content/summary.comments.part.html' %}
+                <li title="{{ content.permissions }}" class="target target-{{ content.permissions }}">&nbsp;</li>
 
                 <!-- {{ content.id }} -->
-            </ul>
-            <ul class="sharing-info">
-            {% include 'sharing/summary.part.html' %}
             </ul>
         </div>
         <div id="view_comments{{ content.id }}" class="comments-container">

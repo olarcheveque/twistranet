@@ -83,15 +83,33 @@
         <div id="add-community" class="postbox ">
           <h3>{% trans 'Add community' %}</h3>
           <div class="inside">
-            {% for community in communities %}
-              <div id="content-target-{{community.id}}" class="content-target">
-                <form id="content-item-form-{{community.id}}" class="content-item-form">
-                  <input type="hidden" value="{{community.id}}" name="target_id">
-                  <input type="hidden" value="{{community.title}}" name="label">
-                </form>
-                <a href="{{community.get_absolute_url}}">{{community.title}}</a>
-              </div>
-            {% endfor %}
+            <div id="community-list">
+              {% comment%}
+              <form id="community-search_form"
+                    method="GET">
+                <input
+                    type="text"
+                    autocomplete='off'
+                    class="textfield"
+                    value=""
+                    name="q"
+                    id="search-text" />
+                <input
+                    type="hidden"
+                    value="twistapp.community"
+                    name="models" />
+              </form>
+              {% endcomment%}
+              {% for community in communities %}
+                <div id="content-target-{{community.id}}" class="content-target">
+                  <form id="content-item-form-{{community.id}}" class="content-item-form">
+                    <input type="hidden" value="{{community.id}}" name="target_id">
+                    <input type="hidden" value="{{community.title}}" name="label">
+                  </form>
+                  <a href="{{community.get_absolute_url}}">{{community.title}}</a>
+                </div>
+              {% endfor %}
+            </div>
             <div id="content-item-model-form">
               {% comment %} The visible fields only for content form edition {% endcomment %}
               {% for field in content_form %}

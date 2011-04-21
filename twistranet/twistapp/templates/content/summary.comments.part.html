@@ -7,19 +7,23 @@
   {% else %}
       {% if content.publisher.can_publish and  not comment_count %}
           class="add-comment"
+      {% else %}
+          class="few-comments"
       {% endif %}
   {% endif %}
     >
-    <div class="comment_ui" id="view{{ content.id }}">
-        <a class="view_comments" id="{{ content.id }}" href="">
+    <span class="comment_count">{{comment_count}}</span>
+    <span class="comment_ui" id="view{{ content.id }}">
+        <a  id="{{ content.id }}"
+            class="view_comments"
             {% if comment_count > 2 %}
-                    {% blocktrans %}View all {{comment_count}} comments{% endblocktrans %}
+              title="{% blocktrans %}View all {{comment_count}} comments{% endblocktrans %}"
             {% else %}
                 {% if content.publisher.can_publish and  not comment_count %}
-                    {% blocktrans %}Comment{% endblocktrans %}
+                    title="{% blocktrans %}Comment{% endblocktrans %}"
                 {% endif %}
             {% endif %}
-        </a>
-    </div>
+            href="#">&nbsp;</a>
+    </span>
 </li>
 {% endwith %}

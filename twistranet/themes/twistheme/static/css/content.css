@@ -53,8 +53,7 @@
   line-height: auto;
 }
   .entry div.postmetadata {
-    margin-top: 7px;
-    margin-bottom: 5px;
+    margin: 7px 0 0;
     clear: left;
   }
   .entry .postmetadata ul {
@@ -149,15 +148,10 @@
   white-space: no-wrap;
 }
 
-.content-actions ul li.first a {
-}
 .content-actions ul li a:hover {
   color: #ad1c20;
-  text-decoration: none !important;
 }
 
-/* for now the only action is "delete", just an icon without text */
-.content-actions ul li span {}
 
 /* content views*/
 
@@ -182,13 +176,135 @@
   margin: 15px 0;
 }
 
+/* public actions styles (share, like, comment, ...) */
+
+.public-actions {
+   clear:right;
+   float: right;
+   margin: 7px 0 0;
+}
+
+.post-File .public-actions {
+   margin-top: 0;
+}
+
+.public-actions ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  list-style-image: none;
+  display: inline;
+  white-space: no-wrap;
+  position: relative;
+}
+
+.public-actions ul.sharing-actions li {
+  list-style: none;
+  list-style-image: none;
+  display: inline;
+  margin: 0 0 0 2px;
+  padding: 1px 0 2px;
+  white-space: no-wrap;
+}
+
+.public-actions ul li.f_likes {
+  display: none;
+}
+
+.n_likes {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.i_like a,
+.i_unlike a {
+  padding-left: 16px;
+  text-decoration: none !important;
+}
+
+.i_like {
+  background-image: url('../images/icons/sprite.png');
+  background-position: 0 -176px;
+  background-repeat: no-repeat;
+  width: 16px;
+}
+
+.i_like:hover {
+  background-position: 0 -160px;
+}
+.i_unlike {
+  background-image: url('../images/icons/sprite.png');
+  background-position: 0 -160px;
+  background-repeat: no-repeat;
+}
+.i_unlike:hover{
+  background-position: 0 -176px;
+}
+
+.f_likes {
+    background-color: #F7F7F7;
+    border: 1px solid #DDD;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -webkit-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+    padding: 7px 10px !important;
+    position: absolute;
+    top: -1px;
+    left: 0;
+    z-index: 20;
+    min-width: 130px;
+}
+
 
 /*
     Comments Management
 */
 
-.comment_ui {
-    display: inline;
+.public-actions ul.comment-actions li {
+  list-style: none;
+  list-style-image: none;
+  display: inline;
+  margin: 0 0 0 4px;
+  padding: 0;
+  white-space: no-wrap;
+}
+
+.comment_ui a {
+  background-image: url('../images/icons/sprite.png');
+  background-repeat: no-repeat;
+  padding: 1px 0 2px 16px;
+}
+
+.comment_ui a:hover { text-decoration: none !important}
+
+.add-comment .comment_ui a {
+  background-position: 0 -144px;
+}
+
+.add-comment .comment_ui a:hover {
+  background-position: 0 -128px;
+}
+
+.view-all-comments .comment_ui a,
+.few-comments .comment_ui a {
+  background-position: 0 -128px;
+}
+
+.few-comments,
+.few-comments a {
+  cursor: default !important;
+}
+
+.comment_count {font-weight: bold;}
+
+.add-comment .comment_count {display: none;}
+
+.comments-container {
+  clear: both;
+  margin-top: 7px;
 }
 
 .comment .publisher {
@@ -228,86 +344,15 @@
     margin:  0 0 0 2px;
     padding: 0 0 0 20px;
   }
-  .postmetadata .date           { background: url(../images/icons/icons-normal.png) 0 0 no-repeat; }
-  .postmetadata .date:hover     { background: url(../images/icons/icons-hover.png) 0 0 no-repeat;  }
 
-  .postmetadata .author         { background: url(../images/icons/icons-normal.png) 0 -16px no-repeat; }
-  .postmetadata .author:hover   { background: url(../images/icons/icons-hover.png) 0 -16px no-repeat;  }
+  .postmetadata .date           { background: url(../images/icons/sprite.png) 0 0 no-repeat; }
 
-  .postmetadata .target        { background: url(../images/icons/icons-normal.png) 0 -32px no-repeat; }
-  .postmetadata .target:hover  { background: url(../images/icons/icons-hover.png) 0 -32px no-repeat;  }
+  .postmetadata .author         { background: url(../images/icons/sprite.png) 0 -16px no-repeat; }
 
-  .postmetadata .category       { background: url(../images/icons/icons-normal.png) 0 -48px no-repeat; }
-  .postmetadata .category:hover { background: url(../images/icons/icons-hover.png) 0 -48px no-repeat;  }
+  .postmetadata .target         { background: url(../images/icons/sprite.png) 0 -32px no-repeat; }
+  .postmetadata .target-public  { display: none !important}
+  
+  .postmetadata .category       { background: url(../images/icons/sprite.png) 0 -48px no-repeat; }
 
-  .postmetadata .tag            { background: url(../images/icons/icons-normal.png) 0 -64px no-repeat; }
-  .postmetadata .tag:hover      { background: url(../images/icons/icons-hover.png) 0 -64px no-repeat;  }
+  .postmetadata .tag            { background: url(../images/icons/sprite.png) 0 -64px no-repeat; }
 
-  .entry .postmetadata ul li.f_likes { display: none }
-
-  .postmetadata .i_like,
-  .postmetadata .i_unlike,
-  .postmetadata .n_likes,
-  .postmetadata .edit,
-  .postmetadata .add-comment,
-  .postmetadata .view-all-comments       { cursor: pointer; padding: 2px 0 1px 20px !important;}
-
-  .postmetadata .i_like,
-  .postmetadata .i_unlike       { display: block !important; float: right; position: relative; top: -2px; padding: 0 0 0 20px !important; height: 16px; line-height: 1.7em !important;}
-
-  .postmetadata .i_like         { background: url(../images/icons/icons-normal.png) 0 -112px no-repeat;}
-  .postmetadata .i_like:hover   { background: url(../images/icons/icons-hover.png) 0 -112px no-repeat;}
-
-  .postmetadata .i_unlike       { background: url(../images/icons/icons-normal.png) 0 -128px no-repeat; }
-  .postmetadata .i_unlike:hover { background: url(../images/icons/icons-hover.png) 0 -128px no-repeat;}
-
-  .postmetadata .n_likes       { background: url(../images/icons/icons-normal.png) 0 -144px no-repeat; }
-
-  .postmetadata .edit          { background: url(../images/icons/icons-normal.png) 0 -160px no-repeat; }
-  .postmetadata .edit:hover    { background: url(../images/icons/icons-hover.png) 0 -160px no-repeat;}
-
-  .postmetadata .add-comment       { background: url(../images/icons/icons-normal.png) 0 -176px no-repeat; }
-  .postmetadata .add-comment:hover { background: url(../images/icons/icons-hover.png) 0 -176px no-repeat;}
-
-  .postmetadata .view-all-comments       { background: url(../images/icons/icons-normal.png) 0 -176px no-repeat; }
-  .postmetadata .view-all-comments:hover { background: url(../images/icons/icons-hover.png) 0 -176px no-repeat;}
-
-.sharing-info {
-   clear:both;
-   margin: 5px 5px 0 0 !important;
-   background-color: #F7F7F7 !important;
-   padding: 3px !important;
-   position: relative;
-}
-
-.f_likes {
-    background-color: #F7F7F7;
-    border: 1px solid #DDD;
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -webkit-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
-    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
-    padding: 7px 10px 7px 22px !important;
-    position: absolute;
-    top: -1px;
-    left: 0;
-    z-index: 20;
-    min-width: 130px;
-}
-
-.f_likes a {
-    padding: 2px 0;
-    display: block;
-}
-
-.f_likes .close {
-    background: url(../images/icons/icons-hover.png) 0 -144px no-repeat;
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    cursor: pointer;
-}
