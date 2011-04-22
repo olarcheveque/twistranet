@@ -92,38 +92,33 @@ class UserAccountView(BaseWallView):
         return super(UserAccountView, self).get_title()
 
 
-class UserAccountAjaxView(BaseWallAjaxView):
+class WallAjaxView(BaseAjaxView):
     """
-    This is what is used as a base view for accounts
+    This is what is used as ajax base view for all accounts
     """
 
-    # context_boxes could be used to reload left col in ajax
-    context_boxes = [
-        'account/profile.box.html',
-        'actions/context.box.html',
-        'account/relations.box.html',
-    ]
-
-    template_variables = BaseWallAjaxView.template_variables + [
+    template_variables = BaseAjaxView.template_variables + [
+        "latest_content_list",
         "account",
         "n_communities",
         "n_network_members",
     ]
 
-    model_lookup = UserAccount
+    model_lookup = Account
     template = "wall.content.part.html"
     title = None
-    name = "ajax_account_by_id"
+    name = "ajax_wall_by_id"
 
     def prepare_view(self, *args, **kw):
         """
         Add a few parameters for the view
         """
         # Regular creation
-        super(UserAccountAjaxView, self).prepare_view(*args, **kw)
-        if not hasattr(self, "useraccount"):
-            self.useraccount = self.auth
-        self.account = self.useraccount
+        super(WallAjaxView, self).prepare_view(*args, **kw)
+        self.latest_content_list = self.get_recent_content_list()
+        if not hasattr(self, "account"):
+            self.account = self.auth
+        self.useraccount = self.account
         self.n_communities = self.account and self.account.communities.count() or False
         self.n_network_members = self.account and self.account.network.count() or False
 
@@ -152,7 +147,7 @@ class UserAccountAjaxView(BaseWallAjaxView):
         """
         if not self.title:
             return _("%(name)s's profile") % {'name': self.account.title}
-        return super(UserAccountAjaxView, self).get_title()
+        return super(WallAjaxView, self).get_title()
 
 class HomepageView(UserAccountView):
     """
