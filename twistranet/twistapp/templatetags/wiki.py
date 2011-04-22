@@ -65,6 +65,7 @@ class Subf(object):
         """
         label = match.group(0)
         title = None
+        obj = None
         if self.lookup:
             try:
                 kw = {self.lookup_field: match.groupdict()['Alias']}
