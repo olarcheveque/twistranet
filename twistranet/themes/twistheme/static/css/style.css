@@ -58,6 +58,12 @@
   text-decoration: none !important;
 }
 
+/* mimetype icons inline */
+img.file-icon {
+  vertical-align: middle;
+  margin-right: 3px;
+}
+
 /* image tags can be displayed also outside thumbnails parts
 ***************************************************************************** */
 
@@ -158,6 +164,12 @@ a.image-block-content {
   margin: 0 7px 0 0 !important;
 }
 
+.image-inline {
+  border: 1px solid #CCCCCC;
+  margin-right: 5px;
+  vertical-align: top;
+  padding: 2px;
+}
 
 .entry-main {
     font-size:  11px;

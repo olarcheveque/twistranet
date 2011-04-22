@@ -32,11 +32,16 @@ def resource_image(resource):
     """
     Render a resource image as an HTML tag
     """
+    is_image = resource.is_image
+    thumbnails = resource.thumbnails
     d = {
-        'url':  resource.get_absolute_url(),
+        'thumburl': is_image and thumbnails['summary'].url or thumbnails['icon'].url,
+        'url': resource.get_absolute_url(),
         'title': resource.title or "",
     }
-    return """<img src="%(url)s" alt="%(title)s" />""" % d
+    if is_image:
+        return """<a href="%(url)s" title="%(title)s"><img class="image-inline" src="%(thumburl)s" alt="%(title)s" /></a>""" % d
+    return """<a href="%(url)s" title="%(title)s"><img class="file-icon" src="%(thumburl)s" /><span>%(title)s</span></a>""" % d
 
 
 matches = (
