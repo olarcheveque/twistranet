@@ -3,24 +3,6 @@
 import os.path
 HERE = os.path.dirname(__file__)
 
-# Tiny config
-TINYMCE_FILEBROWSER = False
-TINYMCE_DEFAULT_CONFIG = {
-    'plugins': "table,emotions,paste,searchreplace,inlinepopups,advimage",
-    'theme': "advanced",
-    'theme_advanced_toolbar_location': "top",
-    'theme_advanced_toolbar_align' : "left",
-    'auto_focus': True,
-    'cleanup_on_startup': True,
-    'custom_undo_redo_levels': 10,
-    'theme_advanced_blockformats': "p,div,h2,h3,h4,h5,h6,blockquote,dt,dd,code,samp",
-    'width': "490px",
-    'theme_advanced_buttons1': "newdocument,|,cut,copy,paste,|,removeformat,|,undo,redo,|,link,unlink,|,charmap,emotions,|,image,|,code",
-    'theme_advanced_buttons2': "formatselect,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,outdent,indent",
-    'theme_advanced_buttons3': "",
-    'file_browser_callback' : 'twistranet.tinymceBrowser'
-}
-
 # debug settings
 import logging
 TWISTRANET_LOG_LEVEL = logging.WARNING
@@ -186,7 +168,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'cleanup_on_startup': True,
     'custom_undo_redo_levels': 10,
     'theme_advanced_blockformats': "p,div,h2,h3,h4,h5,h6,blockquote,dt,dd,code,samp",
-    'width': "490px",
+    'width': "70%",
     'theme_advanced_buttons1': "newdocument,|,cut,copy,paste,|,removeformat,|,undo,redo,|,link,unlink,|,charmap,emotions,|,image,|,code",
     'theme_advanced_buttons2': "formatselect,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,outdent,indent",
     'theme_advanced_buttons3': "",
