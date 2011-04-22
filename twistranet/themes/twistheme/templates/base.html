@@ -126,7 +126,7 @@
                         <div id="tn-message">
                           <ul class="messages">
                               {% for message in messages %}
-                              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|safe|fullwiki }}</li>
+                              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|wiki }}</li>
                               {% endfor %}
                           </ul>
                         </div>
