@@ -1,5 +1,10 @@
 {% load i18n %}
 <ul>
+    {% if content.can_edit %}
+        <li class="edit">
+            <a href="{% url edit_content content.id %}">Edit</a>
+        </li>
+    {% endif %}
     {% if content.can_delete %}
         <li>
             <a href="{% url delete_content content.id %}" 
@@ -8,7 +13,9 @@
               <span></span>
               {# <!-- because the link has class 'confirmbefore' we can use a specific confirm message --> #}
               {% with content.title as title%}
-                    <span class="confirm-message">{% blocktrans %}Do you really want to delete '{{ title }}'?{% endblocktrans %}</span>
+                    {% if title %}
+                      <span class="confirm-message">{% blocktrans %}Do you really want to delete '{{ title }}'?{% endblocktrans %}</span>
+                    {% endif %}
               {% endwith %}
             </a>
         </li>

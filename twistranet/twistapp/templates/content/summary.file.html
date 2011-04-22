@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load wiki %}
 {# Generate a summary for 'content' object #}
-<div class="post" id="post-{{content.id}}">
+<div class="post post-{{content.model_name}}" id="post-{{content.id}}">
     <div class="summary-thumbnail">
         {% with content.owner_for_display as account %}
             {% include 'account/medium.thumbnail.alone.html' %}
@@ -34,13 +34,21 @@
                                 {% endwith %}
                             </div>
                             <div class="content-description">
-                            {{ content.description|safe|wiki }}
+                            {{ content.description|wiki }}
                             </div>
                             <div class="clear"></div>
                         </div>          
                     </div>
                 {% endif %}
             </span>
+        </div>
+        <div class="public-actions">
+            <ul class="comment-actions">
+              {% include 'content/summary.comments.part.html' %}
+            </ul>
+            <ul class="sharing-actions">
+              {% include 'sharing/summary.part.html' %}
+            </ul>
         </div>
         <div class="postmetadata">
             <ul>
@@ -49,23 +57,12 @@
                 {% endif %}
                 <li class="date">{{ content.created_at|timesince }}</li>
                 {%if content.language %}<li class="lang">{{ content.language }}</li>{%endif%}
-                <li class="target">{{ content.permissions }}</li>
+                <li title="{{ content.permissions }}" class="target target-{{ content.permissions }}">&nbsp;</li>
                 <li>
                     <a href="{% url download_by_id content.object.file.id %}">
                         {% blocktrans %}Download{% endblocktrans %}
                     </a>
                 </li>
-                {%if content.can_edit %}
-                    <li class="edit">
-                        <a href="{% url edit_content content.id %}">Edit</a>
-                    </li>
-                {%endif%}
-                {% include 'content/summary.comments.part.html' %}
-
-                <!-- {{ content.id }} -->
-            </ul>
-            <ul class="sharing-info">
-              {% include 'sharing/summary.part.html' %}
             </ul>
         </div>
         <div id="view_comments{{ content.id }}" class="comments-container">

@@ -1,10 +1,6 @@
 {# Display search result summary according to content type #}
 {% with result.object as object %}
-    {% if object.kind == 'community' %}
-        {% with object as community %}
-            {% include object.summary_view %}
-        {% endwith %}
-    {% else %}{% if object.kind == 'account' %}
+    {% if object.kind == 'account' or object.kind == 'community' %}
         {% with object as account %}
             {% include object.summary_view %}
         {% endwith %}
@@ -12,6 +8,6 @@
         {% with object as content %}
             {% include object.summary_view %}
         {% endwith %}
-    {% endif %}{% endif %}{% endif %}
+    {% endif %}{% endif %}
 {% endwith %}
 

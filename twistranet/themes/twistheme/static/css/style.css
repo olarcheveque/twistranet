@@ -48,14 +48,20 @@
 ***************************************************************************** */
 
 .icon-delete {
-  background-image: url(../images/icons/icons-normal.png);
+  background-image: url(../images/icons/sprite.png);
   background-repeat: no-repeat;
   background-position: 0 -96px;
-  display: block;
   height: 10px;
 }
 .icon-delete:hover {
-  background-image: url(../images/icons/icons-hover.png);
+  background-position: 0 -112px;
+  text-decoration: none !important;
+}
+
+/* mimetype icons inline */
+img.file-icon {
+  vertical-align: middle;
+  margin-right: 3px;
 }
 
 /* image tags can be displayed also outside thumbnails parts
@@ -158,6 +164,12 @@ a.image-block-content {
   margin: 0 7px 0 0 !important;
 }
 
+.image-inline {
+  border: 1px solid #CCCCCC;
+  margin-right: 5px;
+  vertical-align: top;
+  padding: 2px;
+}
 
 .entry-main {
     font-size:  11px;

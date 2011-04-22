@@ -18,7 +18,6 @@ class LikeManager(models.Manager):
     Example usage:
         Like.objects.likes(content) => {
             "n_likes":  <integer>,
-            "op_likes":  <integer>,
             "featured": [<authorized_useraccounts>*],
             "i_like":   boolean
         }
@@ -30,21 +29,18 @@ class LikeManager(models.Manager):
         """
         from twistranet.twistapp import UserAccount
         
-        op_likes = n_likes = Like.objects.filter(what = content).count()
+        n_likes = Like.objects.filter(what = content).count()
         if n_likes:
             auth = Twistable.objects._getAuthenticatedAccount()
             featured = UserAccount.objects.filter(_liked__what = content).distinct()
             i_like = Like.objects.filter(what = content, who__id = auth.id).exists()
-            if i_like:
-                op_likes = n_likes-1
         else:
             featured = []
             i_like = False
-
+            
         # Return the like structure
         return {
             "n_likes":  n_likes,
-            "op_likes":  op_likes,
             "featured": featured,
             "i_like":   i_like,
         }

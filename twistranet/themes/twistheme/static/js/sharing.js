@@ -18,10 +18,10 @@ jq(function()
     });
     return false;
   });
-  jq('.n_likes').live('click', function(){
-    jq('>.f_likes', jq(this).parent()).show();
+  jq('.n_likes').live('mouseenter', function(){
+    jq('>.f_likes', jq(this).parent()).css('display', 'block');
   });
-  jq('.f_likes').live('click', function(){
-    jq(this).hide('slow');
+  jq('.f_likes').live('mouseleave', function(){
+    jq(this).css('display', 'none');
   });
 });

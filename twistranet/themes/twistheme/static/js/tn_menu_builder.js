@@ -441,7 +441,7 @@ var tnmb = tnMenuBuilder = {
       uiform = jq('form', box).clone(true);
       jq('.postboxcontrol', uiform).remove();
       if (type=='content') {
-        uicontentform = jq('#content-item-model-form', box.parent()).clone(true);
+        uicontentform = jq('#content-item-model-form', box.parents('.postbox')).clone(true);
         uiform.prepend(uicontentform.contents());
       }
       menuitem = jq(tnmb.fillItemEditForm(data));

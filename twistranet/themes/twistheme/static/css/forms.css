@@ -310,10 +310,10 @@ ul.inline-form select {
     margin-left: 150px;
 }
 
-/* permissions select list too large sometimes */
+/* permissions select list is shown in js with dd.js */
 
 select.permissions-widget {
-    max-width: 200px;
+    display: none;
 }
 
 #form-protect-unload-message {

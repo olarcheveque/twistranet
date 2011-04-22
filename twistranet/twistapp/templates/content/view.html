@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="content-summary">
-        {{ content.description|safe|fullwiki }}
+        {{ content.description|fullwiki }}
     </div>
     
     <div class="content-text">
@@ -14,12 +14,15 @@
     <div class="view-metadata">
       <div class="post">
         <div class="entry">
-          <div class="postmetadata">
-            <ul>
-              {% include 'content/summary.comments.part.html' %}
-            </ul>
+          <div class="public-actions">
+              <ul class="comment-actions">
+                {% include 'content/summary.comments.part.html' %}
+              </ul>
+              <ul class="sharing-actions">
+                {% include 'sharing/summary.part.html' %}
+              </ul>
           </div>
-          <div id="view_comments{{ content.id }}" class="detailview-comments comments-container">
+          <div id="view_comments{{ content.id }}" class="comments-container">
             {% with content.last_comments as comments %}
                 {% include 'content/comments.part.html' %}
             {% endwith %}

@@ -10,8 +10,8 @@ Basically, any 'wikied' page can contain, at your choice:
 import re
 from django import template
 from django.template.defaultfilters import stringfilter
-from django.utils.html import conditional_escape
-from django.utils.safestring import mark_safe
+from django.utils.html import conditional_escape, urlize
+from django.utils.safestring import SafeData, mark_safe
 from django.core.urlresolvers import reverse
 from twistranet.twistapp.lib import slugify
 from twistranet.twistapp.models import Account, Content, Resource
@@ -32,11 +32,16 @@ def resource_image(resource):
     """
     Render a resource image as an HTML tag
     """
+    is_image = resource.is_image
+    thumbnails = resource.thumbnails
     d = {
-        'url':  resource.get_absolute_url(),
+        'thumburl': is_image and thumbnails['summary'].url or thumbnails['icon'].url,
+        'url': resource.get_absolute_url(),
         'title': resource.title or "",
     }
-    return """<img src="%(url)s" alt="%(title)s" />""" % d
+    if is_image:
+        return """<a href="%(url)s" title="%(title)s"><img class="image-inline" src="%(thumburl)s" alt="%(title)s" /></a>""" % d
+    return """<a href="%(url)s" title="%(title)s"><img class="file-icon" src="%(thumburl)s" /><span>%(title)s</span></a>""" % d
 
 
 matches = (
@@ -65,6 +70,7 @@ class Subf(object):
         """
         label = match.group(0)
         title = None
+        obj = None
         if self.lookup:
             try:
                 kw = {self.lookup_field: match.groupdict()['Alias']}
@@ -95,25 +101,28 @@ def escape_wiki(text, lookup = False, autoescape=None):
     - the slow one which may wake every single object mentionned in the text.
     Use whichever suits you the most.
     """
-    # Determine autoescape behaviour
-    if autoescape:
+
+    # standard text content (statusupdate, description, ...)
+    if not isinstance(text, SafeData):
+        # strip all tags
+        text = re.compile(r'<.*?>').sub('', text)
+        # clean escape
         text = conditional_escape(text)
-        
-    # Replace xxx:// strings by <a href> tags
-    # XXX DISABLED because that doesn't work with already well-formed a href tags!
-    # text = non_a_tag.sub('<a target="_blank" href="\g<0>">\g<Subdomains></a>', text)
-    
+        # urlize the links
+        text = urlize(text)
+        # replace linebreaks
+        text = text.replace('\n', '<br />')
+
+    # html rich content (using safe filter)
+    else:
+        text = conditional_escape(text)
+
     # Replace the global matches
     for regex, fast_reverse, func, model_class, lookup_field in matches:
         subf = Subf(lookup, fast_reverse, func, model_class, lookup_field )
         text = regex.sub(subf, text)
-        
-    # If the original text doesn't contain neither <p> nor <br>,
-    # then we can safely replace '\n's by '<br />'s
-    if not re.search("(<br)|(p)", text):
-        text = text.replace("\n", "<br />")
+
     
-    # Return text
     return mark_safe(text)
     
 

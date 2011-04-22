@@ -394,7 +394,7 @@ var twistranet = {
     },
     finalizestyles: function(e) {
         /* set some first and last classes  */
-        jq([['.content-actions', 'li'],['#mainmenu > ul > li', '> ul> li'],['#content','.post']]).each(function(){
+        jq([['#mainmenu > ul > li', '> ul> li'],['#content','.post']]).each(function(){
            setFirstAndLast(this[0], this[1]);
         } );         
         // set how many thumbs by line in different blocks
