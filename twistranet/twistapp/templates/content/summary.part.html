@@ -31,11 +31,11 @@
                 {% else %}
                     {{ content.title_or_description|wiki }}
                 {% endif %}
+                {% if content.detail_link %}
+                        {{ content.description|wiki }}
+                    </div>
+                {% endif %}
             </span>
-            {% if content.detail_link %}
-                    {{ content.description|safe|wiki }}
-                </div>
-            {% endif %}
         </div>
         <div class="public-actions">
             <ul class="comment-actions">

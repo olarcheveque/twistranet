@@ -620,7 +620,13 @@ class Twistable(_AbstractTwistable):
                 continue
             if not isinstance(v, unicode):
                 v = unicode(v, errors = 'ignore')
-            return mark_safe(v)
+            # important : to display description
+            # we always use wiki filter which apply a "mark_safe"
+            # but after a special treatment
+            if  attr!='description':
+                return mark_safe(v)
+            return v
+
             
     class Meta:
         app_label = 'twistapp'
