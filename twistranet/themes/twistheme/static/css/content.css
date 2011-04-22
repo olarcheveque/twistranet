@@ -184,7 +184,8 @@
    margin: 7px 0 0;
 }
 
-.post-File .public-actions {
+.post-File .public-actions,
+.post-Document .public-actions {
    margin-top: 0;
 }
 
