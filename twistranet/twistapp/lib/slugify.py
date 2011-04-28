@@ -51,6 +51,6 @@ def slugify(value):
     
     # Double-check if we've slugified this correctly
     if not re.search(FULL_SLUG_REGEX, value):
-        raise RuntimeError("Didn't manage to slugify '%s' correctly." % (value, ))
+        return slugify(u"%s0" % value)
     return value[:50]
     
