@@ -39,7 +39,6 @@ loadLastComment = function(comments_container, html) {
 
 loadComments = function(ID, html) {
     comments_container = jq("#view_comments"+ID);
-    //comments_container.stopWaitLoading();
     comments_container.empty();
     comments_container.prepend(html);
     jq("#view"+ID).parent().css('visibility','hidden');
