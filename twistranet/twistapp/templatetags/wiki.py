@@ -48,10 +48,10 @@ matches = (
     # regex,                fast_reverse,         func,       model,          lookup field
     (account_id_regex,      'account_by_id',      None,       Account,        "id",               ),
     (account_slug_regex,    'account_by_slug',    None,       Account,        "slug",             ),
-    (content_id_regex,      'content_by_id',      None,       Content,        "id",               ),
+#    (content_id_regex,      'content_by_id',      None,       Content,        "id",               ),
     (content_slug_regex,    'content_by_slug',    None,       Content,        "slug",             ),
     (content_id_regex,      'resource_by_id',     resource_image,             Resource,       "id",               ),
-    (content_slug_regex,    'resource_by_slug',   resource_image,             Resource,       "slug",             ),
+#    (content_slug_regex,    'resource_by_slug',   resource_image,             Resource,       "slug",             ),
 )
 
 
