@@ -9,7 +9,8 @@ Don't forget to connect to your signals with 'weak = False' !!
 import logging
 import traceback
 import re
-
+from os import path
+from email.MIMEImage import MIMEImage
 from django.conf import settings
 from django.template import Context
 from django.core.mail import EmailMessage, EmailMultiAlternatives
@@ -134,6 +135,7 @@ class MailHandler(NotifierHandler):
         __account__ = SystemAccount.get()
         from_email = settings.SERVER_EMAIL
         host = settings.EMAIL_HOST
+        cache_mimeimages = {}
         if not host:
             # If host is disabled (EMAIL_HOST is None), skip that
             return
@@ -211,7 +213,44 @@ class MailHandler(NotifierHandler):
             msg = EmailMultiAlternatives(subject, text_content, from_email, [ to ], )
             if html_content:
                 msg.attach_alternative(html_content, "text/html")
-            
+                if settings.SEND_EMAIL_IMAGES_AS_ATTACHMENTS:
+                    # we replace img links by img Mime Images
+                    mimeimages = []
+                    def replace_img_url(match):
+                        """Change src url by mimeurl
+                           fill the mimeimages list
+                        """
+                        urlpath = str(match.group('urlpath'))
+                        attribute = str(match.group('attribute'))
+
+                        is_static = False
+                        if urlpath.startswith('/static/'):
+                            filename = urlpath.replace('/static/','',1)
+                            is_static = True
+                        else:
+                            filename = urlpath.split('/')[-1]
+                        nb = len(mimeimages)+1
+                        mimeimages.append((filename, 'img%i'%nb, is_static))
+                        mimeurl = "cid:img%i" %nb
+                        return '%s="%s"' % (attribute,mimeurl)
+
+                    img_url_expr = re.compile('(?P<attribute>src)\s*=\s*([\'\"])(%s)?(?P<urlpath>[^\"\']*)\\2' %domain, re.IGNORECASE)
+                    html_content = img_url_expr.sub(replace_img_url, html_content)
+                    if mimeimages:
+                        msg.mixed_subtype = 'relative'
+                        for file, name, is_static in mimeimages:
+                            if cache_mimeimages.has_key(file):
+                                msgImage = cache_mimeimages[file]
+                            else:
+                                if is_static:
+                                    f = open(path.join(settings.TWISTRANET_STATIC_PATH, file), 'rb')
+                                else:
+                                    f = open(path.join(settings.MEDIA_ROOT, file), 'rb')
+                                cache_mimeimages[file] = msgImage = MIMEImage(f.read())
+                                f.close()
+                            msgImage.add_header('Content-ID', '<%s>' % name)
+                            msgImage.add_header('Content-Disposition', 'inline')
+                            msg.attach(msgImage)
             # Send safely
             try:
                 log.debug("Sending mail: '%s' from '%s' to '%s'" % (subject, from_email, to))
