@@ -333,6 +333,7 @@ var twistranet = {
     __init__: function(e) {
         /* finalize styles */
         this.setBrowserProperties();
+        this.jqExtensions();
         this.finalizestyles();
         this.showContentActions();
         this.showCommentsActions();
@@ -354,6 +355,25 @@ var twistranet = {
             this.browser_width = jq(window).width();
             this.browser_height = jq(window).height();
         } 
+    },
+    jqExtensions : function() {
+        jq.fn.extend({
+            stopWaitLoading : function() {
+                jq('.tn-loading', this).each(function(){
+                    jq(this).parent('.relativizer').remove();
+                });
+            },
+            waitLoading : function(style) {
+                jq('body').stopWaitLoading();
+                if (typeof style == 'undefined') {
+                    left = parseInt(this.width()/2) - 13;
+                    top = -(parseInt(this.height()/2) - 8);
+                    style = 'top:' + top + 'px; left:' + left + 'px;';
+                }
+
+                this.append('<div class="relativizer"><div class="tn-loading" style="' + style + '">&nbsp;<\/div><\/div>');
+            }
+        });
     },
     prettyCombosLists: function(e) {
         // sexy combo list for permissions widget
