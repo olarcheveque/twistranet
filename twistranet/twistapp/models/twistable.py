@@ -618,6 +618,8 @@ class Twistable(_AbstractTwistable):
             v = getattr(self, attr, None)
             if not v:
                 continue
+            if attr=='id':
+                v = str(v)
             if not isinstance(v, unicode):
                 v = unicode(v, errors = 'ignore')
             # important : to display description
