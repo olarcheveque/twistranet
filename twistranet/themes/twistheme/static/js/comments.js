@@ -1,11 +1,12 @@
 var base_comment_message = '';
 
-commentOnSubmit = function(comments_container, ID) {
+commentOnSubmit = function(comments_container) {
   var cform = jq('form', comments_container);
   var cUrl = cform.attr('action');
   cform.submit(function(e){
       e.preventDefault();
       e.stopPropagation();
+      comments_container.waitLoading();
       // it could be more simple,
       // but take care to remove the 'redirect_to' var
       data = {
@@ -14,7 +15,7 @@ commentOnSubmit = function(comments_container, ID) {
         csrfmiddlewaretoken : jq("input[name='csrfmiddlewaretoken']", cform).val()
       };
       jq.post(cUrl, data, function(html) {
-          loadLastComment(ID, html);
+          loadLastComment(comments_container, html);
           // TODO : debug this ...
           // the django form returns by default the request value
           // so we remove it
@@ -25,8 +26,8 @@ commentOnSubmit = function(comments_container, ID) {
   });
 }
 
-loadLastComment = function(ID, html) {
-    comments_container = jq("#view_comments"+ID);
+loadLastComment = function(comments_container, html) {
+    comments_container.stopWaitLoading();
     jq('form:first', comments_container).before(html);
     window.setTimeout(function() {jq('.comment-description-field', comments_container).trigger('focusout')}, 3);
     twistranet.showCommentsActions();
@@ -38,11 +39,12 @@ loadLastComment = function(ID, html) {
 
 loadComments = function(ID, html) {
     comments_container = jq("#view_comments"+ID);
+    //comments_container.stopWaitLoading();
     comments_container.empty();
     comments_container.prepend(html);
     jq("#view"+ID).parent().css('visibility','hidden');
     twistranet.showCommentsActions();
-    commentOnSubmit(comments_container, ID);
+    commentOnSubmit(comments_container);
     commentOnFocus(comments_container);
     jq('.comment-description-field', comments_container).focus();
     jq('a.confirmbefore', comments_container).click(function(e){
@@ -78,12 +80,15 @@ jq(function()
   {
     var ID = jq(this).attr("id");
     var comment_action = jq(this).parents('li');
+    parent = jq(comment_action).parent();
+    parent.waitLoading('left:-70px; top:-11px');
     jq.ajax({
       type: "GET",
       url: home_url + "comment/" + ID + "/list.xml",
       // data: "msg_id="+ ID, 
       cache: false,
       success: function(html){
+        parent.stopWaitLoading();
         loadComments(ID, html);
         jq(comment_action).removeClass('add-comment').removeClass('view-all-comments');
       }

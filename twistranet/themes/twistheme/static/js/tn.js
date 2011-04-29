@@ -371,7 +371,7 @@ var twistranet = {
                     style = 'top:' + top + 'px; left:' + left + 'px;';
                 }
 
-                this.append('<div class="relativizer"><div class="tn-loading" style="' + style + '">&nbsp;<\/div><\/div>');
+                this.append('<span class="relativizer"><div class="tn-loading" style="' + style + '">&nbsp;<\/div><\/span>');
             }
         });
     },
@@ -454,7 +454,7 @@ var twistranet = {
     initCommentForms: function(e) {
         jq('.comments-container').each(function(){
             ID = jq(this).attr('id').replace('view_comments','');
-            commentOnSubmit(this, ID);
+            commentOnSubmit(this);
             commentOnFocus(this);
         })
     },

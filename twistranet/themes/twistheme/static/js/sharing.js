@@ -6,14 +6,17 @@ jq(function()
   {
     if (jq(e.target).is( "a" )) obj = jq(this).parent();
     else obj =this;
+    var parent = jq(obj).parent();
     e.preventDefault();
+    parent.waitLoading('left:-35px; top:-15px');
     var ID = jq(obj).attr("id").replace('toggle_like_','');
     jq.ajax({
       type: "GET",
       url: home_url + "share/like_toggle_by_id/" + ID,
       cache: false,
       success: function(data){
-        jq(jq(obj).parent()).html(data);
+        parent.html(data);
+        parent.stopWaitLoading();
       }
     });
     return false;
