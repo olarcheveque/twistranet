@@ -373,18 +373,24 @@ var twistranet = {
     jqExtensions: function() {
         jq.fn.extend({
             stopWaitLoading: function() {
-                jq('.tn-loading', this).each(function(){
-                    jq(this).parent('.relativizer').remove();
-                });
+                jq('.tn-loading', this).remove();
+                this.removeAttr('style');
             },
-            waitLoading: function(style) {
+            waitLoading: function(style, prepend) {
                 jq('body').stopWaitLoading();
+                this.css('position', 'relative');
                 if (typeof style == 'undefined') {
-                    left = parseInt(this.width()/2) - 13;
-                    top = -(parseInt(this.height()/2) - 8);
-                    style = 'top:' + top + 'px; left:' + left + 'px;';
+                    w = typeof this.width()== 'undefined' ? 0:this.width();
+                    h = typeof this.height()== 'undefined' ? 0:this.height();
+                    l = parseInt(w/2) - 13;
+                    t = parseInt(h/2) - 8;
+                    var style = 'top:' + t + 'px; left:' + l + 'px;';
                 }
-                this.append('<span class="relativizer"><div class="tn-loading" style="' + style + '">&nbsp;<\/div><\/span>');
+                waitBlock = '<div class="tn-loading" style="' + style + '">&nbsp;<\/div>';
+                if (typeof prepend=='undefined' || !prepend)
+                    this.append(waitBlock);
+                else
+                    this.prepend(waitBlock);
             },
             deleteContent: function() {
                 aurl = this.attr('href');

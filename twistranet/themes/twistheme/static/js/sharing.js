@@ -8,7 +8,7 @@ jq(function()
     else obj =this;
     var parent = jq(obj).parent();
     e.preventDefault();
-    parent.waitLoading('left:-35px; top:-15px');
+    parent.parent().waitLoading('left:-80px; top:0px',true);
     var ID = jq(obj).attr("id").replace('toggle_like_','');
     jq.ajax({
       type: "GET",
@@ -16,7 +16,7 @@ jq(function()
       cache: false,
       success: function(data){
         parent.html(data);
-        parent.stopWaitLoading();
+        parent.parent().stopWaitLoading();
       }
     });
     return false;

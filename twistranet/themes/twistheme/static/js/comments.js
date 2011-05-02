@@ -80,15 +80,15 @@ jq(function()
     e.preventDefault();
     var ID = jq(this).attr("id");
     var comment_action = jq(this).parents('li');
-    parent = jq(comment_action).parent();
-    parent.waitLoading('left:-70px; top:-11px');
+    var parent = jq(comment_action).parents('.public-actions');
+    jq(parent).waitLoading('left:-80px; top:0px',true);
     jq.ajax({
       type: "GET",
       url: home_url + "comment/" + ID + "/list.xml",
       // data: "msg_id="+ ID, 
       cache: false,
       success: function(html){
-        parent.stopWaitLoading();
+        jq(parent).stopWaitLoading();
         loadComments(ID, html);
         jq(comment_action).removeClass('add-comment').removeClass('view-all-comments');
       }
