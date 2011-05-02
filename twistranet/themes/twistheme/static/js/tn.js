@@ -33,6 +33,7 @@ setFirstAndLast = function(block, sub, modulo) {
 initConfirmBox = function(elt){
     actionLabel = jq(elt).attr('title');
     actionLink = jq(elt).attr('href');
+    actionFunc = jq(elt).attr('rel');
     dialogBox = jq('#tn-dialog');
     // the title of the box is kept using link title + ' ?'
     jq('#ui-dialog-title-tn-dialog').text(actionLabel+ ' ?');
@@ -47,8 +48,13 @@ initConfirmBox = function(elt){
     var okLabel = jq('#tn-dialog-button-ok', dialogBox).text();
     var tnbuttons = {};  
     tnbuttons[okLabel] = function() {
-      // ok action for now just redirect to the link
-      window.location.replace(actionLink);
+      if (actionFunc) {
+         jq( this ).dialog( "close" );
+         var obj = jq(elt);
+         eval("obj." + actionFunc + "()");
+      }
+      // action link if no action
+      else window.location.replace(actionLink);
     };
     tnbuttons[cancelLabel] = function() {
       jq( this ).dialog( "close" );
@@ -326,6 +332,14 @@ var FileBrowserDialogue = {
     }
 }
 
+addInlineMessage = function (msg, msgtype) {
+    if (!jq('#tn-message').length) {
+        jq('#content').prepend('<div id="tn-message"><ul class="messages"><\/ul><\/div>');
+    }
+    msgcls = typeof msgtype == 'undefined'? 'info' : msgtype;
+    jq('#content #tn-message .messages').html('<li class="'+ msgcls +'">'+ msg + '<\/li>');
+}
+
 // main class
 var twistranet = {
     browser_width: 0,
@@ -356,14 +370,14 @@ var twistranet = {
             this.browser_height = jq(window).height();
         } 
     },
-    jqExtensions : function() {
+    jqExtensions: function() {
         jq.fn.extend({
-            stopWaitLoading : function() {
+            stopWaitLoading: function() {
                 jq('.tn-loading', this).each(function(){
                     jq(this).parent('.relativizer').remove();
                 });
             },
-            waitLoading : function(style) {
+            waitLoading: function(style) {
                 jq('body').stopWaitLoading();
                 if (typeof style == 'undefined') {
                     left = parseInt(this.width()/2) - 13;
@@ -371,6 +385,20 @@ var twistranet = {
                     style = 'top:' + top + 'px; left:' + left + 'px;';
                 }
                 this.append('<span class="relativizer"><div class="tn-loading" style="' + style + '">&nbsp;<\/div><\/span>');
+            },
+            deleteContent: function() {
+                aurl = this.attr('href');
+                block = jq(this.parents('.post,.comment')).first();
+                block.waitLoading();
+                jq.get(aurl, function(data) {
+                    jsondata = eval( "(" + data + ")" );
+                    success = jsondata.success;
+                    msg = jsondata.msg;
+                    if (success) {
+                        addInlineMessage(msg, 'info');
+                        block.remove();
+                    }
+                });
             }
         });
     },
