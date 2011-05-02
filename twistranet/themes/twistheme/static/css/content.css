@@ -142,6 +142,8 @@
 
 .content-actions ul li a:link,
 .content-actions ul li a:visited {
+  display: inline-block;
+  font-size: 10px;
   color: #686868;
   text-align: right;
   padding: 2px 2px 2px 14px;
