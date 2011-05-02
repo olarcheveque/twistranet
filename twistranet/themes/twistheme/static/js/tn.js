@@ -509,7 +509,7 @@ var twistranet = {
               }
             });
             links = 'a.confirmbefore';
-            jq(links).click(function(e){
+            jq(links).live('click', function(e){
                e.preventDefault();
                initConfirmBox(this);
             } );       
