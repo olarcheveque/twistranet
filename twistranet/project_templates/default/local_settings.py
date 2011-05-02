@@ -42,6 +42,10 @@ ADMINS = (
     ("twistranet Administrator", TWISTRANET_ADMIN_EMAIL, ),
 )
 
+# Send inline images of your html emails, as attachments.
+# When this option is set to False, twistranet logo and other possible inline images
+# will just be linked to your site (some antispam filter don't like it)
+SEND_EMAIL_IMAGES_AS_ATTACHMENTS = True
 #                                           #
 #               Hosting settings            #
 #                                           #

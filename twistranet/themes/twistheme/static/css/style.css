@@ -772,3 +772,13 @@ ul.network-actions li.action {
 .relativizer {
   position: relative;
 }
+
+/* wait loading icon */
+
+.tn-loading {
+    background: #FFF url(../images/icons/wait.gif) 5px 3px no-repeat;
+    width: 26px;
+    height: 17px;
+    position: absolute;
+    z-index: 10000;
+}

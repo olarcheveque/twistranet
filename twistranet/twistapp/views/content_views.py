@@ -1,5 +1,11 @@
 # Create your views here.
 import urllib
+try:
+    # python 2.6
+    import json
+except:
+    # python 2.4 with simplejson
+    import simplejson as json
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.template import RequestContext, loader
@@ -161,6 +167,7 @@ class ContentDelete(BaseObjectActionView):
     """
     model_lookup = Content
     name = "delete_content"
+    jsondata=''
     
     def get_title(self,):
         # We translate model_name separately!
@@ -181,13 +188,32 @@ class ContentDelete(BaseObjectActionView):
 
     def prepare_view(self, *args, **kw):
         super(ContentDelete, self).prepare_view(*args, **kw)
-        self.redirect = self.content.publisher.get_absolute_url()
         name = self.content.title_or_description
-        self.content.delete()
-        messages.info(
-            self.request, 
-            _("'%(name)s' has been deleted." % {'name': name})
-        )
+        redir_url = self.content.publisher.get_absolute_url()
+        try:
+            self.content.delete()
+            msg = "'%(name)s' has been deleted." % {'name': name}
+            success = True
+        except:
+            msg = "'%(name)s' cannot be deleted." % {'name': name}
+            success = False
+
+        # XXX TODO (JMG) >>> refactoring in core views
+        if self.request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+            self.jsondata = json.dumps(dict(success=success,msg=msg))
+        # direct access to delete url
+        else:
+            self.redirect = redir_url
+            messages.info(
+                self.request,
+                _(msg)
+            )
+
+    # XXX TODO (JMG) >>> refactoring in core views
+    def render_view(self,):
+        if self.request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+             return HttpResponse( self.jsondata, mimetype='text/html')
+        super(ContentDelete, self).render_view()
 
 # XXX TODO JMG refactoring using a single json view
 

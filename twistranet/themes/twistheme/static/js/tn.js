@@ -33,6 +33,7 @@ setFirstAndLast = function(block, sub, modulo) {
 initConfirmBox = function(elt){
     actionLabel = jq(elt).attr('title');
     actionLink = jq(elt).attr('href');
+    actionFunc = jq(elt).attr('rel');
     dialogBox = jq('#tn-dialog');
     // the title of the box is kept using link title + ' ?'
     jq('#ui-dialog-title-tn-dialog').text(actionLabel+ ' ?');
@@ -47,8 +48,13 @@ initConfirmBox = function(elt){
     var okLabel = jq('#tn-dialog-button-ok', dialogBox).text();
     var tnbuttons = {};  
     tnbuttons[okLabel] = function() {
-      // ok action for now just redirect to the link
-      window.location.replace(actionLink);
+      if (actionFunc) {
+         jq( this ).dialog( "close" );
+         var obj = jq(elt);
+         eval("obj." + actionFunc + "()");
+      }
+      // action link if no action
+      else window.location.replace(actionLink);
     };
     tnbuttons[cancelLabel] = function() {
       jq( this ).dialog( "close" );
@@ -326,6 +332,14 @@ var FileBrowserDialogue = {
     }
 }
 
+addInlineMessage = function (msg, msgtype) {
+    if (!jq('#tn-message').length) {
+        jq('#content').prepend('<div id="tn-message"><ul class="messages"><\/ul><\/div>');
+    }
+    msgcls = typeof msgtype == 'undefined'? 'info' : msgtype;
+    jq('#content #tn-message .messages').html('<li class="'+ msgcls +'">'+ msg + '<\/li>');
+}
+
 // main class
 var twistranet = {
     browser_width: 0,
@@ -333,6 +347,7 @@ var twistranet = {
     __init__: function(e) {
         /* finalize styles */
         this.setBrowserProperties();
+        this.jqExtensions();
         this.finalizestyles();
         this.showContentActions();
         this.showCommentsActions();
@@ -354,6 +369,44 @@ var twistranet = {
             this.browser_width = jq(window).width();
             this.browser_height = jq(window).height();
         } 
+    },
+    jqExtensions: function() {
+        jq.fn.extend({
+            stopWaitLoading: function() {
+                jq('.tn-loading', this).remove();
+                this.removeAttr('style');
+            },
+            waitLoading: function(style, prepend) {
+                jq('body').stopWaitLoading();
+                this.css('position', 'relative');
+                if (typeof style == 'undefined') {
+                    w = typeof this.width()== 'undefined' ? 0:this.width();
+                    h = typeof this.height()== 'undefined' ? 0:this.height();
+                    l = parseInt(w/2) - 13;
+                    t = parseInt(h/2) - 8;
+                    var style = 'top:' + t + 'px; left:' + l + 'px;';
+                }
+                waitBlock = '<div class="tn-loading" style="' + style + '">&nbsp;<\/div>';
+                if (typeof prepend=='undefined' || !prepend)
+                    this.append(waitBlock);
+                else
+                    this.prepend(waitBlock);
+            },
+            deleteContent: function() {
+                aurl = this.attr('href');
+                block = jq(this.parents('.post,.comment')).first();
+                block.waitLoading();
+                jq.get(aurl, function(data) {
+                    jsondata = eval( "(" + data + ")" );
+                    success = jsondata.success;
+                    msg = jsondata.msg;
+                    if (success) {
+                        addInlineMessage(msg, 'info');
+                        block.remove();
+                    }
+                });
+            }
+        });
     },
     prettyCombosLists: function(e) {
         // sexy combo list for permissions widget
@@ -433,8 +486,7 @@ var twistranet = {
     },
     initCommentForms: function(e) {
         jq('.comments-container').each(function(){
-            ID = jq(this).attr('id').replace('view_comments','');
-            commentOnSubmit(this, ID);
+            commentOnSubmit(jq(this));
             commentOnFocus(this);
         })
     },

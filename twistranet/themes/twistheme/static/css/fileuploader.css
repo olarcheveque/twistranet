@@ -81,7 +81,7 @@
    float: right;
    width: 16px;
    height: 16px;
-   background-image: url("../images/icons/icons-normal.png");
+   background-image: url("../images/icons/sprite.png");
    background-position: 0 -96px;
    background-repeat: no-repeat;
    text-decoration: none !important;
