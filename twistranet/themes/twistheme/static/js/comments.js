@@ -75,8 +75,9 @@ commentOnFocus = function(comments_container) {
 
 jq(function() 
 {
-  jq(".view_comments").click(function() 
+  jq(".view_comments").live('click', function(e)
   {
+    e.preventDefault();
     var ID = jq(this).attr("id");
     var comment_action = jq(this).parents('li');
     parent = jq(comment_action).parent();
