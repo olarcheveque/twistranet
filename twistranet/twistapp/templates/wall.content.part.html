@@ -4,6 +4,10 @@
     {% for content in latest_content_list %}
         {%include content.summary_view %}
     {% endfor %}
+    <div id="bottom-navigation-bar">
+        <a class="olderPosts"
+           href="{{current_url}}?page={{nextpage}}">{% blocktrans %}Older posts{% endblocktrans %}</a>
+    </div>
 {% else %}
     <p>{% blocktrans %}No content.{% endblocktrans %}</p>
 {% endif %}

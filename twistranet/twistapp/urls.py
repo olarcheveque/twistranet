@@ -10,9 +10,6 @@ urlpatterns = patterns('',
     # The wall page for generic accounts
     url(r'^$',                                      AsView(HomepageView), name = HomepageView.name),
     url(r'^timeline$',                              AsView(PublicTimelineView), name = PublicTimelineView.name),
-    url(r'^wall/(\d+)/ajax/$',                      AsView(WallAjaxView, lookup = 'id'), name = 'ajax_wall_by_id'),
-    url(r'^wall/(%s)/ajax/$' % SLUG_REGEX,          AsView(WallAjaxView, lookup = 'slug'), name = 'ajax_wall_by_slug'),
-    
     # Account pages 
     url(r'^account/(\d+)/$',                        AsView(UserAccountView, lookup = 'id'), name = 'account_by_id'),
     url(r'^account/(%s)/$' % SLUG_REGEX,            AsView(UserAccountView, lookup = 'slug'), name = 'account_by_slug'),

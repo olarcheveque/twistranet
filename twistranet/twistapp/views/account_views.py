@@ -36,7 +36,7 @@ class UserAccountView(BaseWallView):
     template_variables = BaseWallView.template_variables + [
         "account",
         "n_communities",
-        "n_network_members",
+        "n_network_members"
     ]
 
     model_lookup = UserAccount
@@ -71,56 +71,8 @@ class UserAccountView(BaseWallView):
                         </p>
                     """))
 
-    def get_recent_content_list(self):
-        """
-        Retrieve recent content list for the given account.
-        XXX TODO: Optimize this by adding a (first_twistable_on_home, last_twistable_on_home) values pair on the Account object.
-        This way we can just query objects with id > last_twistable_on_home
-        """
-        latest_ids = Content.objects.getActivityFeed(self.object)
-        latest_ids = latest_ids.order_by("-id").values_list('id', flat = True)[:settings.TWISTRANET_CONTENT_PER_PAGE]
-        latest_list = Content.objects.__booster__.filter(id__in = tuple(latest_ids)).select_related(*self.select_related_summary_fields).order_by("-created_at")
-        return latest_list
-
-    def get_title(self,):
-        """
-        We override get_title in a way that it could be removed easily in subclasses.
-        Just define a valid value for self.title and this get_title() will keep the BaseView behaviour
-        """
-        if not self.title:
-            return _("%(name)s's profile") % {'name': self.account.title}
-        return super(UserAccountView, self).get_title()
-
-
-class WallAjaxView(BaseAjaxView):
-    """
-    This is what is used as ajax base view for all accounts
-    """
-
-    template_variables = BaseAjaxView.template_variables + [
-        "latest_content_list",
-        "account",
-        "n_communities",
-        "n_network_members",
-    ]
-
-    model_lookup = Account
-    template = "wall.content.part.html"
-    title = None
-    name = "ajax_wall_by_id"
-
-    def prepare_view(self, *args, **kw):
-        """
-        Add a few parameters for the view
-        """
-        # Regular creation
-        super(WallAjaxView, self).prepare_view(*args, **kw)
-        self.latest_content_list = self.get_recent_content_list()
-        if not hasattr(self, "account"):
-            self.account = self.auth
-        self.useraccount = self.account
-        self.n_communities = self.account and self.account.communities.count() or False
-        self.n_network_members = self.account and self.account.network.count() or False
+    def get_latest_ids(self,):
+        return Content.objects.getActivityFeed(self.object)
 
     def get_recent_content_list(self):
         """
@@ -128,14 +80,12 @@ class WallAjaxView(BaseAjaxView):
         XXX TODO: Optimize this by adding a (first_twistable_on_home, last_twistable_on_home) values pair on the Account object.
         This way we can just query objects with id > last_twistable_on_home
         """
-        latest_ids = Content.objects.getActivityFeed(self.object)
-        nb_all = latest_ids.count()
-        page = int(self.request.GET.get('page',1))
-        page_size = settings.TWISTRANET_CONTENT_PER_PAGE
-        nb_to = page_size*page
-        nb_from = page_size*(page-1)
+        nb_all = self.latest_ids.count()
+        batch = self.batch_list(nb_all)
+        nb_from = batch[0]
+        nb_to = batch[1]
         if nb_from < nb_all:
-            latest_ids = latest_ids.order_by("-id").values_list('id', flat = True)[nb_from:nb_to]
+            latest_ids = self.latest_ids.order_by("-id").values_list('id', flat = True)[nb_from:nb_to]
             latest_list = Content.objects.__booster__.filter(id__in = tuple(latest_ids)).select_related(*self.select_related_summary_fields).order_by("-created_at")
             return latest_list
         return []
@@ -147,7 +97,7 @@ class WallAjaxView(BaseAjaxView):
         """
         if not self.title:
             return _("%(name)s's profile") % {'name': self.account.title}
-        return super(WallAjaxView, self).get_title()
+        return super(UserAccountView, self).get_title()
 
 class HomepageView(UserAccountView):
     """
@@ -156,7 +106,7 @@ class HomepageView(UserAccountView):
     name = "twistranet_home"
     title = _("Timeline")
         
-    def get_recent_content_list(self):
+    def get_latest_ids(self):
         """
         Retrieve recent content list for the given account.
         XXX TODO: Optimize this by adding a (first_twistable_on_home, last_twistable_on_home) values pair on the Account object.
@@ -168,9 +118,7 @@ class HomepageView(UserAccountView):
                 latest_ids = Content.objects.followed.exclude(model_name = "Comment")
         if latest_ids is None:
             latest_ids = Content.objects.exclude(model_name = "Comment")
-        latest_ids = latest_ids.order_by("-id").values_list('id', flat = True)[:settings.TWISTRANET_CONTENT_PER_PAGE]
-        latest_list = Content.objects.__booster__.filter(id__in = tuple(latest_ids)).select_related(*self.select_related_summary_fields).order_by("-created_at")
-        return latest_list
+        return latest_ids
     
     def prepare_view(self, ):
         """
@@ -187,13 +135,11 @@ class PublicTimelineView(UserAccountView):
     name = "timeline"
     title = _("Public timeline")
     
-    def get_recent_content_list(self):
+    def get_latest_ids(self):
         """
         Just return all public / available content
         """
-        latest_ids = Content.objects.order_by("-id").exclude(model_name = "Comment").values_list('id', flat = True)[:settings.TWISTRANET_CONTENT_PER_PAGE]
-        latest_list = Content.objects.__booster__.filter(id__in = tuple(latest_ids)).select_related(*self.select_related_summary_fields).order_by("-created_at")
-        return latest_list
+        return Content.objects.exclude(model_name = "Comment")
 
 
 #                                                                               #

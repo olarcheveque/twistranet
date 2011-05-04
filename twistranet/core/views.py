@@ -105,20 +105,26 @@ class BaseView(object):
         "community/communities.box.html",
     ]
     view_template = None
+    ajax_template = None
     body_class = ''
     comment_form = None
     available_actions = []      # List of either Action objects or BaseView classes (that will be instanciated and called with view.as_action() method)
     name = None                 # The name that this will be mapped to in url.py. But you can of course override this in url.py.
     # category = GLOBAL_ACTIONS   # Override this if you want to give another default category to this view.
-    
+
+    page = 1
+    nextpage = 2
     # The view attribute which will be passed to the templates
     template_variables = [
         ("title", "get_title"),
+        "page",
+        "nextpage",
         "path",
         "context_boxes",
         "global_boxes",
         "body_class",
         "breadcrumb",
+        "current_url",
         "comment_form",
     ]
     
@@ -144,6 +150,9 @@ class BaseView(object):
             self.request = request
             self.path = request and request.path
             self.auth = Twistable.objects.getCurrentAccount(request)
+            self.current_url = self.request.build_absolute_uri(self.request.get_full_path())
+            self.page = int(request.GET.get('page',1))
+            self.nextpage = self.page + 1
             if not self.auth.is_anonymous:
                 self.useraccount_cache = caches.UserAccountCache(self.auth)
                 self.useraccount_cache.online = True            # Set as online
@@ -168,7 +177,6 @@ class BaseView(object):
     #                                                                                               #
     #                                           Misc. stuff                                         #
     #                                                                                               #        
-
     def get_site_domain(self,):
         """
         We use this method to save site domain while we know it.
@@ -337,10 +345,28 @@ class BaseView(object):
                 bodyclass = 'nocol'
         params["body_class"] = bodyclass
         # Render template
+        if self.request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+            return self.render_ajax_view(params)
         t = get_template(self.template)
         c = RequestContext(self.request, params)
         return self.response_handler_method(t.render(c))
-                
+
+    def batch_list(self, nb_all):
+        """
+        very simple batch for pages which need it
+        (XXX : improve it)
+        return tuple (start, end)
+        """
+        page_size = settings.TWISTRANET_CONTENT_PER_PAGE
+        nb_from = page_size*(self.page - 1)
+        nb_to = page_size*(self.page)
+        return nb_from, nb_to
+
+    def render_ajax_view(self, params):
+        if self.ajax_template:
+            t = get_template(self.ajax_template)
+            c = RequestContext(self.request, params)
+            return HttpResponse(t.render(c))
 
 class BaseIndividualView(BaseView):
     """
@@ -521,12 +547,15 @@ class BaseWallView(BaseIndividualView):
     template_variables = BaseIndividualView.template_variables + [
         "content_forms",
         "latest_content_list",
+        "nextpage"
     ]
 
     select_related_summary_fields = (
         "owner",
         "publisher",
     )
+
+    ajax_template="wall.content.part.html"
 
     def get_inline_forms(self, publisher = None):
         """
@@ -587,21 +616,6 @@ class BaseWallView(BaseIndividualView):
         """
         super(BaseWallView, self).prepare_view(value)
         # if self.object:
+        self.latest_ids = self.get_latest_ids()
         self.latest_content_list = self.get_recent_content_list()
         self.content_forms = self.get_inline_forms(self.object)
-
-
-class BaseAjaxView(BaseIndividualView):
-    """
-    Base view for ajax contents rendering html
-    """
-    # context_boxes could be used to reload left col in ajax
-    context_boxes = [
-        'account/profile.box.html',
-        'actions/context.box.html',
-        'account/relations.box.html',
-    ]
-    select_related_summary_fields = (
-        "owner",
-        "publisher",
-    )
