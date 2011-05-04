@@ -23,13 +23,9 @@ class ResourceModelManager(twistable.TwistableManager):
         if account.is_anonymous:
             return []
         accounts = [account]
-        accounts.extend(account.communities.all())
+        accounts.extend(account.managed_communities.all())
         
-        act_accounts = []
-        for a in accounts:
-            if self.filter(publisher__id = a.id):
-                act_accounts.append(a)
-        return act_accounts
+        return accounts
 
 def twistorage_upload_to(instance, filename):
     """

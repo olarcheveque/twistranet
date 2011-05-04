@@ -266,7 +266,13 @@ class Account(twistable.Twistable):
     @property
     def managed_communities(self):
         """The communities I'm a manager of"""
-        return self.communities.filter(targeted_network__is_manager = True)   
+        from community import Community
+        return Community.objects.filter(
+            targeted_network__target__id = self.id,
+            requesting_network__client__id = self.id,
+            requesting_network__is_manager = True,
+        )
+        #return self.communities.filter(requesting_network__is_manager = True)
 
 class SystemAccount(Account):
     """
