@@ -80,7 +80,7 @@ class CommunityView(UserAccountView):
         <p>For example, you can express:<br />
         - What are you working on right now?<br />
         - What would you like to find on this community page?</p>""")
-            messages.info(self.request, msg)
+            messages.info(self.request, mark_safe(msg))
 
 
 #                                                                               #
@@ -479,7 +479,7 @@ class CommunityJoin(BaseObjectActionView):
             # XXX Should send a message to community managers for approval
             raise NotImplementedError("We should implement approval here!")
         self.community.join()
-        messages.info(self.request, _("You're now part of %(name)s!<br />Welcome aboard.") % {'name': name})
+        messages.info(self.request, mark_safe(_("You're now part of %(name)s!<br />Welcome aboard.") % {'name': name}))
         raise MustRedirect(self.community.get_absolute_url())
 
 class CommunityLeave(BaseObjectActionView):
