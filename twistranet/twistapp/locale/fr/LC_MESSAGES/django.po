@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: twistranet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-06 15:16+0200\n"
+"POT-Creation-Date: 2011-05-06 15:53+0200\n"
 "PO-Revision-Date: 2011-05-06 13:52+0200\n"
 "Last-Translator: Jean-mat Grimaldi <jmgrimaldi@numericube.com>\n"
 "Language-Team: Numericube\n"
@@ -536,14 +536,18 @@ msgstr ""
 
 #: .\templates\email\created_content.html.py:6
 #: .\templates\email\created_content.html.py:16
+#: .\templates\email\created_content.txt.py:5
 #, python-format
 msgid "%(owner)s published %(content_type)s."
 msgstr "%(owner)s a publié un %(content_type)s"
 
 #: .\templates\email\created_content.html.py:18
+#: .\templates\email\created_content.txt.py:7
 #: .\templates\email\created_content_comment.html.py:26
+#: .\templates\email\created_content_comment.txt.py:8
 #: .\templates\email\created_content_statusupdate.html.py:19
 #: .\templates\email\invite_user.html.py:10
+#: .\templates\email\invite_user.txt.py:6
 msgid "Hi,"
 msgstr "Bonjour,"
 
@@ -571,6 +575,39 @@ msgstr ""
 "            Pour voir ce contenu et le commenter, visitez\n"
 "            <a href=\"%(domain)s%(absolute_url)s\">%(site_name)s</a>.\n"
 "        "
+
+#: .\templates\email\created_content.txt.py:9
+#, python-format
+msgid ""
+"\n"
+"    %(owner)s published a new %(content_type)s:\n"
+msgstr ""
+"\n"
+"    %(owner)s a publié un nouveau %(content_type)s:\n"
+
+#: .\templates\email\created_content.txt.py:15
+#: .\templates\email\created_content_comment.txt.py:14
+#, python-format
+msgid ""
+"\n"
+"  You can click here to view and comment it: %(domain)s%(absolute_url)s\n"
+msgstr ""
+"\n"
+"  Cliquez ici pour voir ce contenu et le commenter : %(domain)s"
+"%(absolute_url)s\n"
+
+#: .\templates\email\created_content.txt.py:19
+#: .\templates\email\created_content_comment.txt.py:18
+#: .\templates\email\invite_user.txt.py:19
+#: .\templates\email\request_add_to_network.txt.py:19
+msgid ""
+"\n"
+"  --\n"
+"  Greetings from twistranet\n"
+msgstr ""
+"\n"
+"  --\n"
+"  À bientôt - l'équipe de twistranet\n"
 
 #: .\templates\email\created_content_comment.html.py:6
 #, python-format
@@ -621,7 +658,23 @@ msgstr ""
 "(content_title_or_description)s</a>.\n"
 "        "
 
+#: .\templates\email\created_content_comment.txt.py:5
+#, python-format
+msgid "Subject: %(owner)s commented %(content_owner)s's contenu\n"
+msgstr "Subject: %(owner)s a commenté le contenu de %(content_owner)s\n"
+
+#: .\templates\email\created_content_comment.txt.py:10
+#, python-format
+msgid ""
+"\n"
+"    We're happy to tell you that %(owner)s published a new %(content_type)"
+"s:\n"
+msgstr ""
+"\n"
+"            %(owner)s a publié un nouveau %(content_type)s :\n"
+
 #: .\templates\email\created_content_statusupdate.html.py:6
+#: .\templates\email\created_content_statusupdate.txt.py:5
 #, python-format
 msgid "%(owner)s published on %(published_on)s's wall"
 msgstr "%(owner)s a publié sur le mur de %(published_on)s"
@@ -671,6 +724,27 @@ msgstr ""
 "<a href=\"%(domain)s%(invitation_uri)s\">Suivez ce lien</a> pour accepter "
 "cette invitation, ou ignorez-la simplement."
 
+#: .\templates\email\invite_user.txt.py:4
+#, python-format
+msgid "%(inviter_title)s invites you to twistranet"
+msgstr "%(inviter_title)s vous invite sur twistranet"
+
+#: .\templates\email\invite_user.txt.py:8
+#, python-format
+msgid "You just recieved a request from %(inviter_title)s to join twistranet."
+msgstr ""
+"Vous avez reçu une demande de %(inviter_title)s à rejoindre twistranet."
+
+#: .\templates\email\invite_user.txt.py:11
+#, python-format
+msgid "Here's what %(inviter_title)s tells you:"
+msgstr "%(inviter_title)s vous envoie ce message :"
+
+#: .\templates\email\invite_user.txt.py:17
+#, python-format
+msgid "%(domain)s%(invitation_uri)s"
+msgstr "%(domain)s%(invitation_uri)s"
+
 #: .\templates\email\request_add_to_network.html.py:4
 #: .\templates\email\request_add_to_network.html.py:10
 #, python-format
@@ -679,18 +753,21 @@ msgstr ""
 "Vous avez reçu une demande de %(client_title)s à rejoindre votre réseau."
 
 #: .\templates\email\request_add_to_network.html.py:12
+#: .\templates\email\request_add_to_network.txt.py:8
 #: .\templates\email\reset_password.html.py:10
 #, python-format
 msgid "Dear %(target_title)s,"
 msgstr "Cher, Chère %(target_title)s,"
 
 #: .\templates\email\request_add_to_network.html.py:15
+#: .\templates\email\request_add_to_network.txt.py:10
 #, python-format
 msgid "You just recieved a request from %(client_title)s to join your network."
 msgstr ""
 "Vous avez reçu une demande de %(client_title)s à rejoindre votre réseau."
 
 #: .\templates\email\request_add_to_network.html.py:18
+#: .\templates\email\request_add_to_network.txt.py:12
 msgid "You have to take an action!"
 msgstr "Vous devez répondre à cette demande."
 
@@ -703,8 +780,24 @@ msgstr ""
 "Visitez <a href=\"%(domain)s%(client_get_absolute_url)s\">la page de %"
 "(client_title)s</a> pour accepter ou ignorer sa demande."
 
+#: .\templates\email\request_add_to_network.txt.py:4
+#, python-format
+msgid "%(client_title)s wants to join your network."
+msgstr ""
+"Vous avez reçu une demande de %(client_title)s à rejoindre votre réseau."
+
+#: .\templates\email\request_add_to_network.txt.py:14
+#, python-format
+msgid ""
+"Visit %(domain)s%(client_get_absolute_url)s to accept or decline his/her "
+"request."
+msgstr ""
+"Visitez %(domain)s%(client_get_absolute_url)s pour accepter ou ignorer sa "
+"demande."
+
 #: .\templates\email\reset_password.html.py:4
 #: .\templates\email\reset_password.html.py:8
+#: .\templates\email\reset_password.txt.py:3
 msgid "Password reset"
 msgstr "Réinitialiser le mot de passe"
 
@@ -948,8 +1041,8 @@ msgid ""
 "Do you really want to delete this account?<br />All content for this user "
 "WILL BE DELETED."
 msgstr ""
-"Voulez-vous vraiment supprimer ce compte ?<br />Tous les contenus de cet utilisateur "
-"SERONT EGALEMENT SUPPRIMES."
+"Voulez-vous vraiment supprimer ce compte ?<br />Tous les contenus de cet "
+"utilisateur SERONT EGALEMENT SUPPRIMES."
 
 #: .\views\account_views.py:256
 msgid "Delete account"
