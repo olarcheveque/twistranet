@@ -252,7 +252,7 @@ class AccountDelete(BaseObjectActionView):
     """
     model_lookup = UserAccount
     name = "account_delete"
-    confirm = "Do you really want to delete this account?<br />All content for this user WILL BE DELETED."
+    confirm = _("Do you really want to delete this account?<br />All content for this user WILL BE DELETED.")
     title = _("Delete account")
  
     def as_action(self):

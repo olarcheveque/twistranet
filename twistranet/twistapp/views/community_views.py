@@ -460,7 +460,7 @@ class CommunityJoin(BaseObjectActionView):
     name = "community_join"
     category = MAIN_ACTION
     title = _("Join community")
-    confirm = "Do you really want to join this community?"
+    confirm = _("Do you really want to join this community?")
 
     def as_action(self):
         if not isinstance(getattr(self, "object", None), self.model_lookup):
@@ -487,7 +487,7 @@ class CommunityLeave(BaseObjectActionView):
     category = LOCAL_ACTIONS
     name = "community_leave"
     title = _("Leave community")
-    confirm = "Do you really want to leave this community?"
+    confirm = _("Do you really want to leave this community?")
 
     def as_action(self):
         if not isinstance(getattr(self, "object", None), self.model_lookup):
@@ -518,7 +518,7 @@ class CommunityDelete(BaseObjectActionView):
     """
     model_lookup = Community
     name = "community_delete"
-    confirm = "Do you really want to delete this community?"
+    confirm = _("Do you really want to delete this community?")
     title = _("Delete community")
  
     def as_action(self):
