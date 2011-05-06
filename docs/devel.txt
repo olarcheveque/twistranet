@@ -96,9 +96,9 @@ Internationalisation
 Find new internationalized strings in your code
 and update your .po files
 more information here : http://docs.djangoproject.com/en/dev/topics/i18n/localization/
-At each twistranet application root containing a locale folder
+At each twistranet application root containing a locale folder (do not forget txt extensions)
 
-    (twistranet-devel) $ django-admin.py makemessages -a
+    (twistranet-devel) $ django-admin.py makemessages -a -e html,txt,py
 
 Compile your .po (it's a mandatory after each change)
 
