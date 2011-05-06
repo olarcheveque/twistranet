@@ -9,6 +9,8 @@
            href="{{current_url}}?page={{nextpage}}">{% blocktrans %}Older posts{% endblocktrans %}</a>
     </div>
 {% else %}
-    <p>{% blocktrans %}No content.{% endblocktrans %}</p>
+    <div id="bottom-navigation-bar">
+        <span class="veryBeginning">{% blocktrans %}It was the very beginning of this wall{% endblocktrans %}</span>
+    </div>
 {% endif %}
 

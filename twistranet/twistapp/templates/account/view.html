@@ -8,5 +8,9 @@
 
 {% block content %}
     {% include "content/content_forms.part.html" %}
-    {% include "wall.content.part.html" %}
+    {% if latest_content_list %}
+      {% include "wall.content.part.html" %}
+    {% else %}
+      <p>{% blocktrans %}No content.{% endblocktrans %}</p>
+    {% endif %}
 {% endblock %}

@@ -43,7 +43,7 @@ class UserAccountView(BaseWallView):
     template = "account/view.html"
     title = None
     name = "account_by_id"
-    
+
     def prepare_view(self, *args, **kw):
         """
         Add a few parameters for the view
@@ -71,7 +71,7 @@ class UserAccountView(BaseWallView):
                         </p>
                     """)))
 
-    def get_latest_ids(self,):
+    def get_objects_list(self,):
         return Content.objects.getActivityFeed(self.object)
 
     def get_recent_content_list(self):
@@ -80,13 +80,13 @@ class UserAccountView(BaseWallView):
         XXX TODO: Optimize this by adding a (first_twistable_on_home, last_twistable_on_home) values pair on the Account object.
         This way we can just query objects with id > last_twistable_on_home
         """
-        nb_all = self.latest_ids.count()
+        nb_all = self.objects_list.count()
         batch = self.batch_list(nb_all)
         nb_from = batch[0]
         nb_to = batch[1]
         if nb_from < nb_all:
-            latest_ids = self.latest_ids.order_by("-id").values_list('id', flat = True)[nb_from:nb_to]
-            latest_list = Content.objects.__booster__.filter(id__in = tuple(latest_ids)).select_related(*self.select_related_summary_fields).order_by("-created_at")
+            objects_list = self.objects_list.order_by("-id").values_list('id', flat = True)[nb_from:nb_to]
+            latest_list = Content.objects.__booster__.filter(id__in = tuple(objects_list)).select_related(*self.select_related_summary_fields).order_by("-created_at")
             return latest_list
         return []
 
@@ -106,19 +106,19 @@ class HomepageView(UserAccountView):
     name = "twistranet_home"
     title = _("Timeline")
         
-    def get_latest_ids(self):
+    def get_objects_list(self):
         """
         Retrieve recent content list for the given account.
         XXX TODO: Optimize this by adding a (first_twistable_on_home, last_twistable_on_home) values pair on the Account object.
         This way we can just query objects with id > last_twistable_on_home
         """
-        latest_ids = None
+        objects_list = None
         if not self.auth.is_anonymous:
             if Content.objects.filter(publisher = self.auth).exists():
-                latest_ids = Content.objects.followed.exclude(model_name = "Comment")
-        if latest_ids is None:
-            latest_ids = Content.objects.exclude(model_name = "Comment")
-        return latest_ids
+                objects_list = Content.objects.followed.exclude(model_name = "Comment")
+        if objects_list is None:
+            objects_list = Content.objects.exclude(model_name = "Comment")
+        return objects_list
     
     def prepare_view(self, ):
         """
@@ -131,11 +131,12 @@ class HomepageView(UserAccountView):
             prep_id = None
         super(HomepageView, self).prepare_view(prep_id)
 
+
 class PublicTimelineView(UserAccountView):
     name = "timeline"
     title = _("Public timeline")
     
-    def get_latest_ids(self):
+    def get_objects_list(self):
         """
         Just return all public / available content
         """

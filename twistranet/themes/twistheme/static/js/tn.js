@@ -348,6 +348,7 @@ var twistranet = {
         /* finalize styles */
         this.setBrowserProperties();
         this.jqExtensions();
+        this.initAjaxWalls();
         this.finalizestyles();
         this.showContentActions();
         this.showCommentsActions();
@@ -424,6 +425,24 @@ var twistranet = {
                 jq(this).mouseenter(function(){jq(pdescriptions[i]).show()});
                 jq(this).mouseleave(function(){jq(pdescriptions[i]).hide()});
             });
+        })
+    },
+    initAjaxWalls: function(e) {
+        jq('#bottom-navigation-bar a').live('click', function(e){
+            e.preventDefault();
+            var bottomBar = jq(this).parent();
+            bottomBar.waitLoading('left:150px;top:10px');
+            jq.ajax({
+                type: "GET",
+                url: jq(this).attr('href'),
+                dataType: 'html',
+                contentType: 'text/html; charset=utf-8',
+                cache: false,
+                success: function(content){
+                    bottomBar.replaceWith(content);
+                }
+            });
+            return false;
         })
     },
     enableLiveSearch: function(e) {

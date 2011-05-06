@@ -150,7 +150,7 @@ class BaseView(object):
             self.request = request
             self.path = request and request.path
             self.auth = Twistable.objects.getCurrentAccount(request)
-            self.current_url = self.request.build_absolute_uri(self.request.get_full_path())
+            self.current_url = self.get_current_url()
             self.page = int(request.GET.get('page',1))
             self.nextpage = self.page + 1
             if not self.auth.is_anonymous:
@@ -177,6 +177,11 @@ class BaseView(object):
     #                                                                                               #
     #                                           Misc. stuff                                         #
     #                                                                                               #        
+    def get_current_url(self,):
+        """render the current url without query_string
+           reload this method if needed"""
+        return self.request.build_absolute_uri(self.request.path)
+        
     def get_site_domain(self,):
         """
         We use this method to save site domain while we know it.
@@ -513,8 +518,8 @@ class BaseIndividualView(BaseView):
         return publisher wall url or home page
         """
         referer_url = self.request.META.get('HTTP_REFERER', '')
-        current_url = self.request.build_absolute_uri(self.request.get_full_path())
-        if not (referer_url) or referer_url == current_url:
+        requested_url = self.request.build_absolute_uri(self.request.get_full_path())
+        if not (referer_url) or referer_url == requested_url:
             if hasattr(self, 'publisher'):
                 publisher = self.publisher
                 if publisher:
@@ -610,12 +615,26 @@ class BaseWallView(BaseIndividualView):
         # Return the forms
         return forms
     
+    def get_objects_list(self,):
+        """
+        render the base objects list
+        must be overloaded
+        """
+        pass
+
+    def get_recent_content_list(self,):
+        """
+        render the batched list
+        must be overloaded
+        """
+        pass
+    
     def prepare_view(self, value = None):
         """
         Fetch the individual object, plus its latest content.
         """
         super(BaseWallView, self).prepare_view(value)
         # if self.object:
-        self.latest_ids = self.get_latest_ids()
+        self.objects_list = self.get_objects_list()
         self.latest_content_list = self.get_recent_content_list()
         self.content_forms = self.get_inline_forms(self.object)
