@@ -455,7 +455,7 @@ class BaseIndividualView(BaseView):
                             self.object.save()
                         except ValidationError:
                             detail = sys.exc_info()[1]
-                            messages.warning(self.request, _(detail.messages[0]))
+                            messages.warning(self.request, mark_safe(_(detail.messages[0])))
                         else:
                             self.form.save_m2m()
                             raise MustRedirect(self.object.get_absolute_url())
@@ -485,7 +485,7 @@ class BaseIndividualView(BaseView):
         """
         confirm = getattr(self, "confirm", None)
         if confirm:
-            confirm = mark_safe(_(confirm))
+            confirm = mark_safe(confirm)
         return Action(
             category = getattr(self, "category", LOCAL_ACTIONS),
             label = self.get_title(),

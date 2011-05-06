@@ -144,7 +144,6 @@ ephemeral_templates = PermissionTemplate((
         can_view:           owner,
         can_edit:           owner,
         can_delete:         owner,
-        "disabled_for_useraccount":     True,
         "disabled_for_community":       True,
     },
 ))

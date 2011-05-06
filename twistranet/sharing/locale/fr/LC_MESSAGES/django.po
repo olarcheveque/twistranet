@@ -18,22 +18,10 @@ msgstr ""
 "Domain: django\n"
 "X-Is-Fallback-For: fr-be fr-ca fr-lu fr-mc fr-ch fr-fr\n"
 
-#: .\__init__.py:53
-#, python-format
-msgid "%(client)s joined %(community)s."
-msgstr "%(client)s a rejoint %(community)s."
+#: .\templates\sharing\summary.part.html.py:26
+msgid "I like"
+msgstr "J'aime"
 
-#: .\__init__.py:63
-#, python-format
-msgid "You are invited in %(community)s community"
-msgstr "Vous êtes invité à rejoindre la communauté '%(community)s'."
-
-#: .\__init__.py:75
-#, python-format
-msgid "%(client)s wants to add you to his/her network."
-msgstr "%(client)s veut vous ajouter à son réseau."
-
-#: .\__init__.py:94
-#, python-format
-msgid "%(client)s is now connected to %(target)s."
-msgstr "%(client)s est maintenant connecté à %(target)s."
+#: .\templates\sharing\summary.part.html.py:33
+msgid "I don't like"
+msgstr "Je n'aime plus"

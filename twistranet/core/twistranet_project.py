@@ -149,12 +149,16 @@ def twistranet_project():
         theme_app = import_module(settings.TWISTRANET_THEME_APP)
         theme_app_dir = os.path.split(theme_app.__file__)[0]
         DEVEL_TWISTRANET_STATIC_PATH = os.path.abspath(os.path.join(theme_app_dir, 'static'))
+        DEVEL_TWISTRANET_LOCALE_PATHS = "("
+        for twapp in ('core', 'notifier', 'search', 'sharing', 'tagging', 'twistapp', ):
+            DEVEL_TWISTRANET_LOCALE_PATHS += "r'%s', " %os.path.abspath(os.path.join(twist_package_path, twapp, 'locale'))
+        DEVEL_TWISTRANET_LOCALE_PATHS += ")"
         settings_path = os.path.join(project_path, "settings.py")
         f = open(settings_path, "r")
         data = f.read()
         f.close()
         f = open(settings_path, "w")
-        data += '\n\n# ADDED FOR DEVEL MODE ONLY\nTWISTRANET_STATIC_PATH = r"%s"\n' %DEVEL_TWISTRANET_STATIC_PATH
+        data += '\n\n# ADDED FOR DEVEL MODE ONLY\nTWISTRANET_STATIC_PATH = r"%s"\n\nLOCALE_PATHS = %s\n' %(DEVEL_TWISTRANET_STATIC_PATH, DEVEL_TWISTRANET_LOCALE_PATHS)
         f.write(data)
         f.close()
         # fix settings for first server start

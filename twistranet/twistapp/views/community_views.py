@@ -80,7 +80,7 @@ class CommunityView(UserAccountView):
         <p>For example, you can express:<br />
         - What are you working on right now?<br />
         - What would you like to find on this community page?</p>""")
-            messages.info(self.request, msg)
+            messages.info(self.request, mark_safe(msg))
 
 
 #                                                                               #
@@ -460,7 +460,7 @@ class CommunityJoin(BaseObjectActionView):
     name = "community_join"
     category = MAIN_ACTION
     title = _("Join community")
-    confirm = "Do you really want to join this community?"
+    confirm = _("Do you really want to join this community?")
 
     def as_action(self):
         if not isinstance(getattr(self, "object", None), self.model_lookup):
@@ -479,7 +479,7 @@ class CommunityJoin(BaseObjectActionView):
             # XXX Should send a message to community managers for approval
             raise NotImplementedError("We should implement approval here!")
         self.community.join()
-        messages.info(self.request, _("You're now part of %(name)s!<br />Welcome aboard.") % {'name': name})
+        messages.info(self.request, _("You're now part of %(name)s!\nWelcome aboard.") % {'name': name})
         raise MustRedirect(self.community.get_absolute_url())
 
 class CommunityLeave(BaseObjectActionView):
@@ -487,7 +487,7 @@ class CommunityLeave(BaseObjectActionView):
     category = LOCAL_ACTIONS
     name = "community_leave"
     title = _("Leave community")
-    confirm = "Do you really want to leave this community?"
+    confirm = _("Do you really want to leave this community?")
 
     def as_action(self):
         if not isinstance(getattr(self, "object", None), self.model_lookup):
@@ -518,7 +518,7 @@ class CommunityDelete(BaseObjectActionView):
     """
     model_lookup = Community
     name = "community_delete"
-    confirm = "Do you really want to delete this community?"
+    confirm = _("Do you really want to delete this community?")
     title = _("Delete community")
  
     def as_action(self):

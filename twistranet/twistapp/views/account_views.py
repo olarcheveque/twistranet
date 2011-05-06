@@ -60,7 +60,7 @@ class UserAccountView(BaseWallView):
         if self.template == UserAccountView.template:
             if self.account and self.auth and self.account.id == self.auth.id:
                 if not Content.objects.filter(publisher = self.auth).exists():
-                    messages.info(self.request, _("""<p>
+                    messages.info(self.request, mark_safe(_("""<p>
                         It seems that you do not have created content yet. Maybe it's time to do so!
                         </p>
                         <p>
@@ -69,7 +69,7 @@ class UserAccountView(BaseWallView):
                         <p>
                         Want to learn about what you can do in twistranet? Just take a look here: [help]
                         </p>
-                    """))
+                    """)))
 
     def get_latest_ids(self,):
         return Content.objects.getActivityFeed(self.object)
@@ -255,7 +255,7 @@ class AccountDelete(BaseObjectActionView):
     """
     model_lookup = UserAccount
     name = "account_delete"
-    confirm = "Do you really want to delete this account?<br />All content for this user WILL BE DELETED."
+    confirm = _("Do you really want to delete this account?<br />All content for this user WILL BE DELETED.")
     title = _("Delete account")
  
     def as_action(self):
@@ -734,7 +734,7 @@ class AccountLogout(BaseView):
     title = _("Logged out")
 
     def prepare_view(self,):
-        messages.info(self.request, _("You are now logged out.<br />Thanks for spending some quality time on Twistranet."))
+        messages.info(self.request, mark_safe(_("You are now logged out.<br />Thanks for spending some quality time on Twistranet.")))
         self.justloggedout = True
         logout(self.request)
 

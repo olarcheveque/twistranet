@@ -96,11 +96,17 @@ Internationalisation
 Find new internationalized strings in your code
 and update your .po files
 more information here : http://docs.djangoproject.com/en/dev/topics/i18n/localization/
-At your project root
+At each twistranet application root containing a locale folder (do not forget txt extensions)
 
-    (twistranet-devel) $ python manage.py makemessages -a
+    (twistranet-devel) $ django-admin.py makemessages -a -e html,txt,py
 
 Compile your .po (it's a mandatory after each change)
+
+    (twistranet-devel) $ django-admin.py compilemessages
+
+If you have started a project in devel mode (-d option of twistranet_project command),
+you can compile all your .po files at once:
+Go to your project root and enter :
 
     (twistranet-devel) $ python manage.py compilemessages
 

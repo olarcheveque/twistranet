@@ -18,22 +18,10 @@ msgstr ""
 "Domain: django\n"
 "X-Is-Fallback-For: fr-be fr-ca fr-lu fr-mc fr-ch fr-fr\n"
 
-#: .\__init__.py:53
-#, python-format
-msgid "%(client)s joined %(community)s."
-msgstr "%(client)s a rejoint %(community)s."
+#: .\templates\tags\experts.box.html.py:5
+msgid "Experts on this field"
+msgstr "Experts dans ce domaine"
 
-#: .\__init__.py:63
-#, python-format
-msgid "You are invited in %(community)s community"
-msgstr "Vous êtes invité à rejoindre la communauté '%(community)s'."
-
-#: .\__init__.py:75
-#, python-format
-msgid "%(client)s wants to add you to his/her network."
-msgstr "%(client)s veut vous ajouter à son réseau."
-
-#: .\__init__.py:94
-#, python-format
-msgid "%(client)s is now connected to %(target)s."
-msgstr "%(client)s est maintenant connecté à %(target)s."
+#: .\templates\tags\view.html.py:17
+msgid "No results found."
+msgstr "Pas de résultat"
