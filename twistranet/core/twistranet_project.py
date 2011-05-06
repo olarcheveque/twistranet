@@ -150,7 +150,7 @@ def twistranet_project():
         theme_app_dir = os.path.split(theme_app.__file__)[0]
         DEVEL_TWISTRANET_STATIC_PATH = os.path.abspath(os.path.join(theme_app_dir, 'static'))
         DEVEL_TWISTRANET_LOCALE_PATHS = "("
-        for twapp in ('core', 'notifier', 'search', 'twistapp', ):
+        for twapp in ('core', 'notifier', 'search', 'sharing', 'tagging', 'twistapp', ):
             DEVEL_TWISTRANET_LOCALE_PATHS += "'%s', " %os.path.abspath(os.path.join(twist_package_path, twapp, 'locale'))
         DEVEL_TWISTRANET_LOCALE_PATHS += ")"
         settings_path = os.path.join(project_path, "settings.py")
