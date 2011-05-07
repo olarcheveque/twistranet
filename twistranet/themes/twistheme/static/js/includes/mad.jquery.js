@@ -13,7 +13,7 @@ jq(document).ready(function(){
 
     
     // Forms tab switching
-    jq("fieldset.fieldset-inline-form legend a").click(function(event){
+    jq("fieldset.fieldset-inline-form legend a").live('click', function(event){
         event.preventDefault();
         jq(this).parents("fieldset").hide();
         jq(''+ jq(this).attr('href')).show();

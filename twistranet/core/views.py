@@ -561,6 +561,8 @@ class BaseWallView(BaseIndividualView):
     )
 
     ajax_template="wall.content.part.html"
+    
+    is_ajax_submit=0
 
     def get_inline_forms(self, publisher = None):
         """
@@ -607,10 +609,14 @@ class BaseWallView(BaseIndividualView):
                     c.publisher = Account.objects.get_query_set(request = self.request).get(id = self.request.POST.get('publisher_id'))    # Will raise if unauthorized
                     c.save()
                     form.save_m2m()
-                    # forms.append(form_class(initial = initial)) => Silly stuff anyway?
-                    raise MustRedirect()
+                    # is it really the good place for forms validation ?
+                    if self.request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+                        self.is_ajax_submit=1
+                    else:
+                        raise MustRedirect()
                 else:
                     forms.append(form)
+                    # XXX TODO : render inline forms in ajax with errors
 
         # Return the forms
         return forms
@@ -638,3 +644,29 @@ class BaseWallView(BaseIndividualView):
         self.objects_list = self.get_objects_list()
         self.latest_content_list = self.get_recent_content_list()
         self.content_forms = self.get_inline_forms(self.object)
+
+    def render_last_post(self,):
+        "could be improved in each subclass for better performance"
+        list = self.get_recent_content_list()
+        if len(list):
+            obj = list[0]
+            params = {'content':obj,}
+            t = get_template(obj.summary_view)
+            c = RequestContext(self.request, params)
+            return HttpResponse(t.render(c))
+
+    def render_inline_forms(self, params):
+        """
+        render the inline forms in ajax
+        to reset it or to return errors(TODO)
+        """
+        t = get_template("content/content_forms.part.html")
+        c = RequestContext(self.request, params)
+        return HttpResponse(t.render(c))
+
+    def render_ajax_view(self, params):
+        if not self.is_ajax_submit:
+            if self.request.GET.get('inlineformsonly',False):
+                return self.render_inline_forms(params)
+            return super(BaseWallView, self).render_ajax_view(params)
+        return self.render_last_post()

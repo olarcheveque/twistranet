@@ -428,6 +428,8 @@ var twistranet = {
         })
     },
     initAjaxWalls: function(e) {
+        // batch for walls
+        var self = this;
         jq('#bottom-navigation-bar a').live('click', function(e){
             e.preventDefault();
             var bottomBar = jq(this).parent();
@@ -444,6 +446,44 @@ var twistranet = {
             });
             return false;
         })
+        // inline submission
+        jq('.fieldset-inline-form form').live('submit', function(e){
+            e.preventDefault();
+            data = jq('input, textarea, select', this).serialize();
+            var form = jq(this);
+            form.waitLoading();
+            jq.ajax({
+                type: "POST",
+                url: curr_url,
+                dataType: 'html',
+                data: data,
+                contentType: 'text/html; charset=utf-8',
+                cache: false,
+                success: function(content){
+                    jq('.post:first').before(content);
+                    jq.ajax({
+                        type: "GET",
+                        url: curr_url,
+                        dataType: 'html',
+                        data: 'inlineformsonly=1',
+                        contentType: 'text/html; charset=utf-8',
+                        cache: true,
+                        success: function(formscontent){
+                            jq('.fieldset-inline-form').remove();
+                            jq('.post:first').before(formscontent);
+                            jq(document).ready(function(){
+                                self.prettyCombosLists();
+                                self.formsautofocus();
+                                self.formInputsHints();
+                                self.loadUploaders();
+                                tnResourceWidget();
+                            });
+                        }
+                    });
+                }
+            });
+            return false;
+        });
     },
     enableLiveSearch: function(e) {
         var defaultSearchText = jq("#default-search-text").val();
@@ -485,10 +525,10 @@ var twistranet = {
     },
     showContentActions: function(e){
         /* show content actions on post mouseover */
-        jq('.post').bind('mouseenter', function(){
+        jq('.post').live('mouseenter', function(){
           jq(this).addClass('activepost');
         });
-        jq('.post').bind('mouseleave', function(){
+        jq('.post').live('mouseleave', function(){
           jq(this).removeClass('activepost');
         });                                          
     },
