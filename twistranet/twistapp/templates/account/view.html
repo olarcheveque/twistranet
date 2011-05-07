@@ -11,6 +11,6 @@
     {% if latest_content_list %}
       {% include "wall.content.part.html" %}
     {% else %}
-      <p>{% blocktrans %}No content.{% endblocktrans %}</p>
+      <p class="nocontent">{% blocktrans %}No content.{% endblocktrans %}</p>
     {% endif %}
 {% endblock %}

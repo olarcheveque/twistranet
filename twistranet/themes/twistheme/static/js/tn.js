@@ -460,7 +460,12 @@ var twistranet = {
                 contentType: 'text/html; charset=utf-8',
                 cache: false,
                 success: function(content){
-                    jq('.post:first').before(content);
+                    // in a new community remove the nocontent block
+                    jq('.nocontent').remove();
+                    // for now we just remove all possibles messages (for deletion, etc ...)
+                    // but we could want to add a new message here ?
+                    jq("#tn-message").remove();
+                    jq('.fieldset-inline-form:last').after(content);
                     jq.ajax({
                         type: "GET",
                         url: curr_url,
