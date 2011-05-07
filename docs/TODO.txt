@@ -1,24 +1,10 @@
 TODO List April 7 2011
 ======================
 
-Ergonomy : use more ajax
-------------------------
+Ergonomy :
+----------
 
-- To reload the wall (all wall views could have an associated json view)
-
-- To see older posts onclick or onscroll (ala Twitter)
-
-- When deleting a content on a wall (just return a success ajax response and delete the block, or a possible error message)
-
-- When posting a status update (just add it at top without reloading all posts)
-
-All these actions must have a good fallback without javascript
-
-
-Add a waiting signal on ajax requests when possible
----------------------------------------------------
-
-The waiting icon could be contextual (eg: waiting for a field validation) or general.
+- automatic reload of the wall
 
 
 StatusUpdate Illustration
