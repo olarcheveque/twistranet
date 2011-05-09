@@ -16,6 +16,8 @@ var ls_hide_effect_speed = 300;
 // set first and last class on subblocks
 setFirstAndLast = function(block, sub, modulo) {
    jq(block).each(function() {
+      jq(sub, jq(this)).removeClass('first');
+      jq(sub, jq(this)).removeClass('last');
       if (typeof modulo=='undefined')  {
         jq(sub+':first', jq(this)).addClass('first');
         jq(sub+':last', jq(this)).addClass('last');
@@ -442,6 +444,7 @@ var twistranet = {
                 cache: false,
                 success: function(content){
                     bottomBar.replaceWith(content);
+                    setFirstAndLast('#content', '.post');
                 }
             });
             return false;
@@ -460,30 +463,26 @@ var twistranet = {
                 contentType: 'text/html; charset=utf-8',
                 cache: false,
                 success: function(content){
+                    jq('.fieldset-inline-form').remove();
+                    /* XXX TODO : simplify*/
+                    if (! jq('.post:first,.nocontent').length) {
+                         if (!jq('#bottom-navigation-bar').length) jq('#content').append(content);
+                         else jq('#bottom-navigation-bar').before(content);
+                    }
+                    else
+                        jq('.post:first,.nocontent').before(content);
+                    setFirstAndLast('#content', '.post');
                     // in a new community remove the nocontent block
                     jq('.nocontent').remove();
                     // for now we just remove all possibles messages (for deletion, etc ...)
                     // but we could want to add a new message here ?
                     jq("#tn-message").remove();
-                    jq('.fieldset-inline-form:last').after(content);
-                    jq.ajax({
-                        type: "GET",
-                        url: curr_url,
-                        dataType: 'html',
-                        data: 'inlineformsonly=1',
-                        contentType: 'text/html; charset=utf-8',
-                        cache: true,
-                        success: function(formscontent){
-                            jq('.fieldset-inline-form').remove();
-                            jq('.post:first').before(formscontent);
-                            jq(document).ready(function(){
-                                self.prettyCombosLists();
-                                self.formsautofocus();
-                                self.formInputsHints();
-                                self.loadUploaders();
-                                tnResourceWidget();
-                            });
-                        }
+                    jq(document).ready(function(){
+                        self.prettyCombosLists();
+                        self.formsautofocus();
+                        self.formInputsHints();
+                        self.loadUploaders();
+                        tnResourceWidget();
                     });
                 }
             });

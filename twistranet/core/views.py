@@ -612,11 +612,12 @@ class BaseWallView(BaseIndividualView):
                     # is it really the good place for forms validation ?
                     if self.request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
                         self.is_ajax_submit=1
+                        form = form_class(initial = initial)
+                        forms.append(form)
                     else:
                         raise MustRedirect()
                 else:
                     forms.append(form)
-                    # XXX TODO : render inline forms in ajax with errors
 
         # Return the forms
         return forms
@@ -645,15 +646,15 @@ class BaseWallView(BaseIndividualView):
         self.latest_content_list = self.get_recent_content_list()
         self.content_forms = self.get_inline_forms(self.object)
 
-    def render_last_post(self,):
+    def render_last_post(self, params):
         "could be improved in each subclass for better performance"
         list = self.get_recent_content_list()
         if len(list):
             obj = list[0]
-            params = {'content':obj,}
+            lastpostparams = {'content':obj,}
             t = get_template(obj.summary_view)
-            c = RequestContext(self.request, params)
-            return HttpResponse(t.render(c))
+            c = RequestContext(self.request, lastpostparams)
+            return HttpResponse(self.render_inline_forms(params) + t.render(c))
 
     def render_inline_forms(self, params):
         """
@@ -662,11 +663,9 @@ class BaseWallView(BaseIndividualView):
         """
         t = get_template("content/content_forms.part.html")
         c = RequestContext(self.request, params)
-        return HttpResponse(t.render(c))
+        return t.render(c)
 
     def render_ajax_view(self, params):
         if not self.is_ajax_submit:
-            if self.request.GET.get('inlineformsonly',False):
-                return self.render_inline_forms(params)
             return super(BaseWallView, self).render_ajax_view(params)
-        return self.render_last_post()
+        return self.render_last_post(params)
