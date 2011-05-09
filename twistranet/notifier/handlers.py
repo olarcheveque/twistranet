@@ -23,6 +23,8 @@ from django.db.models.query import QuerySet
 from twistranet.twistapp.lib.log import log
 from twistranet.twistapp.lib import utils
 
+DEFAULT_SEND_EMAIL_IMAGES_AS_ATTACHMENTS = True
+
 SUBJECT_REGEX = re.compile(r"^[\s]*Subject:[ \t]?([^\n$]*)\n", re.IGNORECASE | re.DOTALL)
 EMPTY_LINE_REGEX = re.compile(r"\n\n+", re.DOTALL)
 
@@ -213,7 +215,7 @@ class MailHandler(NotifierHandler):
             msg = EmailMultiAlternatives(subject, text_content, from_email, [ to ], )
             if html_content:
                 msg.attach_alternative(html_content, "text/html")
-                if settings.SEND_EMAIL_IMAGES_AS_ATTACHMENTS:
+                if getattr(settings, 'SEND_EMAIL_IMAGES_AS_ATTACHMENTS', DEFAULT_SEND_EMAIL_IMAGES_AS_ATTACHMENTS):
                     # we replace img links by img Mime Images
                     mimeimages = []
                     def replace_img_url(match):
@@ -238,15 +240,15 @@ class MailHandler(NotifierHandler):
                     html_content = img_url_expr.sub(replace_img_url, html_content)
                     if mimeimages:
                         msg.mixed_subtype = 'relative'
-                        for file, name, is_static in mimeimages:
-                            if cache_mimeimages.has_key(file):
-                                msgImage = cache_mimeimages[file]
+                        for fkey, name, is_static in mimeimages:
+                            if cache_mimeimages.has_key(fkey):
+                                msgImage = cache_mimeimages[fkey]
                             else:
                                 if is_static:
-                                    f = open(path.join(settings.TWISTRANET_STATIC_PATH, file), 'rb')
+                                    f = open(path.join(settings.TWISTRANET_STATIC_PATH, fkey), 'rb')
                                 else:
-                                    f = open(path.join(settings.MEDIA_ROOT, file), 'rb')
-                                cache_mimeimages[file] = msgImage = MIMEImage(f.read())
+                                    f = open(path.join(settings.MEDIA_ROOT, fkey), 'rb')
+                                cache_mimeimages[fkey] = msgImage = MIMEImage(f.read())
                                 f.close()
                             msgImage.add_header('Content-ID', '<%s>' % name)
                             msgImage.add_header('Content-Disposition', 'inline')
