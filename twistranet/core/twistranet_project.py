@@ -84,6 +84,13 @@ def twistranet_project():
         print "shutil.copytree is likely not to have the 'ignore' attribute available.\n"
         shutil.copytree(template_dir, project_path)
     
+    replaceable_files = [(os.path.join(project_path, "local_settings.py")),]
+
+    # project variables replaced in the project files
+    replacement = {
+        "SECRET_KEY.*$":        "SECRET_KEY = '%s'" % (uuid1(), ),
+        "__INSTANCE_NAME__":    '%s' % project_name,
+    }
 
     # If project_template <> default, we copy the project_template-specific files as well
     if project_template != "default":
@@ -110,21 +117,21 @@ def twistranet_project():
                 # Ignore doted files, and rename if it contains any replacement string
                 if fname.startswith('.'):
                     continue
+                # if a file is named with __INSTANCE_NAME__.ext rename it with project_name
+                dname = fname
+                for regex, repl in replacement.items():
+                    dname = re.sub(regex, repl, dname)
 
                 # Actually copy
-                dest_file = os.path.join(dest_root, relative_root, fname)
+                dest_file = os.path.join(dest_root, relative_root, dname)
                 shutil.copy(
                     os.path.join(source_root, root, fname),
                     dest_file,
                 )
+                # in project files some files must be changed (as done for local_settings, see bellow)
+                replaceable_files.append(dest_file)
 
-    # project variables replaced in the project files
-    replacement = {
-        "SECRET_KEY.*$":        "SECRET_KEY = '%s'" % (uuid1(), ),
-        "__INSTANCE_NAME__":    '%s' % project_name,
-    }
 
-    replaceable_files = ((os.path.join(project_path, "local_settings.py")),)
     # replace some settings.
     for replaceable_path in replaceable_files:
         with open(replaceable_path, "r") as f:
