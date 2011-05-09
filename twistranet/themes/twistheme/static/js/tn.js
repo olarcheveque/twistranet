@@ -299,8 +299,8 @@ loadQuickUpload = function(obj) {
         contentType: 'text/html; charset=utf-8', 
         cache: false,
         data: uploaderdata,
-        success: function(content){
-            tnUploader.html(content);
+        success: function(htmlcontent){
+            tnUploader.html(htmlcontent);
         }
     });
 }
@@ -342,6 +342,30 @@ addInlineMessage = function (msg, msgtype) {
     jq('#content #tn-message .messages').html('<li class="'+ msgcls +'">'+ msg + '<\/li>');
 }
 
+
+reloadWall = function() {
+    jq.ajax({
+        type: "GET",
+        url: curr_url,
+        dataType: 'html',
+        contentType: 'text/html; charset=utf-8',
+        cache: false,
+        success: function(htmlcontent){
+            jq('body #bottom-navigation-bar').empty().remove();
+            // XXX .remove() used alone (without .empty()) is very slow
+            // when applied on many elements, jq bug ??? strange ???
+            jq('.post,.nocontent').empty().remove();
+            jq(document).ready(function() {
+                jq('.fieldset-inline-form').after(htmlcontent);
+                if (reloadtimeout && jq('#reload_wall').val()=='1') window.setTimeout(reloadWall,reloadtimeout);
+                setFirstAndLast('#content', '.post');
+                // for now we just remove all possibles messages (for deletion, etc ...)
+                // but we could want to add a new message here ?
+                jq("#tn-message").remove();
+            });
+        }
+    });
+}
 // main class
 var twistranet = {
     browser_width: 0,
@@ -430,6 +454,8 @@ var twistranet = {
         })
     },
     initAjaxWalls: function(e) {
+        // reloadWall (see reloadtimeout var in twistapp.views.common_views.js_vars)
+        if (reloadtimeout && jq('#reload_wall').length) window.setTimeout(reloadWall,reloadtimeout);
         // batch for walls
         var self = this;
         jq('#bottom-navigation-bar a').live('click', function(e){
@@ -442,8 +468,8 @@ var twistranet = {
                 dataType: 'html',
                 contentType: 'text/html; charset=utf-8',
                 cache: false,
-                success: function(content){
-                    bottomBar.replaceWith(content);
+                success: function(htmlcontent){
+                    bottomBar.replaceWith(htmlcontent);
                     setFirstAndLast('#content', '.post');
                 }
             });
@@ -462,15 +488,15 @@ var twistranet = {
                 data: data,
                 contentType: 'text/html; charset=utf-8',
                 cache: false,
-                success: function(content){
+                success: function(htmlcontent){
                     jq('.fieldset-inline-form').remove();
                     /* XXX TODO : simplify*/
                     if (! jq('.post:first,.nocontent').length) {
-                         if (!jq('#bottom-navigation-bar').length) jq('#content').append(content);
-                         else jq('#bottom-navigation-bar').before(content);
+                         if (!jq('#bottom-navigation-bar').length) jq('#content').append(htmlcontent);
+                         else jq('#bottom-navigation-bar').before(htmlcontent);
                     }
                     else
-                        jq('.post:first,.nocontent').before(content);
+                        jq('.post:first,.nocontent').before(htmlcontent);
                     setFirstAndLast('#content', '.post');
                     // in a new community remove the nocontent block
                     jq('.nocontent').remove();

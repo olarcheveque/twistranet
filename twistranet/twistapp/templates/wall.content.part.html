@@ -1,5 +1,5 @@
 {% load i18n %}
-
+<input type="hidden" id="reload_wall" value="1" />
 {% if latest_content_list %}
     {% for content in latest_content_list %}
         {%include content.summary_view %}

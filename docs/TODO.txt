@@ -1,10 +1,10 @@
-TODO List April 7 2011
-======================
+TODO List May 09 2011
+=====================
 
 Ergonomy :
 ----------
 
-- automatic reload of the wall
+- enter the timeout for reloading walls in settings.py (hardcoded today to 60s)
 
 
 StatusUpdate Illustration
