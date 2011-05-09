@@ -226,10 +226,12 @@ class MailHandler(NotifierHandler):
                         attribute = str(match.group('attribute'))
 
                         is_static = False
-                        if urlpath.startswith('/static/'):
-                            filename = urlpath.replace('/static/','',1)
+                        pathSplit = urlpath.split('/')
+                        if 'static' in pathSplit:
+                            filename = urlpath.split('/static/')[-1]
                             is_static = True
                         else:
+                            # XXX TODO : need to be improved split with site path (for vhosts)
                             filename = urlpath.split('/')[-1]
                         nb = len(mimeimages)+1
                         mimeimages.append((filename, 'img%i'%nb, is_static))
