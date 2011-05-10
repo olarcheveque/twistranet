@@ -18,7 +18,7 @@ def js_vars(request):
     src = """
 var home_url = '%(home_url)s';
 var jq = jQuery;
-// reload the wall all 30000 ms
+// reload the wall all xxxxx ms
 // XXX TODO JMG or PJ : put it in settings with 0= noreload
 var reloadtimeout=60000;
     """

@@ -344,6 +344,7 @@ addInlineMessage = function (msg, msgtype) {
 
 
 reloadWall = function() {
+    jq('#content').waitLoading('top:150px;left:47%;');
     jq.ajax({
         type: "GET",
         url: curr_url,
@@ -356,6 +357,7 @@ reloadWall = function() {
             // when applied on many elements, jq bug ??? strange ???
             jq('.post,.nocontent').empty().remove();
             jq(document).ready(function() {
+                jq('#content').stopWaitLoading();
                 jq('.fieldset-inline-form').after(htmlcontent);
                 if (reloadtimeout && jq('#reload_wall').val()=='1') window.setTimeout(reloadWall,reloadtimeout);
                 setFirstAndLast('#content', '.post');

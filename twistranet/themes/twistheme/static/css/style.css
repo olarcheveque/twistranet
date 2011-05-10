@@ -785,9 +785,11 @@ ul.network-actions li.action {
 
 #bottom-navigation-bar {
     background-color: #F7F7F7;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
     margin-top: 20px;
     padding: 10px;
