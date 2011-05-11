@@ -18,13 +18,12 @@ def js_vars(request):
     src = """
 var home_url = '%(home_url)s';
 var jq = jQuery;
-// reload the wall all xxxxx ms
-// XXX TODO JMG or PJ : put it in settings with 0= noreload
-var reloadtimeout=60000;
+var reloadtimeout=%(rtimeout)s;
     """
 
     js_vars = dict(
         home_url = reverse("twistranet_home"),
+        rtimeout = getattr(settings, 'WALLS_RELOAD_TIMEOUT', 0)
     )
 
     response = HttpResponse( src %js_vars,

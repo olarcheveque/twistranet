@@ -10,6 +10,7 @@ var defaultDialogMessage = '';
 var curr_url = window.location.href;
 // live searchbox disparition effect
 var ls_hide_effect_speed = 300;
+var reset_reload_timeout = 0;
 
 // helpers
 
@@ -344,29 +345,35 @@ addInlineMessage = function (msg, msgtype) {
 
 
 reloadWall = function() {
-    jq('#content').waitLoading('top:150px;left:47%;');
-    jq.ajax({
-        type: "GET",
-        url: curr_url,
-        dataType: 'html',
-        contentType: 'text/html; charset=utf-8',
-        cache: false,
-        success: function(htmlcontent){
-            jq('body #bottom-navigation-bar').empty().remove();
-            // XXX .remove() used alone (without .empty()) is very slow
-            // when applied on many elements, jq bug ??? strange ???
-            jq('.post,.nocontent').empty().remove();
-            jq(document).ready(function() {
-                jq('#content').stopWaitLoading();
-                jq('.fieldset-inline-form').after(htmlcontent);
-                if (reloadtimeout && jq('#reload_wall').val()=='1') window.setTimeout(reloadWall,reloadtimeout);
-                setFirstAndLast('#content', '.post');
-                // for now we just remove all possibles messages (for deletion, etc ...)
-                // but we could want to add a new message here ?
-                jq("#tn-message").remove();
-            });
-        }
-    });
+    if (!reset_reload_timeout) {
+        jq('#content').waitLoading('top:150px;left:47%;');
+        jq.ajax({
+            type: "GET",
+            url: curr_url,
+            dataType: 'html',
+            contentType: 'text/html; charset=utf-8',
+            cache: false,
+            success: function(htmlcontent){
+                jq('body #bottom-navigation-bar').empty().remove();
+                // XXX .remove() used alone (without .empty()) is very slow
+                // when applied on many elements, jq bug ??? strange ???
+                jq('.post,.nocontent').empty().remove();
+                jq(document).ready(function() {
+                    jq('#content').stopWaitLoading();
+                    jq('.fieldset-inline-form:last').after(htmlcontent);
+                    if (reloadtimeout && jq('#reload_wall').val()=='1') window.setTimeout(reloadWall,reloadtimeout);
+                    setFirstAndLast('#content', '.post');
+                    // for now we just remove all possibles messages (for deletion, etc ...)
+                    // but we could want to add a new message here ?
+                    jq("#tn-message").remove();
+                });
+            }
+        });
+    }
+    else {
+        reset_reload_timeout=0;
+        if (reloadtimeout && jq('#reload_wall').val()=='1') window.setTimeout(reloadWall,reloadtimeout);
+    }
 }
 // main class
 var twistranet = {
@@ -455,15 +462,17 @@ var twistranet = {
             });
         })
     },
+    /* XXX TODO JMG : simplify the code && the template structure (add a div with id 'wall' containing all posts)*/
     initAjaxWalls: function(e) {
+        var self = this;
         // reloadWall (see reloadtimeout var in twistapp.views.common_views.js_vars)
         if (reloadtimeout && jq('#reload_wall').length) window.setTimeout(reloadWall,reloadtimeout);
         // batch for walls
-        var self = this;
         jq('#bottom-navigation-bar a').live('click', function(e){
             e.preventDefault();
             var bottomBar = jq(this).parent();
             bottomBar.waitLoading('left:150px;top:10px');
+            reset_reload_timeout = 1;
             jq.ajax({
                 type: "GET",
                 url: jq(this).attr('href'),
@@ -483,6 +492,7 @@ var twistranet = {
             data = jq('input, textarea, select', this).serialize();
             var form = jq(this);
             form.waitLoading();
+            reset_reload_timeout = 1;
             jq.ajax({
                 type: "POST",
                 url: curr_url,
@@ -492,7 +502,6 @@ var twistranet = {
                 cache: false,
                 success: function(htmlcontent){
                     jq('.fieldset-inline-form').remove();
-                    /* XXX TODO : simplify*/
                     if (! jq('.post:first,.nocontent').length) {
                          if (!jq('#bottom-navigation-bar').length) jq('#content').append(htmlcontent);
                          else jq('#bottom-navigation-bar').before(htmlcontent);
@@ -505,6 +514,7 @@ var twistranet = {
                     // for now we just remove all possibles messages (for deletion, etc ...)
                     // but we could want to add a new message here ?
                     jq("#tn-message").remove();
+                    /* relaunch all inline forms tools */
                     jq(document).ready(function(){
                         self.prettyCombosLists();
                         self.formsautofocus();

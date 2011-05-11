@@ -46,6 +46,10 @@ ADMINS = (
 # When this option is set to False, twistranet logo and other possible inline images
 # will just be linked to your site (some antispam filter don't like it)
 SEND_EMAIL_IMAGES_AS_ATTACHMENTS = True
+
+# Timeout for walls automatic reload in ms, 0 = no reload
+WALLS_RELOAD_TIMEOUT = 120000
+
 #                                           #
 #               Hosting settings            #
 #                                           #
