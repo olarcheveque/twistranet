@@ -432,6 +432,7 @@ var twistranet = {
                 aurl = this.attr('href');
                 block = jq(this.parents('.post,.comment')).first();
                 block.waitLoading();
+                reset_reload_timeout = 1;
                 jq.get(aurl, function(data) {
                     jsondata = eval( "(" + data + ")" );
                     success = jsondata.success;

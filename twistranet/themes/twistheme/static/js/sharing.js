@@ -10,6 +10,7 @@ jq(function()
     e.preventDefault();
     parent.parent().waitLoading('left:-80px; top:0px',true);
     var ID = jq(obj).attr("id").replace('toggle_like_','');
+    reset_reload_timeout = 1;
     jq.ajax({
       type: "GET",
       url: home_url + "share/like_toggle_by_id/" + ID,

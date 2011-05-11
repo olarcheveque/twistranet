@@ -14,6 +14,7 @@ commentOnSubmit = function(comments_container) {
         description: jq("textarea[name='description']", cform).val(),
         csrfmiddlewaretoken : jq("input[name='csrfmiddlewaretoken']", cform).val()
       };
+      reset_reload_timeout = 1;
       jq.post(cUrl, data, function(html) {
           loadLastComment(comments_container, html);
           // TODO : debug this ...
@@ -70,6 +71,7 @@ jq(function()
   jq(".view_comments").live('click', function(e)
   {
     e.preventDefault();
+    reset_reload_timeout = 1;
     var ID = jq(this).attr("id");
     var comment_action = jq(this).parents('li');
     var parent = jq(comment_action).parents('.public-actions');
