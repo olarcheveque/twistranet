@@ -227,8 +227,8 @@ msgid "Older posts"
 msgstr "Publications plus anciennes"
 
 #: .\templates\wall.content.part.html.py:13
-msgid "It was the very beginning of this wall"
-msgstr ""
+msgid "Very beginning of this wall's history."
+msgstr "Tout début de l'historique de ce mur."
 
 #: .\templates\wall.html.py:11 .\templates\wall.html.py:21
 msgid "Activity Feed"
