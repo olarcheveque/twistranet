@@ -1,12 +1,16 @@
 
-Current Head
-=============
+1.1.0, 2011/05/16
+==================
 
 - Implemented TAGS for Twistable objects. Now you can tag your objects to specify what they represent.
 
-- Fixed misplaced community manager badges (JMG)
+- Implemented Sharing api, first application : "Like" "Unlike"
 
-- Better Ajax comments (ala Facebook) (JMG)
+- Menus Bar edition (inspired from wordpress navigation.js)
+
+- We can drag and drop files anywhere (first application : on statusupdate textarea)
+
+- Ajax Walls : post / delete / reload / batch / comments / like / unlike / ....
 
 
 
