@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: twistranet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-06 15:53+0200\n"
+"POT-Creation-Date: 2011-05-07 14:29+0200\n"
 "PO-Revision-Date: 2011-05-06 13:52+0200\n"
 "Last-Translator: Jean-mat Grimaldi <jmgrimaldi@numericube.com>\n"
 "Language-Team: Numericube\n"
@@ -207,7 +207,7 @@ msgid "Uploaded file:"
 msgstr "Fichier envoyé :"
 
 #: .\templates\form.fieldset.part.html.py:22
-#: .\templates\admin\menu_builder_form.html.py:150
+#: .\templates\admin\menu_builder_form.html.py:147
 #: .\templates\community\edit.html.py:30 .\templates\content\edit.html.py:39
 #: .\templates\registration\join.html.py:47
 #: .\templates\resource\edit.html.py:40 .\views\admin_views.py:20
@@ -215,18 +215,27 @@ msgid "Save"
 msgstr "Valider"
 
 #: .\templates\form.fieldset.part.html.py:23
-#: .\templates\admin\menu_builder_form.html.py:151
+#: .\templates\admin\menu_builder_form.html.py:148
 #: .\templates\community\edit.html.py:31 .\templates\content\edit.html.py:40
 #: .\templates\registration\join.html.py:48
 #: .\templates\resource\edit.html.py:41
 msgid "Undo"
 msgstr "Annuler"
 
+#: .\templates\wall.content.part.html.py:9
+msgid "Older posts"
+msgstr "Publications plus anciennes"
+
+#: .\templates\wall.content.part.html.py:13
+msgid "Very beginning of this wall's history."
+msgstr "Tout début de l'historique de ce mur."
+
 #: .\templates\wall.html.py:11 .\templates\wall.html.py:21
 msgid "Activity Feed"
 msgstr "Fil d'Activité"
 
-#: .\templates\wall.html.py:32
+#: .\templates\wall.html.py:30 .\templates\account\view.html.py:14
+#: .\templates\community\view.html.py:22
 msgid "No content."
 msgstr "Pas de contenu."
 
@@ -281,10 +290,6 @@ msgstr "Ignorer"
 msgid "Add to my network"
 msgstr "Ajouter à mon réseau"
 
-#: .\templates\account\view.html.py:16
-msgid "No contents are available."
-msgstr "Pas de contenu."
-
 #: .\templates\actions\content_summary.part.html.py:13
 msgid "Delete content"
 msgstr "Supprimer le contenu"
@@ -307,20 +312,20 @@ msgstr "Utilisateurs et communautés"
 msgid "Toolbox"
 msgstr "Boîte à outils"
 
-#: .\templates\admin\menu_builder_form.html.py:31
+#: .\templates\admin\menu_builder_form.html.py:30
 msgid "Add custom link"
 msgstr "Ajouter un lien personnalisé."
 
-#: .\templates\admin\menu_builder_form.html.py:52
-#: .\templates\admin\menu_builder_form.html.py:79
+#: .\templates\admin\menu_builder_form.html.py:51
+#: .\templates\admin\menu_builder_form.html.py:78
 msgid "Add to menu"
 msgstr "Ajouter au menu"
 
-#: .\templates\admin\menu_builder_form.html.py:58
+#: .\templates\admin\menu_builder_form.html.py:57
 msgid "Add internal view"
 msgstr "Ajouter une vue interne."
 
-#: .\templates\admin\menu_builder_form.html.py:85
+#: .\templates\admin\menu_builder_form.html.py:84
 msgid "Add community"
 msgstr "Ajouter une communauté"
 
@@ -469,12 +474,12 @@ msgstr "Il y a %(date)s"
 msgid "Scope:"
 msgstr "Visibilité :"
 
-#: .\templates\content\summary.comments.part.html.py:21
+#: .\templates\content\summary.comments.part.html.py:20
 #, python-format
 msgid "View all %(comment_count)s comments"
 msgstr "Voir les %(comment_count)s commentaires"
 
-#: .\templates\content\summary.comments.part.html.py:24
+#: .\templates\content\summary.comments.part.html.py:23
 msgid "Comment"
 msgstr "Commenter"
 
@@ -593,8 +598,8 @@ msgid ""
 "  You can click here to view and comment it: %(domain)s%(absolute_url)s\n"
 msgstr ""
 "\n"
-"  Cliquez ici pour voir ce contenu et le commenter : %(domain)s"
-"%(absolute_url)s\n"
+"  Cliquez ici pour voir ce contenu et le commenter : %(domain)s%"
+"(absolute_url)s\n"
 
 #: .\templates\email\created_content.txt.py:19
 #: .\templates\email\created_content_comment.txt.py:18
@@ -986,57 +991,57 @@ msgstr ""
 "[help].                       </p>\n"
 "                    "
 
-#: .\views\account_views.py:91
+#: .\views\account_views.py:99
 #, python-format
 msgid "%(name)s's profile"
 msgstr "Profil de %(name)s"
 
-#: .\views\account_views.py:100
+#: .\views\account_views.py:107
 msgid "Timeline"
 msgstr "Fil d'activité"
 
-#: .\views\account_views.py:131
+#: .\views\account_views.py:137
 msgid "Public timeline"
 msgstr "Fil d'activité public"
 
-#: .\views\account_views.py:150
+#: .\views\account_views.py:154
 msgid "Accounts"
 msgstr "Comptes"
 
-#: .\views\account_views.py:170
+#: .\views\account_views.py:174
 msgid "Your network"
 msgstr "Votre réseau"
 
-#: .\views\account_views.py:171
+#: .\views\account_views.py:175
 #, python-format
 msgid "%(name)s's network"
 msgstr "Réseau de %(name)s"
 
-#: .\views\account_views.py:171 .\views\account_views.py:189
-#: .\views\account_views.py:209 .\views\account_views.py:418
+#: .\views\account_views.py:175 .\views\account_views.py:193
+#: .\views\account_views.py:213 .\views\account_views.py:422
 msgid "name"
 msgstr "nom"
 
-#: .\views\account_views.py:188 .\views\account_views.py:208
+#: .\views\account_views.py:192 .\views\account_views.py:212
 msgid "Your communities"
 msgstr "Vos communautés"
 
-#: .\views\account_views.py:189 .\views\account_views.py:209
+#: .\views\account_views.py:193 .\views\account_views.py:213
 #, python-format
 msgid "%(name)s's communities"
 msgstr "Communautés de %(name)s"
 
-#: .\views\account_views.py:223
+#: .\views\account_views.py:227
 msgid "Pending network requests"
 msgstr "Demandes de réseau"
 
-#: .\views\account_views.py:236
+#: .\views\account_views.py:240
 #, python-format
 msgid "<span class=\"badge\">%(number)d</span> Pending network requests"
 msgstr ""
 "<span class=\"badge\">%(number)d</span> Demande(s) d'ajout à votre réseau"
 
-#: .\views\account_views.py:255
+#: .\views\account_views.py:259
 msgid ""
 "Do you really want to delete this account?<br />All content for this user "
 "WILL BE DELETED."
@@ -1044,20 +1049,20 @@ msgstr ""
 "Voulez-vous vraiment supprimer ce compte ?<br />Tous les contenus de cet "
 "utilisateur SERONT EGALEMENT SUPPRIMES."
 
-#: .\views\account_views.py:256
+#: .\views\account_views.py:260
 msgid "Delete account"
 msgstr "Supprimer ce compte"
 
-#: .\views\account_views.py:280
+#: .\views\account_views.py:284
 #, python-format
 msgid "'%(name)s' account has been deleted."
 msgstr "L'utilisateur %(name)s a été supprimé."
 
-#: .\views\account_views.py:304
+#: .\views\account_views.py:308
 msgid "Accept in your network"
 msgstr "Accepter dans mon réseau"
 
-#: .\views\account_views.py:307
+#: .\views\account_views.py:311
 #, python-format
 msgid ""
 "Would you like to accept %(name)s in your network?<br />He/She will be able "
@@ -1066,11 +1071,11 @@ msgstr ""
 "Acceptez-vous que %(name)s rejoigne votre réseau?<br />Cette personne aura "
 "accès au contenu que vous publiez pour votre réseau."
 
-#: .\views\account_views.py:315
+#: .\views\account_views.py:319
 msgid "Add to your network"
 msgstr "Ajouter à mon réseau"
 
-#: .\views\account_views.py:318
+#: .\views\account_views.py:322
 #, python-format
 msgid ""
 "Would you like to add %(name)s to your network?<br />He/She will have to "
@@ -1079,128 +1084,128 @@ msgstr ""
 "Voulez-vous ajouter %(name)s à votre réseau ? Cette personne devra accepter "
 "votre demande."
 
-#: .\views\account_views.py:332
+#: .\views\account_views.py:336
 #, python-format
 msgid "You're now connected with %(name)s."
 msgstr "Vous êtes maintenant dans le réseau de %(name)s"
 
-#: .\views\account_views.py:337
+#: .\views\account_views.py:341
 #, python-format
 msgid "A network request has been sent to %(name)s for approval."
 msgstr "Une demande d'ajout à votre réseau a été envoyée à %(name)s."
 
-#: .\views\account_views.py:354
+#: .\views\account_views.py:358
 msgid "Cancel your network request"
 msgstr "Annuler ma demande de réseau"
 
-#: .\views\account_views.py:356
+#: .\views\account_views.py:360
 msgid "Would you like to cancel your network request?"
 msgstr ""
 "Voulez-vous annuler votre demande d'ajout au réseau de cette personne ?"
 
-#: .\views\account_views.py:361
+#: .\views\account_views.py:365
 msgid "Remove from your network"
 msgstr "Retirer de mon réseau"
 
-#: .\views\account_views.py:363
+#: .\views\account_views.py:367
 #, python-format
 msgid "Would you like to remove %(name)s from your network?"
 msgstr "Voulez-vous retirer %(name)s de votre réseau ?"
 
-#: .\views\account_views.py:375
+#: .\views\account_views.py:379
 #, python-format
 msgid "You're not connected with %(name)s anymore."
 msgstr "Vous n'êtes plus dans le réseau de %(name)s."
 
-#: .\views\account_views.py:380
+#: .\views\account_views.py:384
 #, python-format
 msgid "Your network request to %(name)s has been canceled."
 msgstr "Votre demande à %(name)s a été annulée."
 
-#: .\views\account_views.py:415
+#: .\views\account_views.py:419
 msgid "Create a user account"
 msgstr "Créer un compte utilisateur"
 
-#: .\views\account_views.py:417
+#: .\views\account_views.py:421
 msgid "Edit your account"
 msgstr "Modifier votre compte"
 
-#: .\views\account_views.py:418
+#: .\views\account_views.py:422
 #, python-format
 msgid "Edit %(name)s"
 msgstr "Modifier %(name)s"
 
-#: .\views\account_views.py:426
+#: .\views\account_views.py:430
 msgid "Invite user"
 msgstr "Inviter"
 
-#: .\views\account_views.py:448
+#: .\views\account_views.py:452
 msgid "This user already exists."
 msgstr "Cet utilisateur existe déjà."
 
-#: .\views\account_views.py:473
+#: .\views\account_views.py:477
 msgid "Invitation sent successfuly."
 msgstr "Les invitations sont envoyées."
 
-#: .\views\account_views.py:487
+#: .\views\account_views.py:491
 msgid "Join"
 msgstr "Rejoindre"
 
-#: .\views\account_views.py:525
+#: .\views\account_views.py:529
 msgid "Password and confirmation do not match"
 msgstr "Le mot de passe et la confirmation ne correspondent pas."
 
-#: .\views\account_views.py:527
+#: .\views\account_views.py:531
 msgid "A user with this name already exists."
 msgstr "Un utilisateur avec ce nom existe déjà."
 
-#: .\views\account_views.py:551
+#: .\views\account_views.py:555
 msgid "Your account is now created. You can login to twistranet."
 msgstr ""
 "Votre compte est créé. Vous pouvez maintenant vous connecter à twistranet."
 
-#: .\views\account_views.py:557
+#: .\views\account_views.py:561
 msgid "Login"
 msgstr "Se connecter"
 
-#: .\views\account_views.py:600
+#: .\views\account_views.py:604
 msgid "Sorry, that's not a valid username or password"
 msgstr ""
 "Désolé, le nom d'utilisateur et/ou le mot de passe ne sont pas valides."
 
-#: .\views\account_views.py:618
+#: .\views\account_views.py:622
 msgid "Forgot your password"
 msgstr "Mot de passe oublié"
 
-#: .\views\account_views.py:647
+#: .\views\account_views.py:651
 msgid "We've sent you a password reset email."
 msgstr "Nous vous avons envoyé un lien pour réinitialiser votre mot de passe."
 
-#: .\views\account_views.py:658
+#: .\views\account_views.py:662
 msgid "Reset your password"
 msgstr "Réinitalisez votre mot de passer"
 
-#: .\views\account_views.py:672
+#: .\views\account_views.py:676
 msgid "Can't set password on this user."
 msgstr "On ne peut pas donner de mot de passe à cet utilisateur."
 
-#: .\views\account_views.py:683
+#: .\views\account_views.py:687
 msgid "Your password is set to its new value. You can now login."
 msgstr "Votre mot de passe est changé. Vous pouvez vos connecter maintenant."
 
-#: .\views\account_views.py:694
+#: .\views\account_views.py:698
 msgid "Change your password"
 msgstr "Changer de mot de passe"
 
-#: .\views\account_views.py:722
+#: .\views\account_views.py:726
 msgid "New password set."
 msgstr "Nouveau mot de passe enregistré."
 
-#: .\views\account_views.py:731
+#: .\views\account_views.py:735
 msgid "Logged out"
 msgstr "Déconnecté."
 
-#: .\views\account_views.py:734
+#: .\views\account_views.py:738
 msgid ""
 "You are now logged out.<br />Thanks for spending some quality time on "
 "Twistranet."
@@ -1513,5 +1518,8 @@ msgstr "Taille moyenne"
 msgid "Full size"
 msgstr "Grande taille"
 
-#~ msgid "File"
-#~ msgstr "Fichier"
+msgid "No contents are available."
+msgstr "Pas de contenu."
+
+msgid "File"
+msgstr "Fichier"

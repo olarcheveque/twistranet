@@ -18,10 +18,12 @@ def js_vars(request):
     src = """
 var home_url = '%(home_url)s';
 var jq = jQuery;
+var reloadtimeout=%(rtimeout)s;
     """
 
     js_vars = dict(
         home_url = reverse("twistranet_home"),
+        rtimeout = getattr(settings, 'WALLS_RELOAD_TIMEOUT', 0)
     )
 
     response = HttpResponse( src %js_vars,

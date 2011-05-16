@@ -10,9 +10,8 @@ urlpatterns = patterns('',
     # The wall page for generic accounts
     url(r'^$',                                      AsView(HomepageView), name = HomepageView.name),
     url(r'^timeline$',                              AsView(PublicTimelineView), name = PublicTimelineView.name),
-    
     # Account pages 
-    url(r'^account/(\d+)/$',                        AsView(UserAccountView, lookup = 'id'), name = 'account_by_id'),              # The 'profile' page
+    url(r'^account/(\d+)/$',                        AsView(UserAccountView, lookup = 'id'), name = 'account_by_id'),
     url(r'^account/(%s)/$' % SLUG_REGEX,            AsView(UserAccountView, lookup = 'slug'), name = 'account_by_slug'),
     url(r'^account/(\d+)/communities/$',            AsView(AccountCommunitiesView), name='account_communities'),
     url(r'^account/(\d+)/network/$',                AsView(AccountNetworkView), name='account_network'),

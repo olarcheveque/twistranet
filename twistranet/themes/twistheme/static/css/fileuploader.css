@@ -32,7 +32,12 @@
 }
 
 .qq-upload-drop-area span {
-    display:block; position:absolute; top: 20px; right: 10%; font-size:12px;
+    display:block;
+    position:absolute;
+    top: 20px;
+    right: 20px;
+    font-size:12px;
+    max-width: 55%;
 }
 .qq-upload-drop-area-active {
     opacity: 1;

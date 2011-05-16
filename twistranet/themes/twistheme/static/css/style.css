@@ -782,3 +782,22 @@ ul.network-actions li.action {
     position: absolute;
     z-index: 10000;
 }
+
+#bottom-navigation-bar {
+    background-color: #F7F7F7;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+    padding: 10px;
+}
+
+#bottom-navigation-bar a {
+    display: block;
+    cursor: pointer;
+    padding: 1px 15px 1px 0;
+    background: transparent url(../images/icons/dd-arrow-dn.png) no-repeat center right;
+}

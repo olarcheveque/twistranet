@@ -105,20 +105,26 @@ class BaseView(object):
         "community/communities.box.html",
     ]
     view_template = None
+    ajax_template = None
     body_class = ''
     comment_form = None
     available_actions = []      # List of either Action objects or BaseView classes (that will be instanciated and called with view.as_action() method)
     name = None                 # The name that this will be mapped to in url.py. But you can of course override this in url.py.
     # category = GLOBAL_ACTIONS   # Override this if you want to give another default category to this view.
-    
+
+    page = 1
+    nextpage = 2
     # The view attribute which will be passed to the templates
     template_variables = [
         ("title", "get_title"),
+        "page",
+        "nextpage",
         "path",
         "context_boxes",
         "global_boxes",
         "body_class",
         "breadcrumb",
+        "current_url",
         "comment_form",
     ]
     
@@ -144,6 +150,9 @@ class BaseView(object):
             self.request = request
             self.path = request and request.path
             self.auth = Twistable.objects.getCurrentAccount(request)
+            self.current_url = self.get_current_url()
+            self.page = int(request.GET.get('page',1))
+            self.nextpage = self.page + 1
             if not self.auth.is_anonymous:
                 self.useraccount_cache = caches.UserAccountCache(self.auth)
                 self.useraccount_cache.online = True            # Set as online
@@ -168,7 +177,11 @@ class BaseView(object):
     #                                                                                               #
     #                                           Misc. stuff                                         #
     #                                                                                               #        
-
+    def get_current_url(self,):
+        """render the current url without query_string
+           reload this method if needed"""
+        return self.request.build_absolute_uri(self.request.path)
+        
     def get_site_domain(self,):
         """
         We use this method to save site domain while we know it.
@@ -337,10 +350,28 @@ class BaseView(object):
                 bodyclass = 'nocol'
         params["body_class"] = bodyclass
         # Render template
+        if self.request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+            return self.render_ajax_view(params)
         t = get_template(self.template)
         c = RequestContext(self.request, params)
         return self.response_handler_method(t.render(c))
-                
+
+    def batch_list(self, nb_all):
+        """
+        very simple batch for pages which need it
+        (XXX : improve it)
+        return tuple (start, end)
+        """
+        page_size = settings.TWISTRANET_CONTENT_PER_PAGE
+        nb_from = page_size*(self.page - 1)
+        nb_to = page_size*(self.page)
+        return nb_from, nb_to
+
+    def render_ajax_view(self, params):
+        if self.ajax_template:
+            t = get_template(self.ajax_template)
+            c = RequestContext(self.request, params)
+            return HttpResponse(t.render(c))
 
 class BaseIndividualView(BaseView):
     """
@@ -487,8 +518,8 @@ class BaseIndividualView(BaseView):
         return publisher wall url or home page
         """
         referer_url = self.request.META.get('HTTP_REFERER', '')
-        current_url = self.request.build_absolute_uri(self.request.get_full_path())
-        if not (referer_url) or referer_url == current_url:
+        requested_url = self.request.build_absolute_uri(self.request.get_full_path())
+        if not (referer_url) or referer_url == requested_url:
             if hasattr(self, 'publisher'):
                 publisher = self.publisher
                 if publisher:
@@ -521,12 +552,17 @@ class BaseWallView(BaseIndividualView):
     template_variables = BaseIndividualView.template_variables + [
         "content_forms",
         "latest_content_list",
+        "nextpage"
     ]
 
     select_related_summary_fields = (
         "owner",
         "publisher",
     )
+
+    ajax_template="wall.content.part.html"
+    
+    is_ajax_submit=0
 
     def get_inline_forms(self, publisher = None):
         """
@@ -573,13 +609,32 @@ class BaseWallView(BaseIndividualView):
                     c.publisher = Account.objects.get_query_set(request = self.request).get(id = self.request.POST.get('publisher_id'))    # Will raise if unauthorized
                     c.save()
                     form.save_m2m()
-                    # forms.append(form_class(initial = initial)) => Silly stuff anyway?
-                    raise MustRedirect()
+                    # is it really the good place for forms validation ?
+                    if self.request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+                        self.is_ajax_submit=1
+                        form = form_class(initial = initial)
+                        forms.append(form)
+                    else:
+                        raise MustRedirect()
                 else:
                     forms.append(form)
 
         # Return the forms
         return forms
+    
+    def get_objects_list(self,):
+        """
+        render the base objects list
+        must be overloaded
+        """
+        pass
+
+    def get_recent_content_list(self,):
+        """
+        render the batched list
+        must be overloaded
+        """
+        pass
     
     def prepare_view(self, value = None):
         """
@@ -587,7 +642,32 @@ class BaseWallView(BaseIndividualView):
         """
         super(BaseWallView, self).prepare_view(value)
         # if self.object:
+        self.objects_list = total_list = self.get_objects_list()
         self.latest_content_list = self.get_recent_content_list()
         self.content_forms = self.get_inline_forms(self.object)
+        if len(total_list)< settings.TWISTRANET_CONTENT_PER_PAGE:
+            self.nextpage= 0
 
-        
+    def render_last_post(self, params):
+        "could be improved in each subclass for better performance"
+        list = self.get_recent_content_list()
+        if len(list):
+            obj = list[0]
+            lastpostparams = {'content':obj,}
+            t = get_template(obj.summary_view)
+            c = RequestContext(self.request, lastpostparams)
+            return HttpResponse(self.render_inline_forms(params) + t.render(c))
+
+    def render_inline_forms(self, params):
+        """
+        render the inline forms in ajax
+        to reset it or to return errors(TODO)
+        """
+        t = get_template("content/content_forms.part.html")
+        c = RequestContext(self.request, params)
+        return t.render(c)
+
+    def render_ajax_view(self, params):
+        if not self.is_ajax_submit:
+            return super(BaseWallView, self).render_ajax_view(params)
+        return self.render_last_post(params)

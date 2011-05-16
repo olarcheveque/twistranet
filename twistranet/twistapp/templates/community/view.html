@@ -16,10 +16,10 @@
     {% endif %}
 
     {% include "content/content_forms.part.html" %}
-
-    {% for content in latest_content_list %}
-        {%include content.object.summary_view %}
-    {% endfor %}
-    
+    {% if latest_content_list %}
+      {% include "wall.content.part.html" %}
+    {% else %}
+      <p class="nocontent">{% blocktrans %}No content.{% endblocktrans %}</p>
+    {% endif %}
 
 {% endblock %}

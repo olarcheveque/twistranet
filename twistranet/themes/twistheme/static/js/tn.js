@@ -10,12 +10,15 @@ var defaultDialogMessage = '';
 var curr_url = window.location.href;
 // live searchbox disparition effect
 var ls_hide_effect_speed = 300;
+var reset_reload_timeout = 0;
 
 // helpers
 
 // set first and last class on subblocks
 setFirstAndLast = function(block, sub, modulo) {
    jq(block).each(function() {
+      jq(sub, jq(this)).removeClass('first');
+      jq(sub, jq(this)).removeClass('last');
       if (typeof modulo=='undefined')  {
         jq(sub+':first', jq(this)).addClass('first');
         jq(sub+':last', jq(this)).addClass('last');
@@ -297,8 +300,8 @@ loadQuickUpload = function(obj) {
         contentType: 'text/html; charset=utf-8', 
         cache: false,
         data: uploaderdata,
-        success: function(content){
-            tnUploader.html(content);
+        success: function(htmlcontent){
+            tnUploader.html(htmlcontent);
         }
     });
 }
@@ -340,6 +343,43 @@ addInlineMessage = function (msg, msgtype) {
     jq('#content #tn-message .messages').html('<li class="'+ msgcls +'">'+ msg + '<\/li>');
 }
 
+
+reloadWall = function() {
+    if (!reset_reload_timeout) {
+        jq('#content').waitLoading('top:150px;left:47%;');
+        jq.ajax({
+            type: "GET",
+            url: curr_url,
+            dataType: 'html',
+            contentType: 'text/html; charset=utf-8',
+            cache: false,
+            success: function(htmlcontent){
+                jq('body #bottom-navigation-bar').empty().remove();
+                // XXX .remove() used alone (without .empty()) is very slow
+                // when applied on many elements, jq bug ??? strange ???
+                jq('.post,.nocontent').empty().remove();
+                jq(document).ready(function() {
+                    jq('#content').stopWaitLoading();
+                    jq('.fieldset-inline-form:last').after(htmlcontent);
+                    if (reloadtimeout && jq('#reload_wall').val()=='1') window.setTimeout(reloadWall,reloadtimeout);
+                    setFirstAndLast('#content', '.post');
+                    // for now we just remove all possibles messages (for deletion, etc ...)
+                    // but we could want to add a new message here ?
+                    jq("#tn-message").remove();
+                });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // in case of error we just stop the next reloads for now
+                reloadtimeout =0;
+                jq('#content').stopWaitLoading();
+            }
+        });
+    }
+    else {
+        reset_reload_timeout=0;
+        if (reloadtimeout && jq('#reload_wall').val()=='1') window.setTimeout(reloadWall,reloadtimeout);
+    }
+}
 // main class
 var twistranet = {
     browser_width: 0,
@@ -348,6 +388,7 @@ var twistranet = {
         /* finalize styles */
         this.setBrowserProperties();
         this.jqExtensions();
+        this.initAjaxWalls();
         this.finalizestyles();
         this.showContentActions();
         this.showCommentsActions();
@@ -396,6 +437,7 @@ var twistranet = {
                 aurl = this.attr('href');
                 block = jq(this.parents('.post,.comment')).first();
                 block.waitLoading();
+                reset_reload_timeout = 1;
                 jq.get(aurl, function(data) {
                     jsondata = eval( "(" + data + ")" );
                     success = jsondata.success;
@@ -425,6 +467,71 @@ var twistranet = {
                 jq(this).mouseleave(function(){jq(pdescriptions[i]).hide()});
             });
         })
+    },
+    /* XXX TODO JMG : simplify the code && the template structure (add a div with id 'wall' containing all posts)*/
+    initAjaxWalls: function(e) {
+        var self = this;
+        // reloadWall (see reloadtimeout var in twistapp.views.common_views.js_vars)
+        if (reloadtimeout && jq('#reload_wall').length) window.setTimeout(reloadWall,reloadtimeout);
+        // batch for walls
+        jq('#bottom-navigation-bar a').live('click', function(e){
+            e.preventDefault();
+            var bottomBar = jq(this).parent();
+            bottomBar.waitLoading('left:150px;top:10px');
+            reset_reload_timeout = 1;
+            jq.ajax({
+                type: "GET",
+                url: jq(this).attr('href'),
+                dataType: 'html',
+                contentType: 'text/html; charset=utf-8',
+                cache: false,
+                success: function(htmlcontent){
+                    bottomBar.replaceWith(htmlcontent);
+                    setFirstAndLast('#content', '.post');
+                }
+            });
+            return false;
+        })
+        // inline submission
+        jq('.fieldset-inline-form form').live('submit', function(e){
+            e.preventDefault();
+            data = jq('input, textarea, select', this).serialize();
+            var form = jq(this);
+            form.waitLoading();
+            reset_reload_timeout = 1;
+            jq.ajax({
+                type: "POST",
+                url: curr_url,
+                dataType: 'html',
+                data: data,
+                contentType: 'text/html; charset=utf-8',
+                cache: false,
+                success: function(htmlcontent){
+                    jq('.fieldset-inline-form').remove();
+                    if (! jq('.post:first,.nocontent').length) {
+                         if (!jq('#bottom-navigation-bar').length) jq('#content').append(htmlcontent);
+                         else jq('#bottom-navigation-bar').before(htmlcontent);
+                    }
+                    else
+                        jq('.post:first,.nocontent').before(htmlcontent);
+                    setFirstAndLast('#content', '.post');
+                    // in a new community remove the nocontent block
+                    jq('.nocontent').remove();
+                    // for now we just remove all possibles messages (for deletion, etc ...)
+                    // but we could want to add a new message here ?
+                    jq("#tn-message").remove();
+                    /* relaunch all inline forms tools */
+                    jq(document).ready(function(){
+                        self.prettyCombosLists();
+                        self.formsautofocus();
+                        self.formInputsHints();
+                        self.loadUploaders();
+                        tnResourceWidget();
+                    });
+                }
+            });
+            return false;
+        });
     },
     enableLiveSearch: function(e) {
         var defaultSearchText = jq("#default-search-text").val();
@@ -466,10 +573,10 @@ var twistranet = {
     },
     showContentActions: function(e){
         /* show content actions on post mouseover */
-        jq('.post').bind('mouseenter', function(){
+        jq('.post').live('mouseenter', function(){
           jq(this).addClass('activepost');
         });
-        jq('.post').bind('mouseleave', function(){
+        jq('.post').live('mouseleave', function(){
           jq(this).removeClass('activepost');
         });                                          
     },

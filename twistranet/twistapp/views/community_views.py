@@ -73,7 +73,7 @@ class CommunityView(UserAccountView):
         super(CommunityView, self).prepare_view(*args, **kw)
         self.set_community_vars()
         # Check if there is content, display a pretty message if there's not
-        if not len(self.latest_content_list):
+        if not len(self.objects_list):
             msg = _("""
         <p>There is not much content on this community. But it's up to YOU to create some!</p>
         <p>Feel free to add content with the simple form on this page.</p>

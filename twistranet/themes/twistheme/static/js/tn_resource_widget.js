@@ -228,85 +228,85 @@ getActivePublisher = function() {
 }
 
 
-jq(
-    function(){
-        reswidget = jq('.resource-widget');
-        theform = reswidget.parents('form');
-        target_selector = jq('input[name=selector_target]', reswidget);
-        target_media_type = jq('input[name=media_type]', reswidget);
-        media_type = target_media_type.val();
-        allow_browser_selection_field = jq('#allow_browser_selection');
-        if (allow_browser_selection_field.length) allow_browser_selection = parseInt(allow_browser_selection_field.val());
-        if (target_selector.length) {
-            selector = jq('#' + target_selector.val());
-            current_selection = selector.val();
-            new_selection = selector.val();
-            default_publisher_id = getActivePublisher();
-            // remove input fields used by ajax requests only
-            theform.bind('submit', function(){
-                 target_selector.remove();
-                 target_media_type.remove();
-                 allow_browser_selection_field.remove();
-                 jq('.tnGrid input', reswidget).remove();
-            })
-            // preload resources in background
-            jq('.resourcePaneFiles').each(function(){
-                scope_id = jq('.scopeId', this).val();
-                loadScopeResources(scope_id, current_selection, media_type);
-            });
-            // when selecting a scope (account) we show the good pane
-            jq('#resourcepane-main .tnGridItem').click(function(e){
-                var scope_id = jq('>input:hidden', this).val();
-                jq('.resourcePane').hide();
-                if (Panels[scope_id]=='unloaded') reloadScope(scope_id, new_selection, true, media_type);
-                else reloadScope(scope_id, new_selection, false, media_type);
-            })
+tnResourceWidget = function(){
+    reswidget = jq('.resource-widget');
+    theform = reswidget.parents('form');
+    target_selector = jq('input[name=selector_target]', reswidget);
+    target_media_type = jq('input[name=media_type]', reswidget);
+    media_type = target_media_type.val();
+    allow_browser_selection_field = jq('#allow_browser_selection');
+    if (allow_browser_selection_field.length) allow_browser_selection = parseInt(allow_browser_selection_field.val());
+    if (target_selector.length) {
+        selector = jq('#' + target_selector.val());
+        current_selection = selector.val();
+        new_selection = selector.val();
+        default_publisher_id = getActivePublisher();
+        // remove input fields used by ajax requests only
+        theform.bind('submit', function(){
+             target_selector.remove();
+             target_media_type.remove();
+             allow_browser_selection_field.remove();
+             jq('.tnGrid input', reswidget).remove();
+        })
+        // preload resources in background
+        jq('.resourcePaneFiles').each(function(){
+            scope_id = jq('.scopeId', this).val();
+            loadScopeResources(scope_id, current_selection, media_type);
+        });
+        // when selecting a scope (account) we show the good pane
+        jq('#resourcepane-main .tnGridItem').click(function(e){
+            var scope_id = jq('>input:hidden', this).val();
+            jq('.resourcePane').hide();
+            if (Panels[scope_id]=='unloaded') reloadScope(scope_id, new_selection, true, media_type);
+            else reloadScope(scope_id, new_selection, false, media_type);
+        })
 
-            // back to all accounts action
-            jq('.resource-back-button').click(function(e){
-                jq('.resourcePane').hide();
-                jq('#resourcepane-main').fadeIn(500);
-                jq('.resourcePane').removeClass('activePane');
-            })
-            // redefine the gridOnChange method (used everywhere on twistranet)
-            // because we want to unselect all elements from all panels
-            gridOnChange = function(grid) {
-                jq('.resourcePane .tnGridItem').each(function(){
-                    var checkbox = jq('>input:checkbox, >input:radio', this);
-                    if (checkbox.length) {
-                        if (checkbox.is(':checked')) {
-                            jq(this).addClass('itemSelected');
-                        }
-                        else {
-                            jq(this).removeClass('itemSelected');
-                        }
-                    }
-                });
-                if (! jq('.resourcePane .itemSelected').length) {
-                    hidePreview();
-                    new_selection = current_selection;
-                }
-                else {
-                    itemselected = jq('.resourcePane .itemSelected')[0];
-                    var checkbox = jq('>input:checkbox, >input:radio', itemselected);
-                    new_selection = checkbox.val();
-                    if (new_selection!=current_selection) {
-                        // event triggered on hidden field for unload protection
-                        selector.trigger('change');
-                        showPreview(jq('a', itemselected).attr('href'),
-                                    jq('.grid-item-thumbnailurl', itemselected).val(), 
-                                    jq('.grid-item-miniurl', itemselected).val(),
-                                    jq('.grid-item-summaryurl', itemselected).val(),
-                                    jq('.grid-item-previewurl', itemselected).val(),
-                                    jq('a', itemselected).attr('title'),
-                                    jq('.grid-item-type', itemselected).val());
+        // back to all accounts action
+        jq('.resource-back-button').click(function(e){
+            jq('.resourcePane').hide();
+            jq('#resourcepane-main').fadeIn(500);
+            jq('.resourcePane').removeClass('activePane');
+        })
+        // redefine the gridOnChange method (used everywhere on twistranet)
+        // because we want to unselect all elements from all panels
+        gridOnChange = function(grid) {
+            jq('.resourcePane .tnGridItem').each(function(){
+                var checkbox = jq('>input:checkbox, >input:radio', this);
+                if (checkbox.length) {
+                    if (checkbox.is(':checked')) {
+                        jq(this).addClass('itemSelected');
                     }
                     else {
-                        hidePreview();
+                        jq(this).removeClass('itemSelected');
                     }
                 }
-                selector.val(new_selection);
+            });
+            if (! jq('.resourcePane .itemSelected').length) {
+                hidePreview();
+                new_selection = current_selection;
             }
+            else {
+                itemselected = jq('.resourcePane .itemSelected')[0];
+                var checkbox = jq('>input:checkbox, >input:radio', itemselected);
+                new_selection = checkbox.val();
+                if (new_selection!=current_selection) {
+                    // event triggered on hidden field for unload protection
+                    selector.trigger('change');
+                    showPreview(jq('a', itemselected).attr('href'),
+                                jq('.grid-item-thumbnailurl', itemselected).val(), 
+                                jq('.grid-item-miniurl', itemselected).val(),
+                                jq('.grid-item-summaryurl', itemselected).val(),
+                                jq('.grid-item-previewurl', itemselected).val(),
+                                jq('a', itemselected).attr('title'),
+                                jq('.grid-item-type', itemselected).val());
+                }
+                else {
+                    hidePreview();
+                }
+            }
+            selector.val(new_selection);
         }
     }
-)
+}
+
+jq(document).ready(tnResourceWidget);

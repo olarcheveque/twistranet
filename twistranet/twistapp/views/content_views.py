@@ -223,7 +223,7 @@ class AjaxCommentsList(ContentView):
     """
     model_lookup = Content
     name = "comment_list_ajax"
-    template = "content/comments.ajax.part.html"
+    template = ajax_template = "content/comments.ajax.part.html"
     template_variables = ContentView.template_variables + ['redirect_to', ]
     
     def as_action(self):
@@ -236,7 +236,6 @@ class AjaxCommentsList(ContentView):
         Note that the form is add only, never edit.
         """
         super(AjaxCommentsList, self).prepare_view(*args, **kw)
-        
         # Prepare object and publisher information
         if not isinstance(self.object, Content):
             return
@@ -276,7 +275,7 @@ class AjaxLastCommentView(ContentView):
     """
     model_lookup = Content
     name = "comment_latest_ajax"
-    template = "content/comment.single.part.html"
+    template = ajax_template = "content/comment.single.part.html"
     comment = None
 
     def as_action(self):
