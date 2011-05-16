@@ -367,6 +367,11 @@ reloadWall = function() {
                     // but we could want to add a new message here ?
                     jq("#tn-message").remove();
                 });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // in case of error we just stop the next reloads for now
+                reloadtimeout =0;
+                jq('#content').stopWaitLoading();
             }
         });
     }
