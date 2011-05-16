@@ -15,8 +15,12 @@ twistranet is published under the termes of the GNU Affero General Public Licens
 Requirements
 ============
 
-TwistraNet is written in PYTHON (> 2.4)
-It requires the Django Framework (as of writing, Django >= 1.2 is mandatory)
+TwistraNet is written in PYTHON (>= 2.6, or >= 2.5 + simplejson)
+Twistranet is based on Django Framework (as of writing, Django >= 1.2 is mandatory,
+Django >= 1.3 is highly recommanded).
+
+If Django is always installed you can install twistranet over your Django platform.
+Otherwise The last Django version will be downloaded and installed at setup.
 
 Other requirements:
 
@@ -62,11 +66,9 @@ then you have to create a project (which is an instance of a twistranet site).
 
 To install twistranet's core features:
 
-- Download and install Python >= 2.4 (with setuptools)
+- Download and install Python >= 2.6 (with setuptools and PIL)
 
-- Download twistranet from github.com/numericube/twistranet
-
-- Execute (as a superuser) ./setup.py install clean ; this will normally install all dependencies.
+- Execute (as a superuser) "easy_install numericube-twistranet" ; this will normally download and install twistranet and all dependencies.
 
 To create a new project:
 
@@ -98,37 +100,19 @@ Running Twistranet :
 
 - Point your browser at http://localhost:8000
 
-Debug mode
-----------
 
-To start twistranet in DEBUG mode, just declare a TWISTRANET_DEBUG environment variable
-before starting "runserver".
+More informations
+=================
 
+You can get other informations in the docs folder inside this package about:
 
-Running without installing
---------------------------
+- installing/upgrading/uninstalling twistranet with PIP (quick and clean)
 
-You can run twistranet without installing it (but you still need to install its dependencies).
+- installing Twistranet for testing and development
+  (using virtualenv / installing in place the devel package / localization / running tests ...)
 
-This is useful if you want to work with a development version without installing it.
+- Running Twistranet in debug mode
 
-For example, if you want to run twistranet from the 'my_project' directory inside the twistranet source directory, do the following:
-
-  - Download twistranet ;
-  
-  - Go into the twistranet directory (there should be a ./twistranet_project.py file in there) ;
-
-  - Execute:
-
-    - python ./twistranet_project.py my_project
-
-    - cd my_project
-
-    - ./manage.py bootstrap --pythonpath ../twistranet
-
-    - ./manage.py runserver --pythonpath ../twistranet
-
-That's it :)
 
 Troubleshooting
 =================

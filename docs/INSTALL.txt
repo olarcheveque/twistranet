@@ -84,8 +84,6 @@ in your python path ::
   
   - Django
   
-  - django-piston
-  
   - django-haystack
   
   - django-debug-toolbar
