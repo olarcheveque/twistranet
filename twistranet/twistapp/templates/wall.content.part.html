@@ -4,10 +4,12 @@
     {% for content in latest_content_list %}
         {%include content.summary_view %}
     {% endfor %}
-    <div id="bottom-navigation-bar">
-        <a class="olderPosts"
-           href="{{current_url}}?page={{nextpage}}">{% blocktrans %}Older posts{% endblocktrans %}</a>
-    </div>
+    {% if nextpage %}
+        <div id="bottom-navigation-bar">
+            <a class="olderPosts"
+               href="{{current_url}}?page={{nextpage}}">{% blocktrans %}Older posts{% endblocktrans %}</a>
+        </div>
+    {% endif %}
 {% else %}
     <div id="bottom-navigation-bar">
         <span class="veryBeginning">{% blocktrans %}Very beginning of this wall's history.{% endblocktrans %}</span>

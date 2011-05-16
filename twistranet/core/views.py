@@ -642,9 +642,11 @@ class BaseWallView(BaseIndividualView):
         """
         super(BaseWallView, self).prepare_view(value)
         # if self.object:
-        self.objects_list = self.get_objects_list()
+        self.objects_list = total_list = self.get_objects_list()
         self.latest_content_list = self.get_recent_content_list()
         self.content_forms = self.get_inline_forms(self.object)
+        if len(total_list)< settings.TWISTRANET_CONTENT_PER_PAGE:
+            self.nextpage= 0
 
     def render_last_post(self, params):
         "could be improved in each subclass for better performance"
