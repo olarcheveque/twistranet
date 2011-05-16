@@ -8,7 +8,9 @@ Official website: http://www.twistranet.com / French version on http://www.twist
 About
 =====
 
-twistranet is an Enterprise Social Software. It's a Social Network you can use to help people collaborate. And it is also a nice CMS (Content Management System) with a social focus.
+twistranet is an Enterprise Social Software.
+It's a Social Network you can use to help people collaborate.
+And it is also a nice CMS (Content Management System) with a social focus.
 
 twistranet is published under the termes of the GNU Affero General Public License v3.
 
@@ -104,7 +106,7 @@ Running Twistranet :
 More informations
 =================
 
-You can get other informations in the docs folder inside this package about:
+You can get other informations in the "docs" folder inside this package about:
 
 - installing/upgrading/uninstalling twistranet with PIP (quick and clean)
 
@@ -115,7 +117,7 @@ You can get other informations in the docs folder inside this package about:
 
 
 Troubleshooting
-=================
+================
 
 No image / thumbnail on my fresh twistranet instance!
 ------------------------------------------------------
