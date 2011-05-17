@@ -25,8 +25,10 @@ url_regex = re.compile(URL_REGEX)
 non_a_tag = re.compile(r"""[^"']%s[^"']""" % URL_REGEX)
 account_slug_regex = re.compile(r"@(?P<Alias>%s)" % slugify.SLUG_REGEX)
 account_id_regex = re.compile(r"@(?P<Alias>\d+)")
-content_slug_regex = re.compile(r"\[\s*(?P<Alias>%s)\s*\]" % slugify.SLUG_REGEX)
-content_id_regex = re.compile(r"\[\s*(?P<Alias>\d+)\s*\]")
+content_slug_regex = re.compile(r"\[\[\s*(?P<Alias>%s)\s*\]\]" % slugify.SLUG_REGEX)
+content_id_regex = re.compile(r"\[\[\s*(?P<Alias>\d+)\s*\]\]")
+resource_slug_regex = re.compile(r"\[\[\s*[a-zA-Z_]+:(?P<Alias>%s)\s*\]\]" % slugify.SLUG_REGEX)
+resource_id_regex = re.compile(r"\[\[\s*[a-zA-Z_]+:(?P<Alias>\d+)\s*\]\]")
 
 def resource_image(resource):
     """
@@ -43,23 +45,35 @@ def resource_image(resource):
         return """<a href="%(url)s" title="%(title)s"><img class="image-inline" src="%(thumburl)s" alt="%(title)s" /></a>""" % d
     return """<a href="%(url)s" title="%(title)s"><img class="file-icon" src="%(thumburl)s" /><span>%(title)s</span></a>""" % d
 
+def unbracket(text):
+    """
+    Remove brackets
+    """
+    save_text = text
+    text = re.sub(r"\[\[\s*[a-zA-Z_]+:", "", text)
+    text = re.sub(r"\[\[\s*", "", text)
+    text = re.sub(r"\s*\]\]", "", text)
+    print "%s => %s" % (save_text, text, )
+    return text
 
 matches = (
-    # regex,                fast_reverse,         func,       model,          lookup field
-    (account_id_regex,      'account_by_id',      None,       Account,        "id",               ),
-    (account_slug_regex,    'account_by_slug',    None,       Account,        "slug",             ),
-#    (content_id_regex,      'content_by_id',      None,       Content,        "id",               ),
-    (content_slug_regex,    'content_by_slug',    None,       Content,        "slug",             ),
-    (content_id_regex,      'resource_by_id',     resource_image,             Resource,       "id",               ),
-#    (content_slug_regex,    'resource_by_slug',   resource_image,             Resource,       "slug",             ),
+    
+    # regex,                fast_reverse,           full_func,      fast_func,      model,          lookup field
+    (account_id_regex,      'account_by_id',        None,           None,           Account,        "id",               ),
+    (account_slug_regex,    'account_by_slug',      None,           None,           Account,        "slug",             ),
+#    (content_id_regex,      'content_by_id',       None,           None,           Content,        "id",               ),
+    (content_slug_regex,    'content_by_slug',      None,           unbracket,      Content,        "slug",             ),
+    (resource_id_regex,     'resource_by_id',       resource_image, unbracket,      Resource,       "id",               ),
+    (resource_slug_regex,   'resource_by_slug',     resource_image, unbracket,      Resource,       "slug",             ),
 )
 
 
 class Subf(object):
-    def __init__(self, lookup, fast_reverse, func, model, lookup_field, ):
+    def __init__(self, lookup, fast_reverse, full_func, fast_func, model, lookup_field, ):
         self.lookup = lookup
         self.fast_reverse = fast_reverse
-        self.func = func
+        self.full_func = full_func
+        self.fast_func = fast_func
         self.model = model
         self.lookup_field = lookup_field
 
@@ -69,8 +83,10 @@ class Subf(object):
         Function passed to re.sub()
         """
         label = match.group(0)
+        label = self.fast_func and self.fast_func(label) or label
         title = None
         obj = None
+        
         if self.lookup:
             try:
                 kw = {self.lookup_field: match.groupdict()['Alias']}
@@ -85,8 +101,8 @@ class Subf(object):
         else:
             url = reverse(self.fast_reverse, args = (match.groupdict()['Alias'],))
 
-        if self.func and obj:
-            subst = self.func(obj)
+        if self.full_func and obj:
+            subst = self.full_func(obj)
         else:
             subst = '<a href="%s" title="%s">%s</a>' % (url, title or label, label)
 
@@ -118,8 +134,8 @@ def escape_wiki(text, lookup = False, autoescape=None):
         text = conditional_escape(text)
 
     # Replace the global matches
-    for regex, fast_reverse, func, model_class, lookup_field in matches:
-        subf = Subf(lookup, fast_reverse, func, model_class, lookup_field )
+    for regex, fast_reverse, full_func, fast_func, model_class, lookup_field in matches:
+        subf = Subf(lookup, fast_reverse, full_func, fast_func, model_class, lookup_field )
         text = regex.sub(subf, text)
 
     

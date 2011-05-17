@@ -82,6 +82,7 @@ def load_cogip():
                 Community,
                 slug = service_slug,
                 title = useraccount['service'],
+                description = useraccount['service'],
                 permissions = "blog",
                 logged_account = username,
                 force_update = True,

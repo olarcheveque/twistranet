@@ -16,7 +16,7 @@ FIXTURES = [
         description_en = "twistranet is a social network "
             "tailored for enterprise needs. Learn how to use it within 10 minutes.",
         description_fr = "twistranet est un Réseau Social d'Entreprise. <br />"
-            "Apprenez à l'utiliser en 10 minutes&nbsp;!",
+            "Apprenez à l'utiliser en 10 minutes!",
         text_en = """<h2>Getting started</h2>
 <p>
 If you can read that document, that probably means you're already connected to twistranet!
@@ -26,15 +26,15 @@ If you're not logged-in, please login now.
     <tr>
         <th width="33%">
             <p>Find your co-workers</p>
-            [address_64]
+            [[Image:address_64]]
         </th>
         <th width="33%">
             <p>Share with your network</p>
-            [bubble_64]
+            [[Image:bubble_64]]
         </th>
         <th width="33%">
             <p>Publish content</p>
-            [document_64]
+            [[Image:document_64]]
         </th>
    </tr>
     <tr>
@@ -74,15 +74,15 @@ Si vous n'êtes pas connecté, vous pouvez vous connecter immédiatement.
     <tr>
         <th width="33%">
             <p>Trouvez vos collègues</p>
-            [address_64]
+            [[Image:address_64]]
         </th>
         <th width="33%">
             <p>Partagez avec votre réseau</p>
-            [bubble_64]
+            [[Image:bubble_64]]
         </th>
         <th width="33%">
             <p>Publiez du contenu</p>
-            [document_64]
+            [[Image:document_64]]
         </th>
    </tr>
     <tr>
@@ -155,15 +155,15 @@ And you can do so much more with communities.
     <tr>
         <th width="33%">
             <p>Teamwork, teamwork, teamwork!</p>
-            [diagram_64]
+            [[Image:diagram_64]]
         </th>
         <th width="33%">
             <p>Easy blogging</p>
-            [bubble_64]
+            [[Image:bubble_64]]
         </th>
         <th width="33%">
             <p>Involve stakeholders</p>
-            [heart_64]
+            [[Image:heart_64]]
         </th>
    </tr>
     <tr>
