@@ -161,14 +161,18 @@ def load_cogip():
         if not member_slugs:
             continue
         service_slug = slugify(community['title'])
-        com = Fixture(
-            Community,
-            slug = service_slug,
-            title = community['title'],
-            description = community['description'],
-            permissions = community['permissions'],
-            logged_account = member_slugs[0],
-        ).apply()
+        if community['title']:
+            com = Fixture(
+                Community,
+                slug = service_slug,
+                title = community['title'],
+                description = community['description'],
+                permissions = community['permissions'],
+                logged_account = member_slugs[0],
+            ).apply()
+        else:
+            # No description? We assume community already exists (and its slug is the given title)
+            com = Community.objects.get(slug = community['title'])
     
         for member in member_slugs:
             log.debug("Make %s join %s" % (member, com.slug))
