@@ -21,16 +21,11 @@ TwistranetQuickUpload.onAfterSelect = function(uploader, domelement, file, id, f
         var labelfiletitle = jq('#uploadify_label_file_title').val();
         var blocFile = uploader._getItemByFileId(id);
         if (typeof id == 'string') id = parseInt(id.replace('qq-upload-handler-iframe',''));
-        jq('.qq-upload-cancel', blocFile).after('\
-                  <div class="uploadField">\
-                      <label>' + labelfiletitle + '&nbsp;:&nbsp;</label> \
-                      <input type="text" \
-                             class="file_title_field" \
-                             id="title_' + id + '" \
-                             name="title" \
-                             value="" />\
-                  </div>\
-                   ')
+        var formBloc = '<div class="uploadField">';
+        formBloc += '<label>' + labelfiletitle + '&nbsp;:&nbsp;</label>';
+        formBloc += '<input type="text" class="file_title_field" id="title_' + id + '" name="title" value="" \/>';
+        formBloc += '</div>';
+        jq('.qq-upload-cancel', blocFile).after(formBloc);
     }
     TwistranetQuickUpload.showButtons(uploader, domelement);
 }

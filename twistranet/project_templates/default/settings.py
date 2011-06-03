@@ -209,6 +209,7 @@ _INSTALLED_APPS = (
     # 3rd party modules
     DEBUG and 'debug_toolbar' or None,
     'piston',
+    'compress',
     'tinymce',
     'sorl.thumbnail',
     'modeltranslation',
@@ -247,6 +248,59 @@ BASE_URL_DEPDENDANT = (
     "LOGIN_REDIRECT_URL",
     "TINYMCE_JS_URL",
 )
+
+##################################
+# django-compress configuration  #
+##################################
+COMPRESS = True
+# you can also run a css optimizer like css tidy
+COMPRESS_CSS_FILTERS = None
+COMPRESS_VERSION = True
+
+COMPRESS_CSS = {
+    'twist_theme': {
+        'source_filenames': ('css/reset.css',
+                             'css/typography.css',
+                             'css/template.css',
+                             'css/menu.css',
+                             'css/style.css',
+                             'css/login.css',
+                             'css/forms.css',
+                             'css/content.css'),
+        'output_filename': 'css/twist_theme.r?.css',
+        'extra_context': {
+            'media': 'all',
+        },
+    },
+    'twist_tools': {
+        'source_filenames': ('css/jquery-ui-1.8.5.custom.css',
+                             'css/jquery-dd.css',
+                             'css/fileuploader.css',),
+        'output_filename': 'css/twist_tools.r?.css',
+        'extra_context': {
+            'media': 'screen',
+        },
+    },
+
+}
+
+COMPRESS_JS = {
+    'twist_all': {
+        'source_filenames': ('js/includes/lib/include.js',
+                             'js/includes/lib/scrollTo.js',
+                             'js/includes/lib/browserdetect.js',
+                             'js/includes/lib/hoverIntent.js',
+                             'js/includes/lib/superfish.js',
+                             'js/includes/mad.jquery.js',
+                             'js/jquery.livesearch.js',
+                             'js/fileuploader.js',
+                             'js/tn_quickupload_helpers.js',
+                             'js/comments.js',
+                             'js/sharing.js',
+                             'js/tn.js', ),
+        'output_filename': 'js/twist_all.r?.js',
+    }
+}
 
 # Local and bootstrap settings.
 TWISTRANET_IMPORT_SAMPLE_DATA = False
