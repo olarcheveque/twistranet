@@ -252,11 +252,18 @@ BASE_URL_DEPDENDANT = (
 ##################################
 # django-compress configuration  #
 ##################################
-COMPRESS = True
-# you can also run a css optimizer like css tidy
+# compress only when no debug
+COMPRESS = not DEBUG
+# you can use a css optimizer like css tidy
 COMPRESS_CSS_FILTERS = None
+# new file names after each synccompress (see output_filename below)
 COMPRESS_VERSION = True
-
+# when COMPRESS_AUTO==True a new version of output files
+# are generated each time source files are changed
+# but this could impact performances.
+# You could prefer using "python manage.py synccompress" to force new output
+# generation each time you change the files
+COMPRESS_AUTO = False
 COMPRESS_CSS = {
     'twist_theme': {
         'source_filenames': ('css/reset.css',
