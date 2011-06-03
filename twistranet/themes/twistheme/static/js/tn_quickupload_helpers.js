@@ -23,7 +23,7 @@ TwistranetQuickUpload.onAfterSelect = function(uploader, domelement, file, id, f
         if (typeof id == 'string') id = parseInt(id.replace('qq-upload-handler-iframe',''));
         var formBloc = '<div class="uploadField">';
         formBloc += '<label>' + labelfiletitle + '&nbsp;:&nbsp;</label>';
-        formBloc += '<input type="text" class="file_title_field" id="title_' + id + '" name="title" value="" \/>';
+        formBloc += '<input type="text" class="file_title_field" id="title_' + id + '" name="title" value="" />';
         formBloc += '</div>';
         jq('.qq-upload-cancel', blocFile).after(formBloc);
     }

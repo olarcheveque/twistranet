@@ -99,24 +99,18 @@ setSelectedTopic = function(menu) {
 }
 
 liveSearchDisplayResult = function(link, thumblink, type, title, description) {
-    template= ' \
-<div class="ls-result"> \
-   <a href="' + link + '" \
-      title="' + title + '" \
-      class="image-block image-block-tile image-block-alone"> \
-       <img src="' + thumblink + '" \
-            alt="'+ title + '" /> \
-   </a> \
-  <p><span class="ls-result-title">' + title + '</span><span class="ls-result-type"> ' + type + '</span></p> \
-  <p class="ls-result-description">' + description + '</p> \
-  <div class="clear"><!-- --></div> \
-</div> \
-';    
-// remove empty fields
-template = template.replace('<span class="ls-result-type"> </span>', '');
-template = template.replace('<span class="ls-result-title"></span>', '');
-template = template.replace('<p></p>', '');
-return template;
+    var template= '<div class="ls-result">';
+    template += '<a href="' + link + '" title="' + title + '" class="image-block image-block-tile image-block-alone">';
+    template += '<img src="' + thumblink + '" alt="'+ title + '" /></a>';
+    template += '<p><span class="ls-result-title">' + title + '</span><span class="ls-result-type"> ' + type + '</span></p>';
+    template += '<p class="ls-result-description">' + description + '</p>';
+    template += '<div class="clear"><!-- --></div>';
+    template += '</div>';
+    // remove empty fields
+    template = template.replace('<span class="ls-result-type"> </span>', '');
+    template = template.replace('<span class="ls-result-title"></span>', '');
+    template = template.replace('<p></p>', '');
+    return template;
 }
 
 
