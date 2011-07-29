@@ -341,7 +341,13 @@ class Twistable(_AbstractTwistable):
         Same arguments as sorl's get_thumbnail method.
         """
         from sorl.thumbnail import default
-        return default.backend.get_thumbnail(self.forced_picture.image, *args, **kw)
+        try:
+            return default.backend.get_thumbnail(self.forced_picture.image, *args, **kw)
+        except:
+            # in rare situations (CMJK + PNG mode, sorl thumbnail raise an error)
+            import resource
+            picture = resource.Resource.objects.get(slug = self.model_class.default_picture_resource_slug)
+            return default.backend.get_thumbnail(picture.image, *args, **kw)
         
     @property
     def thumbnails(self,):
