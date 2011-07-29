@@ -1,3 +1,7 @@
+1.1.1, 2011/07/29
+==================
+- fix sorl thumbnail error with CMJK images
+  https://github.com/numericube/twistranet/issues/22
 
 1.1.0, 2011/05/16
 ==================
