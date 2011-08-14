@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: twistranet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-07 14:29+0200\n"
+"POT-Creation-Date: 2011-08-14 04:58+0000\n"
 "PO-Revision-Date: 2011-05-06 13:52+0200\n"
 "Last-Translator: Jean-mat Grimaldi <jmgrimaldi@numericube.com>\n"
 "Language-Team: Numericube\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Language-Code: fr\n"
 "Language-Name: French\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Domain: django\n"
 "X-Is-Fallback-For: fr-be fr-ca fr-lu fr-mc fr-ch fr-fr\n"
 
-#: .\forms\account_forms.py:20
+#: forms/account_forms.py:20
 msgid "Your name"
 msgstr "Votre nom"
 
-#: .\forms\account_forms.py:21
+#: forms/account_forms.py:21
 msgid ""
 "Enter your full name (eg. Firstname Lastname) as you want it to be displayed "
 "to other users."
@@ -30,11 +30,11 @@ msgstr ""
 "Entrez votre nom complet (ex : Prénom Nom). Il sera affiché comme tel aux "
 "autres utilisateurs."
 
-#: .\forms\account_forms.py:25
+#: forms/account_forms.py:25
 msgid "About you"
 msgstr "À propos de vous"
 
-#: .\forms\account_forms.py:26
+#: forms/account_forms.py:26
 msgid ""
 "Present yourself in a few lines. What are you working on? What do you like "
 "besides work?"
@@ -42,85 +42,85 @@ msgstr ""
 "Présentez-vous en quelques lignes. Par exemple, sur quoi travaillez-vous ? "
 "Qu'aimez-vous faire en dehors du travail ?"
 
-#: .\forms\account_forms.py:31
+#: forms/account_forms.py:31
 msgid "Keywords about you"
 msgstr "Quelques mots-clés pour vous décrire"
 
-#: .\forms\account_forms.py:32
+#: forms/account_forms.py:32
 msgid "Enter what you do, what you like, ..."
 msgstr "Dites ce que vous faites, ce que vous aimez, ..."
 
-#: .\forms\account_forms.py:51
+#: forms/account_forms.py:51
 msgid "First name"
 msgstr "Prénom"
 
-#: .\forms\account_forms.py:55
+#: forms/account_forms.py:55
 msgid "Last name"
 msgstr "Nom"
 
-#: .\forms\account_forms.py:58
+#: forms/account_forms.py:58
 msgid "Login name"
 msgstr "Nom d'utilisateur"
 
-#: .\forms\account_forms.py:64
+#: forms/account_forms.py:64
 msgid "Choose your password"
 msgstr "Choisissez votre mot de passe"
 
-#: .\forms\account_forms.py:68
+#: forms/account_forms.py:68
 msgid "Confirm your password"
 msgstr "Confirmez votre mot de passe"
 
-#: .\forms\account_forms.py:80
+#: forms/account_forms.py:80
 msgid "Invite as an administrator?"
 msgstr "Inviter à devenir administrateur ?"
 
-#: .\forms\account_forms.py:85
+#: forms/account_forms.py:85
 msgid "Invitation message"
 msgstr "Message joint à l'invitation"
 
-#: .\forms\account_forms.py:86
+#: forms/account_forms.py:86
 msgid ""
 "If given, this text will be added to the user when sending the invitation."
 msgstr "Ce message sera joint à votre invitation."
 
-#: .\forms\account_forms.py:97
+#: forms/account_forms.py:97
 msgid "Enter your current password"
 msgstr "Entrez votre mot de passe actuel"
 
-#: .\forms\account_forms.py:101 .\forms\registration_forms.py:43
+#: forms/account_forms.py:101 forms/registration_forms.py:43
 msgid "Enter your new password"
 msgstr "Entrez votre nouveau mot de passe"
 
-#: .\forms\account_forms.py:105 .\forms\registration_forms.py:47
+#: forms/account_forms.py:105 forms/registration_forms.py:47
 msgid "Confirm your new password"
 msgstr "Confirmez votre nouveau mot de passe"
 
-#: .\forms\account_forms.py:106 .\forms\registration_forms.py:48
+#: forms/account_forms.py:106 forms/registration_forms.py:48
 msgid "Enter the same password as above, for verification."
 msgstr "Confirmez votre mot de passe."
 
-#: .\forms\account_forms.py:117
+#: forms/account_forms.py:117
 msgid "Invalid password."
 msgstr "Mot de passe incorrect."
 
-#: .\forms\account_forms.py:127 .\forms\registration_forms.py:56
+#: forms/account_forms.py:127 forms/registration_forms.py:56
 msgid "The two password fields didn't match."
 msgstr "Le mot de passe et la confirmation ne concordent pas."
 
-#: .\forms\admin_forms.py:23 .\forms\admin_forms.py:56
-#: .\templates\resource\resource_quickupload.html.py:12
+#: forms/admin_forms.py:23 forms/admin_forms.py:56 models/twistable.py:229
+#: templates/resource/resource_quickupload.html:12
 msgid "Title"
 msgstr "Titre"
 
-#: .\forms\admin_forms.py:24
+#: forms/admin_forms.py:24
 msgid "Enter the item's title as you want it to be displayed in menu."
 msgstr "Entrez le titre de l'élément. Il sera affiché comme tel dans le menu."
 
-#: .\forms\admin_forms.py:29 .\forms\admin_forms.py:62
+#: forms/admin_forms.py:29 forms/admin_forms.py:62 models/twistable.py:230
 msgid "Description"
 msgstr "Description"
 
-#: .\forms\admin_forms.py:31
+#: forms/admin_forms.py:31
 msgid ""
 "Enter the item's description as you want it to be displayed on mouse over "
 "menu item's."
@@ -128,14 +128,14 @@ msgstr ""
 "Entrez la description de l'élément. Elle sera affichée comme telle au survol "
 "de la souris sur l'élément de menu."
 
-#: .\forms\admin_forms.py:43
+#: forms/admin_forms.py:43
 msgid ""
 "Enter a custom link's url. It could be an external or internal valid url."
 msgstr ""
 "Entrez un lien personnalisé. Ce devra être une url valide, interne ou "
 "externe."
 
-#: .\forms\admin_forms.py:57
+#: forms/admin_forms.py:57
 msgid ""
 "Enter the item's title as you want it to be displayed in menu. Leave it "
 "blank if you want to keep the target title."
@@ -143,7 +143,7 @@ msgstr ""
 "Entrez le titre de l'élément tel que vous voudriez le voir affiché dans le "
 "menu.Laissez vide si vous désirez conserver le titre de la cible."
 
-#: .\forms\admin_forms.py:64
+#: forms/admin_forms.py:64
 msgid ""
 "Enter the item's description as you want it to be displayed on mouse over "
 "menu item's. Leave it blank if you want to keep the target description."
@@ -152,192 +152,354 @@ msgstr ""
 "au survol de la souris dans le menu.Laissez vide si vous désirez conserver "
 "la description de la cible."
 
-#: .\forms\admin_forms.py:78
+#: forms/admin_forms.py:78
 msgid "Enter the internal view path."
 msgstr "Entrez le chemin de la vue interne"
 
-#: .\forms\community_forms.py:19
+#: forms/base_forms.py:115
+msgid "Keywords"
+msgstr "Mots-clés"
+
+#: forms/community_forms.py:19
 msgid "Community keywords"
 msgstr "Mots-clés de la communauté"
 
-#: .\forms\community_forms.py:20
+#: forms/community_forms.py:20
 msgid "Enter the keywords best describing your community"
 msgstr "Tapez les mots-clés qui décrivent le mieux votre communauté"
 
-#: .\forms\fields.py:31 .\forms\fields.py:67
+#: forms/fields.py:31 forms/fields.py:67
 msgid "Select a valid choice. That choice is not one of the available choices."
 msgstr "Choisissez une valeur dans la liste"
 
-#: .\forms\fields.py:188
+#: forms/fields.py:188
 msgid "Enter a valid Path."
 msgstr "Entrez un chemin valide."
 
-#: .\forms\registration_forms.py:14
+#: forms/registration_forms.py:14
 msgid "Enter your email address:"
 msgstr "Entrez votre adresse email :"
 
-#: .\forms\registration_forms.py:28
+#: forms/registration_forms.py:28
 msgid "This email is not registerd."
 msgstr "Aucun utilisateur n'existe avec cet email."
 
-#: .\forms\registration_forms.py:32
+#: forms/registration_forms.py:32
 msgid "Can't retrieve password for this email. Ask your system administrator."
 msgstr ""
 "Le mot de passe de cet utilisateur ne peut pas être récupéré. Prenez contact "
 "avec votre administrateur système."
 
-#: .\forms\validators.py:25
+#: forms/validators.py:25
 msgid "This View does not exist."
 msgstr "Cette vue n'existe pas."
 
-#: .\forms\validators.py:77
+#: forms/validators.py:77
 msgid "Enter a valid URL."
 msgstr "Entrez une url valide."
 
-#: .\forms\validators.py:79
+#: forms/validators.py:79
 msgid "This URL appears to be a broken link."
 msgstr "Cette adresse url ne répond plus."
 
-#: .\forms\widgets.py:89
+#: forms/widgets.py:89
 msgid "Current:"
 msgstr "Sélection :"
 
-#: .\forms\widgets.py:110
+#: forms/widgets.py:110
 msgid "Uploaded file:"
 msgstr "Fichier envoyé :"
 
-#: .\templates\form.fieldset.part.html.py:22
-#: .\templates\admin\menu_builder_form.html.py:147
-#: .\templates\community\edit.html.py:30 .\templates\content\edit.html.py:39
-#: .\templates\registration\join.html.py:47
-#: .\templates\resource\edit.html.py:40 .\views\admin_views.py:20
+#: lib/permissions.py:70 lib/permissions.py:113 lib/permissions.py:157
+#: lib/permissions.py:356
+msgid "Public"
+msgstr "Public"
+
+#: lib/permissions.py:71 lib/permissions.py:114 lib/permissions.py:357
+msgid "Content visible to people who can view this account."
+msgstr "Contenu visible aux personnes capable de voir ce compte."
+
+#: lib/permissions.py:79 lib/permissions.py:122
+msgid "My network only"
+msgstr "Mon réseau"
+
+#: lib/permissions.py:80 lib/permissions.py:123
+msgid "Content visible only for people in my network."
+msgstr "Contenu visible seulement pour les personnes de mon réseau."
+
+#: lib/permissions.py:89 lib/permissions.py:132
+msgid "Members only"
+msgstr "Membres"
+
+#: lib/permissions.py:90 lib/permissions.py:133
+msgid "Content visible only for community members."
+msgstr "Contenu visible seulement pour les membres de la communauté."
+
+#: lib/permissions.py:99 lib/permissions.py:142 lib/permissions.py:177
+#: lib/permissions.py:242
+msgid "Private"
+msgstr "Privé"
+
+#: lib/permissions.py:100 lib/permissions.py:143
+msgid "Content visible only for you."
+msgstr "Contenu visible uniquement par vous."
+
+#: lib/permissions.py:158
+msgid "Account visible to anyone who has access to twistranet."
+msgstr "Compte visible par tous ceux qui ont accès à twistranet."
+
+#: lib/permissions.py:167
+msgid "Intranet account"
+msgstr "Compte intranet"
+
+#: lib/permissions.py:168
+msgid "Account visible only to people logged-in twistranet."
+msgstr "Compte visible pour les personnes autentifiées dans twistranet."
+
+#: lib/permissions.py:178
+msgid ""
+"Restricted access to the account network only. This account can be searched, "
+"though."
+msgstr "Accès restreint au compte du réseau seulelement. Ce compte peut tout de même être recherché."
+
+#: lib/permissions.py:200
+msgid "Workgroup"
+msgstr "Groupe de travail"
+
+#: lib/permissions.py:201
+msgid ""
+"Content is private to the community, membership must be approved by a member."
+msgstr "Contenu privé à la communauté, l'adhésion doit être approuvée par un membre."
+
+#: lib/permissions.py:214
+msgid "Blog"
+msgstr ""
+
+#: lib/permissions.py:215
+msgid ""
+"Content is public and discussable, membership is handled by the community "
+"manager."
+msgstr "Contenu public avec discussion ouverte, l'adhésion est gérée par le responsable de la communauté."
+
+#: lib/permissions.py:228
+msgid "Open community"
+msgstr "Communauté ouverte"
+
+#: lib/permissions.py:229
+msgid "Content is public, membership is free."
+msgstr "Contenu public, l'adhésion est libre."
+
+#: lib/permissions.py:243
+msgid ""
+"\n"
+"                            A private community, visible only to its members "
+"but ruled like a workgroup otherwise.\n"
+"                            "
+msgstr ""
+"\n"
+"                            Communauté privée visible seulements par ses membres "
+"elle fonctionne cependant comme un groupe de travail.\n"
+"                            "
+#: lib/permissions.py:298
+msgid "Intranet: Access restricted to logged-in users only."
+msgstr "Intranet : accès restreint aux personnes autentifiées."
+
+#: lib/permissions.py:299
+msgid ""
+"\n"
+"                            Use this to have your twistranet site opened "
+"only to logged-in users.\n"
+"                            Everybody is listed, some accounts can be "
+"private.\n"
+"                            This is usually how an intranet site works.\n"
+"                            "
+msgstr ""
+"\n"
+"                            Utiliser cette option pour avoir un site twistranet ouvert"
+"seulement aux personnes autentifiées.\n"
+"                            Tout le monde est listé, quelques comptes peuvent être "
+"privés.\n"
+"                            C'est habituellement comment un intranet fonctionne.\n"
+"                            "
+
+#: lib/permissions.py:331
+msgid "Internet: Opened for non-logged users as well."
+msgstr "Internet : ouverte aussi aux personnes anonymes."
+
+#: lib/permissions.py:332
+msgid ""
+"\n"
+"                            Want to open your community the the World? "
+"That's what this is for.\n"
+"                            If you have an association, a (possibly open-"
+"source ;)) community project\n"
+"                            or just want your company to be reachable, keep "
+"the content opened.\n"
+"                            Of course, anonymous people won't be able to do "
+"anything but read authorized stuff.\n"
+"                            \n"
+"                            Global community content will still be "
+"restricted to auth people.\n"
+"                            "
+msgstr ""
+"\n"
+"                            Vous voulez une communauté ouverte au monde entier? "
+"Ceci est fait pour vous.\n"
+"                            Si vous avez une association, une communauté de projet (possiblement open-source ;))\n"
+"                            ou simplement vous voulez que votre entreprise soit visible, garder "
+"le contenu ouvert.\n"
+"                            Bien sûr, les personnes anonymes ne seront pas capable de faire quoi que ce soit, excepté "
+"lire les contenus autorisés.\n"
+"                            \n"
+"                            Les contenus d'une communauté globale seront toujours "
+"restreints aux personnes autentifiées.\n"
+"                            "
+
+#: models/twistable.py:231
+msgid "Created at"
+msgstr "Créé le : "
+
+#: models/twistable.py:232
+msgid "Modified at"
+msgstr "Modifié le : "
+
+#: models/twistable.py:233
+msgid "Created by"
+msgstr "Créé par : "
+
+#: models/twistable.py:234
+msgid "Modified by"
+msgstr "Modifié par : "
+
+#: templates/form.fieldset.part.html:22
+#: templates/admin/menu_builder_form.html:147 templates/community/edit.html:30
+#: templates/content/edit.html:39 templates/registration/join.html:47
+#: templates/resource/edit.html:40 views/admin_views.py:20
 msgid "Save"
 msgstr "Valider"
 
-#: .\templates\form.fieldset.part.html.py:23
-#: .\templates\admin\menu_builder_form.html.py:148
-#: .\templates\community\edit.html.py:31 .\templates\content\edit.html.py:40
-#: .\templates\registration\join.html.py:48
-#: .\templates\resource\edit.html.py:41
+#: templates/form.fieldset.part.html:23
+#: templates/admin/menu_builder_form.html:148 templates/community/edit.html:31
+#: templates/content/edit.html:40 templates/registration/join.html:48
+#: templates/resource/edit.html:41
 msgid "Undo"
 msgstr "Annuler"
 
-#: .\templates\wall.content.part.html.py:9
+#: templates/wall.content.part.html:10
 msgid "Older posts"
 msgstr "Publications plus anciennes"
 
-#: .\templates\wall.content.part.html.py:13
+#: templates/wall.content.part.html:15
 msgid "Very beginning of this wall's history."
 msgstr "Tout début de l'historique de ce mur."
 
-#: .\templates\wall.html.py:11 .\templates\wall.html.py:21
+#: templates/wall.html:11 templates/wall.html.py:21
 msgid "Activity Feed"
 msgstr "Fil d'Activité"
 
-#: .\templates\wall.html.py:30 .\templates\account\view.html.py:14
-#: .\templates\community\view.html.py:22
+#: templates/wall.html:30 templates/account/view.html:14
+#: templates/community/view.html:22
 msgid "No content."
 msgstr "Pas de contenu."
 
-#: .\templates\account\list.html.py:8
+#: templates/account/list.html:8
 msgid "No member in your network."
 msgstr "Pas de membre dans votre réseau."
 
-#: .\templates\account\medium.thumbnail.alone.html.py:8
-#: .\templates\account\medium.thumbnail.html.py:9
-#: .\templates\account\select.part.html.py:12
+#: templates/account/medium.thumbnail.alone.html:8
+#: templates/account/medium.thumbnail.html:9
+#: templates/account/select.part.html:12
 msgid "Community manager"
 msgstr "Responsable"
 
-#: .\templates\account\relations.box.html.py:6
+#: templates/account/relations.box.html:6
 msgid "His/Her Communities"
 msgstr "Ses Communautés"
 
-#: .\templates\account\relations.box.html.py:22
-#: .\templates\account\relations.box.html.py:52
-#: .\templates\community\communities.box.html.py:22
-#: .\templates\community\members.box.html.py:19
-#: .\templates\community\members.box.html.py:41
+#: templates/account/relations.box.html:22
+#: templates/account/relations.box.html:52
+#: templates/community/communities.box.html:22
+#: templates/community/members.box.html:19
+#: templates/community/members.box.html:41
 msgid "See all"
 msgstr "Voir les autres"
 
-#: .\templates\account\relations.box.html.py:33
+#: templates/account/relations.box.html:33
 msgid "My Network"
 msgstr "Mon réseau"
 
-#: .\templates\account\relations.box.html.py:35
+#: templates/account/relations.box.html:35
 msgid "His/Her Network"
 msgstr "Son réseau"
 
-#: .\templates\account\summary.part.html.py:16
+#: templates/account/summary.part.html:16
 msgid "Accept in my network"
 msgstr "Ajouter à mon réseau"
 
-#: .\templates\account\summary.part.html.py:17
+#: templates/account/summary.part.html:17
 msgid "Accept"
 msgstr "Accepter"
 
-#: .\templates\account\summary.part.html.py:21
+#: templates/account/summary.part.html:21
 msgid "Ignore request to add in my network"
 msgstr "Ignorer la demande d'ajout à mon réseau"
 
-#: .\templates\account\summary.part.html.py:22
+#: templates/account/summary.part.html:22
 msgid "Ignore"
 msgstr "Ignorer"
 
-#: .\templates\account\summary.part.html.py:27
-#: .\templates\community\summary.part.html.py:27
+#: templates/account/summary.part.html:27
+#: templates/community/summary.part.html:27
 msgid "Add to my network"
 msgstr "Ajouter à mon réseau"
 
-#: .\templates\actions\content_summary.part.html.py:13
+#: templates/actions/content_summary.part.html:13
 msgid "Delete content"
 msgstr "Supprimer le contenu"
 
-#: .\templates\actions\content_summary.part.html.py:18
+#: templates/actions/content_summary.part.html:18
 #, python-format
 msgid "Do you really want to delete '%(title)s'?"
 msgstr "Voulez-vous vraiment supprimer '%(title)s' ?"
 
-#: .\templates\actions\content_summary.part.html.py:20
-#: .\views\content_views.py:186
+#: templates/actions/content_summary.part.html:20 views/content_views.py:186
 msgid "Do you really want to delete this?"
 msgstr "Voulez-vous supprimer ce contenu ?"
 
-#: .\templates\actions\general.part.html.py:4
+#: templates/actions/general.part.html:4
 msgid "Users and Communities"
 msgstr "Utilisateurs et communautés"
 
-#: .\templates\actions\general.part.html.py:24
+#: templates/actions/general.part.html:24
 msgid "Toolbox"
 msgstr "Boîte à outils"
 
-#: .\templates\admin\menu_builder_form.html.py:30
+#: templates/admin/menu_builder_form.html:30
 msgid "Add custom link"
 msgstr "Ajouter un lien personnalisé."
 
-#: .\templates\admin\menu_builder_form.html.py:51
-#: .\templates\admin\menu_builder_form.html.py:78
+#: templates/admin/menu_builder_form.html:51
+#: templates/admin/menu_builder_form.html:78
 msgid "Add to menu"
 msgstr "Ajouter au menu"
 
-#: .\templates\admin\menu_builder_form.html.py:57
+#: templates/admin/menu_builder_form.html:57
 msgid "Add internal view"
 msgstr "Ajouter une vue interne."
 
-#: .\templates\admin\menu_builder_form.html.py:84
+#: templates/admin/menu_builder_form.html:84
 msgid "Add community"
 msgstr "Ajouter une communauté"
 
-#: .\templates\community\communities.box.html.py:6
+#: templates/community/communities.box.html:6
 msgid "My Communities"
 msgstr "Mes Communautés"
 
-#: .\templates\community\community_forms.part.html.py:23
+#: templates/community/community_forms.part.html:23
 msgid "Send message"
 msgstr "Envoyer"
 
-#: .\templates\community\invite.html.py:6
+#: templates/community/invite.html:6
 msgid ""
 "Select people in the form below or search users. When you send an "
 "invitation, they receive a message asking them to join your community."
@@ -346,175 +508,175 @@ msgstr ""
 "envoyez une invitation, les destinataires reçoivent un email leur proposant "
 "de rejoindre cette communauté."
 
-#: .\templates\community\invite.html.py:11
+#: templates/community/invite.html:11
 msgid "Search users"
 msgstr "Chercher des personnes"
 
-#: .\templates\community\invite.html.py:13
+#: templates/community/invite.html:13
 msgid "Name, email, ..."
 msgstr "Nom, email, ..."
 
-#: .\templates\community\invite.html.py:19
+#: templates/community/invite.html:19
 msgid "Search"
 msgstr "Rechercher"
 
-#: .\templates\community\invite.html.py:31
+#: templates/community/invite.html:31
 msgid "Search results"
 msgstr "Résultats de la recherche"
 
-#: .\templates\community\invite.html.py:32
+#: templates/community/invite.html:32
 msgid "Invite people from your network"
 msgstr "Inviter des personnes de mon réseau"
 
-#: .\templates\community\invite.html.py:41
+#: templates/community/invite.html:41
 msgid "No results found."
 msgstr "Pas de résultat."
 
-#: .\templates\community\invite.html.py:48
+#: templates/community/invite.html:48
 msgid "Join users immediately"
 msgstr "Ne pas permettre de refuser l'invitation"
 
-#: .\templates\community\invite.html.py:54
+#: templates/community/invite.html:54
 msgid "Invite"
 msgstr "Inviter"
 
-#: .\templates\community\list.html.py:8
+#: templates/community/list.html:8
 msgid "No community available on your system."
 msgstr "Vous n'avez accès à aucune communauté."
 
-#: .\templates\community\manage.html.py:14
+#: templates/community/manage.html:14
 msgid "No members to manage."
 msgstr "Personne à gérer."
 
-#: .\templates\community\manage.html.py:21
+#: templates/community/manage.html:21
 msgid "Action on selected members"
 msgstr "Action sur les personnes sélectionnées"
 
-#: .\templates\community\manage.html.py:23
+#: templates/community/manage.html:23
 msgid "Remove from this community"
 msgstr "Retirer de cette communauté"
 
-#: .\templates\community\manage.html.py:24
+#: templates/community/manage.html:24
 msgid "Promote as a Community Manager"
 msgstr "Désigner comme responsable de la communauté"
 
-#: .\templates\community\manage.html.py:25
+#: templates/community/manage.html:25
 msgid "Remove from Community Managers"
 msgstr "Retirer des responsables de la communauté"
 
-#: .\templates\community\manage.html.py:31
+#: templates/community/manage.html:31
 msgid "Validate"
 msgstr "Valider"
 
-#: .\templates\community\members.box.html.py:5
+#: templates/community/members.box.html:5
 msgid "Community Managers"
 msgstr "Responsables"
 
-#: .\templates\community\members.box.html.py:27
+#: templates/community/members.box.html:27
 msgid "Members"
 msgstr "Membres"
 
-#: .\templates\community\summary.part.html.py:16
+#: templates/community/summary.part.html:16
 msgid "Accept invitation and join group"
 msgstr "Accepter l'invitation à rejoindre cette communauté"
 
-#: .\templates\community\summary.part.html.py:17
+#: templates/community/summary.part.html:17
 msgid "Accept invitation"
 msgstr "Accepter l'invitation"
 
-#: .\templates\community\summary.part.html.py:21
+#: templates/community/summary.part.html:21
 msgid "Ignore request to join this group"
 msgstr "Ignorer l'invitation à ce groupe"
 
-#: .\templates\community\summary.part.html.py:22
+#: templates/community/summary.part.html:22
 msgid "Decline invitation"
 msgstr "Décliner l'invitation"
 
-#: .\templates\content\comments.form.part.html.py:13
-#: .\templates\content\content_forms.part.html.py:23
+#: templates/content/comments.form.part.html:13
+#: templates/content/content_forms.part.html:23
 msgid "Send"
 msgstr "Envoyer"
 
-#: .\templates\content\content_creation.box.html.py:4
+#: templates/content/content_creation.box.html:4
 msgid "Publish"
 msgstr "Publier"
 
-#: .\templates\content\edit.html.py:6
+#: templates/content/edit.html:6
 #, python-format
 msgid "Edit %(content_type)s"
 msgstr "Modifier %(content_type)s"
 
-#: .\templates\content\edit.html.py:8
+#: templates/content/edit.html:8
 #, python-format
 msgid "New %(content_type)s"
 msgstr "Nouveau %(content_type)s"
 
-#: .\templates\content\metadata.box.html.py:4
+#: templates/content/metadata.box.html:4
 msgid "About this page..."
 msgstr "À propos..."
 
-#: .\templates\content\metadata.box.html.py:8
+#: templates/content/metadata.box.html:8
 msgid "Created by:"
 msgstr "Créé par : "
 
-#: .\templates\content\metadata.box.html.py:13
+#: templates/content/metadata.box.html:13
 msgid "On:"
 msgstr "Le : "
 
-#: .\templates\content\metadata.box.html.py:18
+#: templates/content/metadata.box.html:18
 msgid "Last updated:"
 msgstr "Mis à jour : "
 
-#: .\templates\content\metadata.box.html.py:20
+#: templates/content/metadata.box.html:20
 #, python-format
 msgid "%(date)s ago."
 msgstr "Il y a %(date)s"
 
-#: .\templates\content\metadata.box.html.py:23
+#: templates/content/metadata.box.html:23
 msgid "Scope:"
 msgstr "Visibilité :"
 
-#: .\templates\content\summary.comments.part.html.py:20
+#: templates/content/summary.comments.part.html:20
 #, python-format
 msgid "View all %(comment_count)s comments"
 msgstr "Voir les %(comment_count)s commentaires"
 
-#: .\templates\content\summary.comments.part.html.py:23
+#: templates/content/summary.comments.part.html:23
 msgid "Comment"
 msgstr "Commenter"
 
-#: .\templates\content\summary.file.html.py:63
+#: templates/content/summary.file.html:63
 msgid "Download"
 msgstr "Télécharger"
 
-#: .\templates\content\view.file.html.py:16
+#: templates/content/view.file.html:16
 #, python-format
 msgid "Download %(filename)s"
 msgstr "Télécharger %(filename)s"
 
-#: .\templates\content\view.file.html.py:23
+#: templates/content/view.file.html:23
 #, python-format
 msgid "Size: %(filesize)s"
 msgstr "Taille : %(filesize)s"
 
-#: .\templates\content\view.file.html.py:29
+#: templates/content/view.file.html:29
 #, python-format
 msgid "File type: %(mimetype)s"
 msgstr "Type&nbsp;: %(mimetype)s"
 
-#: .\templates\email\basemail.html.py:522
+#: templates/email/basemail.html:522
 msgid "twistranet on Facebook"
 msgstr "twistranet sur Facebook"
 
-#: .\templates\email\basemail.html.py:534
+#: templates/email/basemail.html:534
 msgid "twistranet on Twitter"
 msgstr "@twistranet sur Twitter"
 
-#: .\templates\email\basemail.html.py:550
+#: templates/email/basemail.html:550
 msgid "What is twistranet?"
 msgstr "Qu'est-ce que twistranet ?"
 
-#: .\templates\email\basemail.html.py:551
+#: templates/email/basemail.html:551
 msgid ""
 "twistranet is an Enterprise Social Network. It's a place where people can "
 "engage together on projects to make teamwork easier."
@@ -523,7 +685,7 @@ msgstr ""
 "se consacrer ensemble à des projets et rendre le travail d'équipe plus "
 "agréable."
 
-#: .\templates\email\basemail.html.py:552
+#: templates/email/basemail.html:552
 msgid ""
 "Want to learn more about twistranet? Visit the <a href=\"http://www."
 "twistranet.com\">twistranet homepage</a> or become a <a href=\"http://www."
@@ -531,32 +693,28 @@ msgid ""
 msgstr ""
 "Voulez-vous en savoir plus sur twistranet ? Visitez la <a href=\"http://www."
 "twistranet.fr\">page d'accueil de twistranet</a> ou devenez <a href=\"http://"
-"www.facebook.com/pages/Twistranet-Reseau-Social-dEntreprise/194244467261907"
-"\">fan sur Facebook</a> !"
+"www.facebook.com/pages/Twistranet-Reseau-Social-"
+"dEntreprise/194244467261907\">fan sur Facebook</a> !"
 
-#: .\templates\email\basemail.html.py:613
+#: templates/email/basemail.html:613
 msgid "This email has been sent automatically. Please do not answer it!"
 msgstr ""
 "Cet email a été envoyé automatiquement. N'y répondez pas s'il vous plaît."
 
-#: .\templates\email\created_content.html.py:6
-#: .\templates\email\created_content.html.py:16
-#: .\templates\email\created_content.txt.py:5
+#: templates/email/created_content.html:6
+#: templates/email/created_content.html:16
 #, python-format
 msgid "%(owner)s published %(content_type)s."
 msgstr "%(owner)s a publié un %(content_type)s"
 
-#: .\templates\email\created_content.html.py:18
-#: .\templates\email\created_content.txt.py:7
-#: .\templates\email\created_content_comment.html.py:26
-#: .\templates\email\created_content_comment.txt.py:8
-#: .\templates\email\created_content_statusupdate.html.py:19
-#: .\templates\email\invite_user.html.py:10
-#: .\templates\email\invite_user.txt.py:6
+#: templates/email/created_content.html:18
+#: templates/email/created_content_comment.html:26
+#: templates/email/created_content_statusupdate.html:19
+#: templates/email/invite_user.html:10
 msgid "Hi,"
 msgstr "Bonjour,"
 
-#: .\templates\email\created_content.html.py:22
+#: templates/email/created_content.html:22
 #, python-format
 msgid ""
 "\n"
@@ -567,8 +725,8 @@ msgstr ""
 "            %(owner)s a publié un nouveau %(content_type)s :\n"
 "        "
 
-#: .\templates\email\created_content.html.py:32
-#: .\templates\email\created_content_statusupdate.html.py:33
+#: templates/email/created_content.html:32
+#: templates/email/created_content_statusupdate.html:33
 #, python-format
 msgid ""
 "\n"
@@ -581,45 +739,12 @@ msgstr ""
 "            <a href=\"%(domain)s%(absolute_url)s\">%(site_name)s</a>.\n"
 "        "
 
-#: .\templates\email\created_content.txt.py:9
-#, python-format
-msgid ""
-"\n"
-"    %(owner)s published a new %(content_type)s:\n"
-msgstr ""
-"\n"
-"    %(owner)s a publié un nouveau %(content_type)s:\n"
-
-#: .\templates\email\created_content.txt.py:15
-#: .\templates\email\created_content_comment.txt.py:14
-#, python-format
-msgid ""
-"\n"
-"  You can click here to view and comment it: %(domain)s%(absolute_url)s\n"
-msgstr ""
-"\n"
-"  Cliquez ici pour voir ce contenu et le commenter : %(domain)s%"
-"(absolute_url)s\n"
-
-#: .\templates\email\created_content.txt.py:19
-#: .\templates\email\created_content_comment.txt.py:18
-#: .\templates\email\invite_user.txt.py:19
-#: .\templates\email\request_add_to_network.txt.py:19
-msgid ""
-"\n"
-"  --\n"
-"  Greetings from twistranet\n"
-msgstr ""
-"\n"
-"  --\n"
-"  À bientôt - l'équipe de twistranet\n"
-
-#: .\templates\email\created_content_comment.html.py:6
+#: templates/email/created_content_comment.html:6
 #, python-format
 msgid "%(owner)s commented a %(content_type)s."
 msgstr "%(owner)s a commenté un %(content_type)s"
 
-#: .\templates\email\created_content_comment.html.py:14
+#: templates/email/created_content_comment.html:14
 #, python-format
 msgid ""
 "\n"
@@ -630,7 +755,7 @@ msgstr ""
 "            %(owner)s a commenté le contenu de %(content_owner)s\n"
 "        "
 
-#: .\templates\email\created_content_comment.html.py:30
+#: templates/email/created_content_comment.html:30
 #, python-format
 msgid ""
 "\n"
@@ -639,57 +764,41 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"                %(owner)s a commenté <a href=\"%(domain)s%(absolute_url)s\"%"
-"(content_title_or_description)s</a>.\n"
+"                %(owner)s a commenté <a href=\"%(domain)s%(absolute_url)s"
+"\"%(content_title_or_description)s</a>.\n"
 "            "
 
-#: .\templates\email\created_content_comment.html.py:36
+#: templates/email/created_content_comment.html:36
 #, python-format
 msgid "%(owner)s wrote:"
 msgstr "%(owner)s a écrit :"
 
-#: .\templates\email\created_content_comment.html.py:44
+#: templates/email/created_content_comment.html:44
 #, python-format
 msgid ""
 "\n"
 "                To view this content and comment it, visit\n"
-"                <a href=\"%(domain)s%(absolute_url)s\">%"
-"(content_title_or_description)s</a>.\n"
+"                <a href=\"%(domain)s%(absolute_url)s\">"
+"%(content_title_or_description)s</a>.\n"
 "            "
 msgstr ""
 "\n"
 "            Pour voir ce contenu et le commenter, visitez\n"
-"            <a href=\"%(domain)s%(absolute_url)s\">%"
-"(content_title_or_description)s</a>.\n"
+"            <a href=\"%(domain)s%(absolute_url)s\">"
+"%(content_title_or_description)s</a>.\n"
 "        "
 
-#: .\templates\email\created_content_comment.txt.py:5
-#, python-format
-msgid "Subject: %(owner)s commented %(content_owner)s's contenu\n"
-msgstr "Subject: %(owner)s a commenté le contenu de %(content_owner)s\n"
-
-#: .\templates\email\created_content_comment.txt.py:10
-#, python-format
-msgid ""
-"\n"
-"    We're happy to tell you that %(owner)s published a new %(content_type)"
-"s:\n"
-msgstr ""
-"\n"
-"            %(owner)s a publié un nouveau %(content_type)s :\n"
-
-#: .\templates\email\created_content_statusupdate.html.py:6
-#: .\templates\email\created_content_statusupdate.txt.py:5
+#: templates/email/created_content_statusupdate.html:6
 #, python-format
 msgid "%(owner)s published on %(published_on)s's wall"
 msgstr "%(owner)s a publié sur le mur de %(published_on)s"
 
-#: .\templates\email\created_content_statusupdate.html.py:16
+#: templates/email/created_content_statusupdate.html:16
 #, python-format
 msgid "%(owner)s published  on %(published_on)s's wall"
 msgstr "%(owner)s a publié sur le mur de %(published_on)s"
 
-#: .\templates\email\created_content_statusupdate.html.py:23
+#: templates/email/created_content_statusupdate.html:23
 #, python-format
 msgid ""
 "\n"
@@ -700,13 +809,12 @@ msgstr ""
 "            %(owner)s a publié sur le mur de %(published_on)s :\n"
 "        "
 
-#: .\templates\email\invite_user.html.py:4
-#: .\templates\email\invite_user.html.py:8
+#: templates/email/invite_user.html:4 templates/email/invite_user.html.py:8
 #, python-format
 msgid "%(inviter_title)s invites you to %(site_name)s"
 msgstr "%(inviter_title)s vous invite sur %(site_name)s"
 
-#: .\templates\email\invite_user.html.py:13
+#: templates/email/invite_user.html:13
 #, python-format
 msgid ""
 "You've just recieved an invitation to join %(site_name)s from your friend/"
@@ -715,12 +823,12 @@ msgstr ""
 "Vous avez reçu une invitation à rejoindre %(site_name)s de la part d'un ami, "
 "collègue ou partenaire."
 
-#: .\templates\email\invite_user.html.py:17
+#: templates/email/invite_user.html:17
 #, python-format
 msgid "Here's what %(inviter_title)s tells you about it:"
 msgstr "%(inviter_title)s vous envoie ce message :"
 
-#: .\templates\email\invite_user.html.py:22
+#: templates/email/invite_user.html:22
 #, python-format
 msgid ""
 "Just <a href=\"%(domain)s%(invitation_uri)s\"> follow this link</a> to "
@@ -729,108 +837,67 @@ msgstr ""
 "<a href=\"%(domain)s%(invitation_uri)s\">Suivez ce lien</a> pour accepter "
 "cette invitation, ou ignorez-la simplement."
 
-#: .\templates\email\invite_user.txt.py:4
-#, python-format
-msgid "%(inviter_title)s invites you to twistranet"
-msgstr "%(inviter_title)s vous invite sur twistranet"
-
-#: .\templates\email\invite_user.txt.py:8
-#, python-format
-msgid "You just recieved a request from %(inviter_title)s to join twistranet."
-msgstr ""
-"Vous avez reçu une demande de %(inviter_title)s à rejoindre twistranet."
-
-#: .\templates\email\invite_user.txt.py:11
-#, python-format
-msgid "Here's what %(inviter_title)s tells you:"
-msgstr "%(inviter_title)s vous envoie ce message :"
-
-#: .\templates\email\invite_user.txt.py:17
-#, python-format
-msgid "%(domain)s%(invitation_uri)s"
-msgstr "%(domain)s%(invitation_uri)s"
-
-#: .\templates\email\request_add_to_network.html.py:4
-#: .\templates\email\request_add_to_network.html.py:10
+#: templates/email/request_add_to_network.html:4
+#: templates/email/request_add_to_network.html:10
 #, python-format
 msgid "%(client_title)s wants to join your network"
 msgstr ""
 "Vous avez reçu une demande de %(client_title)s à rejoindre votre réseau."
 
-#: .\templates\email\request_add_to_network.html.py:12
-#: .\templates\email\request_add_to_network.txt.py:8
-#: .\templates\email\reset_password.html.py:10
+#: templates/email/request_add_to_network.html:12
+#: templates/email/reset_password.html:10
 #, python-format
 msgid "Dear %(target_title)s,"
 msgstr "Cher, Chère %(target_title)s,"
 
-#: .\templates\email\request_add_to_network.html.py:15
-#: .\templates\email\request_add_to_network.txt.py:10
+#: templates/email/request_add_to_network.html:15
 #, python-format
 msgid "You just recieved a request from %(client_title)s to join your network."
 msgstr ""
 "Vous avez reçu une demande de %(client_title)s à rejoindre votre réseau."
 
-#: .\templates\email\request_add_to_network.html.py:18
-#: .\templates\email\request_add_to_network.txt.py:12
+#: templates/email/request_add_to_network.html:18
 msgid "You have to take an action!"
 msgstr "Vous devez répondre à cette demande."
 
-#: .\templates\email\request_add_to_network.html.py:21
+#: templates/email/request_add_to_network.html:21
 #, python-format
 msgid ""
 "Visit <a href=\"%(domain)s%(client_get_absolute_url)s\">%(client_title)s's "
 "page</a> to accept or decline his/her request."
 msgstr ""
-"Visitez <a href=\"%(domain)s%(client_get_absolute_url)s\">la page de %"
-"(client_title)s</a> pour accepter ou ignorer sa demande."
+"Visitez <a href=\"%(domain)s%(client_get_absolute_url)s\">la page de "
+"%(client_title)s</a> pour accepter ou ignorer sa demande."
 
-#: .\templates\email\request_add_to_network.txt.py:4
-#, python-format
-msgid "%(client_title)s wants to join your network."
-msgstr ""
-"Vous avez reçu une demande de %(client_title)s à rejoindre votre réseau."
-
-#: .\templates\email\request_add_to_network.txt.py:14
-#, python-format
-msgid ""
-"Visit %(domain)s%(client_get_absolute_url)s to accept or decline his/her "
-"request."
-msgstr ""
-"Visitez %(domain)s%(client_get_absolute_url)s pour accepter ou ignorer sa "
-"demande."
-
-#: .\templates\email\reset_password.html.py:4
-#: .\templates\email\reset_password.html.py:8
-#: .\templates\email\reset_password.txt.py:3
+#: templates/email/reset_password.html:4 templates/email/reset_password.html:8
 msgid "Password reset"
 msgstr "Réinitialiser le mot de passe"
 
-#: .\templates\email\reset_password.html.py:13
+#: templates/email/reset_password.html:13
 #, python-format
 msgid ""
 "You requested a password reset for <a href=\"%(domain)s\">%(site_name)s</a>."
 msgstr ""
-"Vous avez demandé à réinitialiser votre mot de passe pour <a href=\"%(domain)"
-"s\">%(site_name)s</a>."
+"Vous avez demandé à réinitialiser votre mot de passe pour <a href="
+"\"%(domain)s\">%(site_name)s</a>."
 
-#: .\templates\email\reset_password.html.py:16
+#: templates/email/reset_password.html:16
 #, python-format
 msgid ""
 "To reset your password, just <a href=\"%(domain)s%(reset_password_uri)s"
 "\">follow this link</a>."
 msgstr ""
-"Pour réinitialiser votre mot de passe, <a href=\"%(domain)s%"
-"(reset_password_uri)s\">cliquez sur ce lien</a>."
+"Pour réinitialiser votre mot de passe, <a href=\"%(domain)s"
+"%(reset_password_uri)s\">cliquez sur ce lien</a>."
 
-#: .\templates\email\reset_password.html.py:19
+#: templates/email/reset_password.html:19
 msgid ""
 "If you think you recieved this email by mistake, you can safely ignore it."
 msgstr ""
 "Si vous pensez avoir reçu cet email par erreur, vous pouvez simplement "
 "l'ignorer."
 
-#: .\templates\registration\forgotten.html.py:19
+#: templates/registration/forgotten.html:19
 msgid ""
 "Enter your email address to reset your password.<br />\n"
 "\t        You will recieve an email with instruction on how to do it."
@@ -838,16 +905,16 @@ msgstr ""
 "Entrez votre adresse email pour réinitialiser votre mot de passe.<br />\n"
 "\t        Vous recevrez un email contenant les instructions pour le changer."
 
-#: .\templates\registration\forgotten.html.py:38
-#: .\templates\registration\reset_password.html.py:34
+#: templates/registration/forgotten.html:38
+#: templates/registration/reset_password.html:34
 msgid "Reset password"
 msgstr "Réinitialiser le mot de passe"
 
-#: .\templates\registration\introduction.box.html.py:5
+#: templates/registration/introduction.box.html:5
 msgid "About twistranet"
 msgstr "Qu'est-ce que twistranet ?"
 
-#: .\templates\registration\introduction.box.html.py:7
+#: templates/registration/introduction.box.html:7
 msgid ""
 "twistranet is an Enterprise Social Network.<br />\n"
 "                Engage on projects, enjoy teamwork."
@@ -855,15 +922,15 @@ msgstr ""
 "twistranet est un Réseau Social d'Entreprise. Consacrez-vous à des projets "
 "et travaillez efficacement en équipe."
 
-#: .\templates\registration\introduction.box.html.py:12
+#: templates/registration/introduction.box.html:12
 msgid "Learn more"
 msgstr "En savoir plus"
 
-#: .\templates\registration\introduction.box.html.py:14
+#: templates/registration/introduction.box.html:14
 msgid "Want to learn more about twistranet?"
 msgstr "En savoir plus sur twistranet ?"
 
-#: .\templates\registration\introduction.box.html.py:18
+#: templates/registration/introduction.box.html:18
 msgid ""
 "\n"
 "                    <a href=\"http://www.facebook.com/pages/"
@@ -879,7 +946,7 @@ msgstr ""
 "           </a>\n"
 "               "
 
-#: .\templates\registration\introduction.box.html.py:25
+#: templates/registration/introduction.box.html:25
 msgid ""
 "\n"
 "                    <a href=\"http://www.twitter.com/twistranet\">\n"
@@ -893,77 +960,77 @@ msgstr ""
 "                    </a>\n"
 "                "
 
-#: .\templates\registration\login.html.py:17
+#: templates/registration/login.html:17
 msgid "Log in again"
 msgstr "Vous connecter à nouveau"
 
-#: .\templates\registration\login.html.py:28
+#: templates/registration/login.html:28
 msgid "User name:"
 msgstr "Nom d'utilisateur :"
 
-#: .\templates\registration\login.html.py:32
+#: templates/registration/login.html:32
 msgid "Password:"
 msgstr "Mot de passe :"
 
-#: .\templates\registration\login.html.py:36
+#: templates/registration/login.html:36
 msgid "Forgot your password?"
 msgstr "Mot de passe oublié ?"
 
-#: .\templates\registration\login.html.py:39
+#: templates/registration/login.html:39
 msgid "login"
 msgstr "Se connecter"
 
-#: .\templates\registration\reset_password.html.py:16
+#: templates/registration/reset_password.html:16
 msgid "Reset your password with this form."
 msgstr "Réinitialisez votre mot de passe avec ce formulaire."
 
-#: .\templates\resource\edit.html.py:6 .\templates\resource\edit.html.py:18
+#: templates/resource/edit.html:6 templates/resource/edit.html.py:18
 msgid "Edit Resource"
 msgstr "Modifier cette ressource"
 
-#: .\templates\resource\edit.html.py:8 .\templates\resource\edit.html.py:24
+#: templates/resource/edit.html:8 templates/resource/edit.html.py:24
 msgid "New Resource"
 msgstr "Nouvelle ressource"
 
-#: .\templates\resource\resource_browser.html.py:4
+#: templates/resource/resource_browser.html:4
 msgid "Select an account:"
 msgstr "Choisissez un compte"
 
-#: .\templates\resource\resource_browser.html.py:39
+#: templates/resource/resource_browser.html:39
 #, python-format
 msgid "Select a picture from account <strong>%(scope_title)s</strong>:"
 msgstr "Choisissez une image depuis <strong>%(scope_title)s</strong> :"
 
-#: .\templates\resource\resource_browser.html.py:40
+#: templates/resource/resource_browser.html:40
 #, python-format
 msgid "No picture available in account <strong>%(scope_title)s</strong>"
 msgstr "Pas d'image dans le compte <strong>%(scope_title)s</strong>"
 
-#: .\templates\resource\resource_browser.html.py:42
+#: templates/resource/resource_browser.html:42
 msgid "Go back"
 msgstr "Revenir"
 
-#: .\templates\resource\resource_browser_form.html.py:3
+#: templates/resource/resource_browser_form.html:3
 msgid "Resources browser"
 msgstr "Parcourir les ressources"
 
-#: .\templates\resource\resource_quickupload.html.py:5
+#: templates/resource/resource_quickupload.html:5
 msgid "Select one or more files to upload from your local system:"
 msgstr "Téléchargez un ou plusieurs fichiers depuis votre ordinateur :"
 
-#: .\templates\resource\resource_quickupload.html.py:15
+#: templates/resource/resource_quickupload.html:15
 msgid "Choose image size"
 msgstr "Sélectionnez une taille d'image"
 
-#: .\templates\resource\resource_quickupload.html.py:21
+#: templates/resource/resource_quickupload.html:21
 msgid "Upload Files"
 msgstr "Envoyer des fichiers"
 
-#: .\templates\resource\resource_quickupload.html.py:25
+#: templates/resource/resource_quickupload.html:25
 msgid "Clear Queue"
 msgstr "Effacer la liste"
 
-#: .\views\account_views.py:63
+#: views/account_views.py:63
 msgid ""
 "<p>\n"
 "                        It seems that you do not have created content yet. "
@@ -991,57 +1058,52 @@ msgstr ""
 "[help].                       </p>\n"
 "                    "
 
-#: .\views\account_views.py:99
+#: views/account_views.py:99
 #, python-format
 msgid "%(name)s's profile"
 msgstr "Profil de %(name)s"
 
-#: .\views\account_views.py:107
+#: views/account_views.py:107
 msgid "Timeline"
 msgstr "Fil d'activité"
 
-#: .\views\account_views.py:137
+#: views/account_views.py:137
 msgid "Public timeline"
 msgstr "Fil d'activité public"
 
-#: .\views\account_views.py:154
+#: views/account_views.py:154
 msgid "Accounts"
 msgstr "Comptes"
 
-#: .\views\account_views.py:174
+#: views/account_views.py:174
 msgid "Your network"
 msgstr "Votre réseau"
 
-#: .\views\account_views.py:175
+#: views/account_views.py:175
 #, python-format
 msgid "%(name)s's network"
 msgstr "Réseau de %(name)s"
 
-#: .\views\account_views.py:175 .\views\account_views.py:193
-#: .\views\account_views.py:213 .\views\account_views.py:422
-msgid "name"
-msgstr "nom"
-
-#: .\views\account_views.py:192 .\views\account_views.py:212
+#: views/account_views.py:192 views/account_views.py:212
 msgid "Your communities"
 msgstr "Vos communautés"
 
-#: .\views\account_views.py:193 .\views\account_views.py:213
+#: views/account_views.py:193 views/account_views.py:213
 #, python-format
 msgid "%(name)s's communities"
 msgstr "Communautés de %(name)s"
 
-#: .\views\account_views.py:227
+#: views/account_views.py:227
 msgid "Pending network requests"
 msgstr "Demandes de réseau"
 
-#: .\views\account_views.py:240
+#: views/account_views.py:240
 #, python-format
 msgid "<span class=\"badge\">%(number)d</span> Pending network requests"
 msgstr ""
 "<span class=\"badge\">%(number)d</span> Demande(s) d'ajout à votre réseau"
 
-#: .\views\account_views.py:259
+#: views/account_views.py:259
 msgid ""
 "Do you really want to delete this account?<br />All content for this user "
 "WILL BE DELETED."
@@ -1049,20 +1111,20 @@ msgstr ""
 "Voulez-vous vraiment supprimer ce compte ?<br />Tous les contenus de cet "
 "utilisateur SERONT EGALEMENT SUPPRIMES."
 
-#: .\views\account_views.py:260
+#: views/account_views.py:260
 msgid "Delete account"
 msgstr "Supprimer ce compte"
 
-#: .\views\account_views.py:284
+#: views/account_views.py:284
 #, python-format
 msgid "'%(name)s' account has been deleted."
 msgstr "L'utilisateur %(name)s a été supprimé."
 
-#: .\views\account_views.py:308
+#: views/account_views.py:308
 msgid "Accept in your network"
 msgstr "Accepter dans mon réseau"
 
-#: .\views\account_views.py:311
+#: views/account_views.py:311
 #, python-format
 msgid ""
 "Would you like to accept %(name)s in your network?<br />He/She will be able "
@@ -1071,11 +1133,11 @@ msgstr ""
 "Acceptez-vous que %(name)s rejoigne votre réseau?<br />Cette personne aura "
 "accès au contenu que vous publiez pour votre réseau."
 
-#: .\views\account_views.py:319
+#: views/account_views.py:319
 msgid "Add to your network"
 msgstr "Ajouter à mon réseau"
 
-#: .\views\account_views.py:322
+#: views/account_views.py:322
 #, python-format
 msgid ""
 "Would you like to add %(name)s to your network?<br />He/She will have to "
@@ -1084,167 +1146,167 @@ msgstr ""
 "Voulez-vous ajouter %(name)s à votre réseau ? Cette personne devra accepter "
 "votre demande."
 
-#: .\views\account_views.py:336
+#: views/account_views.py:336
 #, python-format
 msgid "You're now connected with %(name)s."
 msgstr "Vous êtes maintenant dans le réseau de %(name)s"
 
-#: .\views\account_views.py:341
+#: views/account_views.py:341
 #, python-format
 msgid "A network request has been sent to %(name)s for approval."
 msgstr "Une demande d'ajout à votre réseau a été envoyée à %(name)s."
 
-#: .\views\account_views.py:358
+#: views/account_views.py:358
 msgid "Cancel your network request"
 msgstr "Annuler ma demande de réseau"
 
-#: .\views\account_views.py:360
+#: views/account_views.py:360
 msgid "Would you like to cancel your network request?"
 msgstr ""
 "Voulez-vous annuler votre demande d'ajout au réseau de cette personne ?"
 
-#: .\views\account_views.py:365
+#: views/account_views.py:365
 msgid "Remove from your network"
 msgstr "Retirer de mon réseau"
 
-#: .\views\account_views.py:367
+#: views/account_views.py:367
 #, python-format
 msgid "Would you like to remove %(name)s from your network?"
 msgstr "Voulez-vous retirer %(name)s de votre réseau ?"
 
-#: .\views\account_views.py:379
+#: views/account_views.py:379
 #, python-format
 msgid "You're not connected with %(name)s anymore."
 msgstr "Vous n'êtes plus dans le réseau de %(name)s."
 
-#: .\views\account_views.py:384
+#: views/account_views.py:384
 #, python-format
 msgid "Your network request to %(name)s has been canceled."
 msgstr "Votre demande à %(name)s a été annulée."
 
-#: .\views\account_views.py:419
+#: views/account_views.py:419
 msgid "Create a user account"
 msgstr "Créer un compte utilisateur"
 
-#: .\views\account_views.py:421
+#: views/account_views.py:421
 msgid "Edit your account"
 msgstr "Modifier votre compte"
 
-#: .\views\account_views.py:422
+#: views/account_views.py:422
 #, python-format
 msgid "Edit %(name)s"
 msgstr "Modifier %(name)s"
 
-#: .\views\account_views.py:430
+#: views/account_views.py:430
 msgid "Invite user"
 msgstr "Inviter"
 
-#: .\views\account_views.py:452
+#: views/account_views.py:452
 msgid "This user already exists."
 msgstr "Cet utilisateur existe déjà."
 
-#: .\views\account_views.py:477
+#: views/account_views.py:477
 msgid "Invitation sent successfuly."
 msgstr "Les invitations sont envoyées."
 
-#: .\views\account_views.py:491
+#: views/account_views.py:491
 msgid "Join"
 msgstr "Rejoindre"
 
-#: .\views\account_views.py:529
+#: views/account_views.py:529
 msgid "Password and confirmation do not match"
 msgstr "Le mot de passe et la confirmation ne correspondent pas."
 
-#: .\views\account_views.py:531
+#: views/account_views.py:531
 msgid "A user with this name already exists."
 msgstr "Un utilisateur avec ce nom existe déjà."
 
-#: .\views\account_views.py:555
+#: views/account_views.py:555
 msgid "Your account is now created. You can login to twistranet."
 msgstr ""
 "Votre compte est créé. Vous pouvez maintenant vous connecter à twistranet."
 
-#: .\views\account_views.py:561
+#: views/account_views.py:561
 msgid "Login"
 msgstr "Se connecter"
 
-#: .\views\account_views.py:604
+#: views/account_views.py:604
 msgid "Sorry, that's not a valid username or password"
 msgstr ""
 "Désolé, le nom d'utilisateur et/ou le mot de passe ne sont pas valides."
 
-#: .\views\account_views.py:622
+#: views/account_views.py:622
 msgid "Forgot your password"
 msgstr "Mot de passe oublié"
 
-#: .\views\account_views.py:651
+#: views/account_views.py:651
 msgid "We've sent you a password reset email."
 msgstr "Nous vous avons envoyé un lien pour réinitialiser votre mot de passe."
 
-#: .\views\account_views.py:662
+#: views/account_views.py:662
 msgid "Reset your password"
 msgstr "Réinitalisez votre mot de passer"
 
-#: .\views\account_views.py:676
+#: views/account_views.py:676
 msgid "Can't set password on this user."
 msgstr "On ne peut pas donner de mot de passe à cet utilisateur."
 
-#: .\views\account_views.py:687
+#: views/account_views.py:687
 msgid "Your password is set to its new value. You can now login."
 msgstr "Votre mot de passe est changé. Vous pouvez vos connecter maintenant."
 
-#: .\views\account_views.py:698
+#: views/account_views.py:698
 msgid "Change your password"
 msgstr "Changer de mot de passe"
 
-#: .\views\account_views.py:726
+#: views/account_views.py:726
 msgid "New password set."
 msgstr "Nouveau mot de passe enregistré."
 
-#: .\views\account_views.py:735
+#: views/account_views.py:735
 msgid "Logged out"
 msgstr "Déconnecté."
 
-#: .\views\account_views.py:738
+#: views/account_views.py:738
 msgid ""
 "You are now logged out.<br />Thanks for spending some quality time on "
 "Twistranet."
 msgstr "Vous êtes déconnecté.<br />Merci pour le temps passé sur Twistranet"
 
-#: .\views\admin_views.py:21
+#: views/admin_views.py:21
 msgid "Edit menu entry"
 msgstr "Modifier cet élément de menu"
 
-#: .\views\admin_views.py:22
+#: views/admin_views.py:22
 msgid "Delete menu entry"
 msgstr "Supprimer ce élément du menu"
 
-#: .\views\admin_views.py:23
+#: views/admin_views.py:23
 msgid "Cancel"
 msgstr "Annuler"
 
-#: .\views\admin_views.py:110
+#: views/admin_views.py:110
 msgid "Menu Builder"
 msgstr "Constructeur de menus"
 
-#: .\views\admin_views.py:181
+#: views/admin_views.py:181
 msgid "Menu has been saved."
 msgstr "Le menu a été sauvegardé."
 
-#: .\views\common_views.py:43
+#: views/common_views.py:45
 msgid "Error"
 msgstr "Erreur"
 
-#: .\views\common_views.py:44
+#: views/common_views.py:46
 #, python-format
 msgid "<p>Error on page <strong>%(requested_url)s</strong></p>"
 msgstr "<p>Erreur sur la page <strong>%(requested_url)s</strong></p>"
 
-#: .\views\common_views.py:61
+#: views/common_views.py:63
 msgid "Sorry, page not found"
 msgstr "Désolé, page introuvable."
 
-#: .\views\common_views.py:63
+#: views/common_views.py:65
 #, python-format
 msgid ""
 "<p>\n"
@@ -1263,11 +1325,11 @@ msgstr ""
 "  Veuillez contacter votre administrateur pour en savoir plus.\n"
 "</p>"
 
-#: .\views\common_views.py:76
+#: views/common_views.py:78
 msgid "Internal error"
 msgstr "Erreur interne"
 
-#: .\views\common_views.py:78
+#: views/common_views.py:80
 #, python-format
 msgid ""
 "<p>\n"
@@ -1282,7 +1344,7 @@ msgid ""
 "</p>"
 msgstr ""
 
-#: .\views\community_views.py:77
+#: views/community_views.py:77
 msgid ""
 "\n"
 "        <p>There is not much content on this community. But it's up to YOU "
@@ -1301,135 +1363,131 @@ msgstr ""
 ">                    - Qu'aimeriez-vous trouver sur la page de cette "
 "communauté ?</p>"
 
-#: .\views\community_views.py:99
+#: views/community_views.py:99
 #, python-format
 msgid "All members of %(name)s"
 msgstr "Tous les membres de %(name)s"
 
-#: .\views\community_views.py:112
+#: views/community_views.py:112
 #, python-format
 msgid "All managers of %(name)s"
 msgstr "Tous les responsables de %(name)s"
 
-#: .\views\community_views.py:122
+#: views/community_views.py:122
 msgid "Communities"
 msgstr "Communautés"
 
-#: .\views\community_views.py:139
+#: views/community_views.py:139
 msgid "Community invitations"
 msgstr "Invitation à des communautés"
 
-#: .\views\community_views.py:152
+#: views/community_views.py:152
 #, python-format
 msgid "<span class=\"badge\">%(number)d</span> Community invitations"
 msgstr ""
 "<span class=\"badge\">%(number)d</span> Invitations dans des communautés"
 
-#: .\views\community_views.py:165
+#: views/community_views.py:165
 msgid "Communities you manage"
 msgstr "Les communautés que vous gérez"
 
-#: .\views\community_views.py:221 .\views\community_views.py:295
+#: views/community_views.py:221 views/community_views.py:295
 msgid "Create a community"
 msgstr "Créer une communauté"
 
-#: .\views\community_views.py:222
+#: views/community_views.py:222
 msgid "Edit community"
 msgstr "Modifier cette communauté"
 
-#: .\views\community_views.py:236
+#: views/community_views.py:236
 msgid "Configuration"
 msgstr "Configuration"
 
-#: .\views\community_views.py:308
+#: views/community_views.py:308
 msgid "Manage members"
 msgstr "Gérer les membres"
 
-#: .\views\community_views.py:348
+#: views/community_views.py:348
 msgid "Users updated successfuly."
 msgstr "Les utilisateurs ont été mis à jour."
 
-#: .\views\community_views.py:351
+#: views/community_views.py:351
 msgid "Please select a user to operate on."
 msgstr "Sélectionnez les personnes à modifier."
 
-#: .\views\community_views.py:367
+#: views/community_views.py:367
 msgid "Invite people in this community"
 msgstr "Inviter dans cette communauté"
 
-#: .\views\community_views.py:444
+#: views/community_views.py:444
 msgid "Users join the community."
 msgstr "Les personnes ont rejoint cette communauté."
 
-#: .\views\community_views.py:446
+#: views/community_views.py:446
 msgid "Invitations has been sent."
 msgstr "Les invitations sont envoyées."
 
-#: .\views\community_views.py:462
+#: views/community_views.py:462
 msgid "Join community"
 msgstr "Rejoindre"
 
-#: .\views\community_views.py:463
+#: views/community_views.py:463
 msgid "Do you really want to join this community?"
 msgstr "Voulez-vous vraiment rejoindre cette communauté ?"
 
-#: .\views\community_views.py:482
+#: views/community_views.py:482
 #, python-format
 msgid ""
 "You're now part of %(name)s!\n"
 "Welcome aboard."
 msgstr "Bienvenue dans la communauté %(name)s !"
 
-#: .\views\community_views.py:489
+#: views/community_views.py:489
 msgid "Leave community"
 msgstr "Quitter la communauté"
 
-#: .\views\community_views.py:490
+#: views/community_views.py:490
 msgid "Do you really want to leave this community?"
 msgstr "Voulez-vous vraiment quitter cette communauté ?"
 
-#: .\views\community_views.py:508
+#: views/community_views.py:508
 #, python-format
 msgid "You've left %(name)s."
 msgstr "Vous avez quitté la communauté %(name)s."
 
-#: .\views\community_views.py:511
+#: views/community_views.py:511
 #, python-format
 msgid "You've declined %(name)s invitation."
 msgstr "Vous avez décliné l'invitation à %(name)s."
 
-#: .\views\community_views.py:521
+#: views/community_views.py:521
 msgid "Do you really want to delete this community?"
 msgstr "Voulez-vous vraiment supprimer cette communauté ?"
 
-#: .\views\community_views.py:522
+#: views/community_views.py:522
 msgid "Delete community"
 msgstr "Supprimer la communauté"
 
-#: .\views\community_views.py:537
+#: views/community_views.py:537
 #, python-format
 msgid "'%(name)s' community has been deleted."
 msgstr "La communauté %(name)s a été supprimée."
 
-#: .\views\content_views.py:90
+#: views/content_views.py:90
 msgid "New content"
 msgstr "Nouveau contenu"
 
-#: .\views\content_views.py:92
+#: views/content_views.py:92
 #, python-format
 msgid "Edit %(model_name)s"
 msgstr "Modifier %(model_name)s"
 
-#: .\views\content_views.py:157
-msgid "content_type"
-msgstr "Nouveau %(content_type)s"
-
-#: .\views\content_views.py:174
+#: views/content_views.py:174
 #, python-format
 msgid "Delete %(model_name)s"
 msgstr "Supprimer %(model_name)s"
 
-#: .\views\content_views.py:184
+#: views/content_views.py:184
 #, python-format
 msgid ""
 "Do you really want to delete '%(name)s'?<br />This action cannot be undone."
@@ -1437,89 +1495,155 @@ msgstr ""
 "Voulez-vous vraiment supprimer '%(name)s'&nbsp;?<br />Cette action est "
 "irréversible&nbsp;!"
 
-#: .\views\resource_views.py:273
+#: views/resource_views.py:273
 msgid "Resource browser"
 msgstr "Parcourir les ressources"
 
-#: .\views\resource_views.py:410
+#: views/resource_views.py:410
 msgid "Browse"
 msgstr "Parcourir"
 
-#: .\views\resource_views.py:411
+#: views/resource_views.py:411
 msgid "... or drag and drop files to upload"
 msgstr "... ou glissez-déposez des fichiers ici pour les envoyer."
 
-#: .\views\resource_views.py:412
+#: views/resource_views.py:412
 msgid "All files uploaded with success."
 msgstr "Les fichiers sont envoyés."
 
-#: .\views\resource_views.py:413
+#: views/resource_views.py:413
 msgid " files uploaded with success, "
 msgstr " fichiers envoyés,"
 
-#: .\views\resource_views.py:414
+#: views/resource_views.py:414
 msgid " uploads return an error."
 msgstr " téléchargement échoués."
 
-#: .\views\resource_views.py:415
+#: views/resource_views.py:415
 msgid "Failed"
 msgstr "Erreur"
 
-#: .\views\resource_views.py:417
+#: views/resource_views.py:417
 msgid "please select files again without it."
 msgstr "Sélectionnez à nouveau des fichiers."
 
-#: .\views\resource_views.py:418
+#: views/resource_views.py:418
 msgid "please try again."
 msgstr "veuillez essayer à nouveau."
 
-#: .\views\resource_views.py:419
+#: views/resource_views.py:419
 msgid "This file is empty:"
 msgstr "Ce fichier est vide :"
 
-#: .\views\resource_views.py:420
+#: views/resource_views.py:420
 msgid "This file is too large:"
 msgstr "Ce fichier est trop gros :"
 
-#: .\views\resource_views.py:421
+#: views/resource_views.py:421
 msgid "maximum file size is:"
 msgstr "la taille maximale autorisée est :"
 
-#: .\views\resource_views.py:422
+#: views/resource_views.py:422
 msgid "This file has invalid extension:"
 msgstr "Ce fichier n'est pas d'un type reconnu :"
 
-#: .\views\resource_views.py:423
+#: views/resource_views.py:423
 msgid "Only allowed:"
 msgstr "Seuls sont acceptés :"
 
-#: .\views\resource_views.py:424
+#: views/resource_views.py:424
 msgid "Server error, please contact support and/or try again."
 msgstr ""
 "Erreur lors de l'envoi. Essayez à nouveau ou contactez votre administrateur."
 
-#: .\views\resource_views.py:425
+#: views/resource_views.py:425
 msgid "Unexpected error, please use the 'Browse' button."
 msgstr "Erreur lors de l'envoi, utilisez le bouton 'Parcourir'."
 
-#: .\views\resource_views.py:426
+#: views/resource_views.py:426
 msgid "Permission denied, you are not allowed to upload a file."
 msgstr "Permission refusée. Vous n'êtes pas autorisé à télécharger un fichier."
 
-#: .\views\resource_views.py:561
+#: views/resource_views.py:561
 msgid "Small size"
 msgstr "Grande taille"
 
-#: .\views\resource_views.py:561
+#: views/resource_views.py:561
 msgid "Medium size"
 msgstr "Taille moyenne"
 
-#: .\views\resource_views.py:561
+#: views/resource_views.py:561
 msgid "Full size"
 msgstr "Grande taille"
 
-msgid "No contents are available."
-msgstr "Pas de contenu."
+#~ msgid ""
+#~ "\n"
+#~ "    %(owner)s published a new %(content_type)s:\n"
+#~ msgstr ""
+#~ "\n"
+#~ "    %(owner)s a publié un nouveau %(content_type)s:\n"
 
-msgid "File"
-msgstr "Fichier"
+#~ msgid ""
+#~ "\n"
+#~ "  You can click here to view and comment it: %(domain)s%(absolute_url)s\n"
+#~ msgstr ""
+#~ "\n"
+#~ "  Cliquez ici pour voir ce contenu et le commenter : %(domain)s"
+#~ "%(absolute_url)s\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "  --\n"
+#~ "  Greetings from twistranet\n"
+#~ msgstr ""
+#~ "\n"
+#~ "  --\n"
+#~ "  À bientôt - l'équipe de twistranet\n"
+
+#~ msgid "Subject: %(owner)s commented %(content_owner)s's contenu\n"
+#~ msgstr "Subject: %(owner)s a commenté le contenu de %(content_owner)s\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "    We're happy to tell you that %(owner)s published a new %(content_type)"
+#~ "s:\n"
+#~ msgstr ""
+#~ "\n"
+#~ "            %(owner)s a publié un nouveau %(content_type)s :\n"
+
+#~ msgid "%(inviter_title)s invites you to twistranet"
+#~ msgstr "%(inviter_title)s vous invite sur twistranet"
+
+#~ msgid ""
+#~ "You just recieved a request from %(inviter_title)s to join twistranet."
+#~ msgstr ""
+#~ "Vous avez reçu une demande de %(inviter_title)s à rejoindre twistranet."
+
+#~ msgid "Here's what %(inviter_title)s tells you:"
+#~ msgstr "%(inviter_title)s vous envoie ce message :"
+
+#~ msgid "%(domain)s%(invitation_uri)s"
+#~ msgstr "%(domain)s%(invitation_uri)s"
+
+#~ msgid "%(client_title)s wants to join your network."
+#~ msgstr ""
+#~ "Vous avez reçu une demande de %(client_title)s à rejoindre votre réseau."
+
+#~ msgid ""
+#~ "Visit %(domain)s%(client_get_absolute_url)s to accept or decline his/her "
+#~ "request."
+#~ msgstr ""
+#~ "Visitez %(domain)s%(client_get_absolute_url)s pour accepter ou ignorer sa "
+#~ "demande."
+
+#~ msgid "name"
+#~ msgstr "nom"
+
+#~ msgid "content_type"
+#~ msgstr "Nouveau %(content_type)s"
+
+#~ msgid "No contents are available."
+#~ msgstr "Pas de contenu."
+
+#~ msgid "File"
+#~ msgstr "Fichier"

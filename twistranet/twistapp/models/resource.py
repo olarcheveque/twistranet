@@ -37,7 +37,6 @@ def twistorage_upload_to(instance, filename):
         raise PermissionDenied("You're not allowed to upload a file on '%s'." % instance.publisher)
     return os.path.join(str(instance.publisher.id), filename)
 
-
 class Resource(twistable.Twistable):
     """
     A resource object.

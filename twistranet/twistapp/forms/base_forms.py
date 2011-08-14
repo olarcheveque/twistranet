@@ -2,7 +2,7 @@ from django import forms
 from django.db import models
 from django.forms import widgets
 
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 from twistranet.tagging.fields import TagsFormField
 from twistranet.tagging.models import Tag
@@ -112,7 +112,7 @@ class BaseRegularForm(BaseForm):
     allow_edition = True
 
     tags = TagsFormField(
-        label = "Keywords",
+        label = _("Keywords"),
         help_text = "Enter relevant keywords about your content.",
         required = False,
         queryset = Tag.objects.all(),

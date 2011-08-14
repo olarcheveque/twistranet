@@ -17,6 +17,7 @@ import traceback
 from django.db import models
 from django.db.models import Q, loading
 from django.db.utils import DatabaseError
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError, PermissionDenied, ObjectDoesNotExist
 from django.utils.safestring import mark_safe
@@ -225,12 +226,12 @@ class Twistable(_AbstractTwistable):
         
     # Basic metadata shared by all Twist objects.
     # Title is mandatory!
-    title = models.CharField(max_length = 255, blank = True, default = '')
-    description = models.TextField(max_length = 1024, blank = True, default = '')
-    created_at = models.DateTimeField(auto_now_add = True, null = True, db_index = False)
-    modified_at = models.DateTimeField(auto_now = True, null = True, db_index = True)
-    created_by = models.ForeignKey("Account", related_name = "created_twistables", db_index = True, ) 
-    modified_by = models.ForeignKey("Account", null = True, related_name = "modified_twistables", db_index = True, ) 
+    title = models.CharField(verbose_name=_("Title"), max_length = 255, blank = True, default = '')
+    description = models.TextField(verbose_name=_("Description"), max_length = 1024, blank = True, default = '')
+    created_at = models.DateTimeField(verbose_name=_("Created at"), auto_now_add = True, null = True, db_index = False)
+    modified_at = models.DateTimeField(verbose_name=_("Modified at"), auto_now = True, null = True, db_index = True)
+    created_by = models.ForeignKey("Account", verbose_name=_("Created by"), related_name = "created_twistables", db_index = True, ) 
+    modified_by = models.ForeignKey("Account", verbose_name=_("Modified by"), null = True, related_name = "modified_twistables", db_index = True, ) 
     
     # Picture management.
     # If None, will use the default_picture_resource_slug attribute.

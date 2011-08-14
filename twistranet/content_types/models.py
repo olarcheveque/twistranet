@@ -3,6 +3,7 @@ Default content types for twistranet
 """
 import mimetypes
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from twistranet.twistapp.lib import permissions   
 from twistranet.twistapp.lib.utils import formatbytes
 from twistranet.twistapp.models.content import Content
@@ -82,7 +83,7 @@ class Document(Content):
     class Meta:
         app_label = 'twistapp'
 
-    text = models.TextField()
+    text = models.TextField(verbose_name=_('Text'), )
 
 class File(Content):
     """
