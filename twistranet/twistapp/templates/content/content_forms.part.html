@@ -6,10 +6,10 @@
         {% for formhandle in content_forms %}
             {% if formhandle.getName == form.getName %}
                 <span id="formhandle-{{ formhandle.getName }}">
-                    {{ formhandle.getName }}
+                    {% trans formhandle.getName %}
                 </span>
             {% else %}
-                <a id="formhandle-{{ formhandle.getName }}" href="#form-{{formhandle.getName}}">{{formhandle.getName}}</a>
+                <a id="formhandle-{{ formhandle.getName }}" href="#form-{{formhandle.getName}}">{% trans formhandle.getName %}</a>
             {% endif %}
         {% endfor %}
     </legend>
