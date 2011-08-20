@@ -51,7 +51,7 @@ matches = (
 #    (content_id_regex,      'content_by_id',      None,       Content,        "id",               ),
     (content_slug_regex,    'content_by_slug',    None,       Content,        "slug",             ),
     (content_id_regex,      'resource_by_id',     resource_image,             Resource,       "id",               ),
-#    (content_slug_regex,    'resource_by_slug',   resource_image,             Resource,       "slug",             ),
+    (content_slug_regex,    'resource_by_slug',   resource_image,             Resource,       "slug",             ),
 )
 
 
@@ -88,7 +88,11 @@ class Subf(object):
         if self.func and obj:
             subst = self.func(obj)
         else:
-            subst = '<a href="%s" title="%s">%s</a>' % (url, title or label, label)
+            # Not only design purpose, it prevents from regex loop, to match for another pattern
+            title = title or label
+            title = title.strip('[]')
+            label = label.strip('[]')
+            subst = '<a href="%s" title="%s">%s</a>' % (url, title, label)
 
         return subst
 
